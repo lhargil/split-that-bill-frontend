@@ -1,0 +1,11 @@
+<ng-container *ngIf="bills$ | async as bills">
+    <h2>Bills</h2>
+    <div>
+        <a [routerLink]="[0, 'edit']">Add new</a>
+        <ul>
+            <li *ngFor="let bill of bills">
+                <a [routerLink]="['/bills', bill.id]">{{bill.establishmentName}} {{bill.billDate | date: timezone: 'GMT+8'}}</a>
+            </li>
+        </ul>
+    </div>
+</ng-container>

@@ -1,0 +1,36 @@
+<form *ngIf="billForm" [formGroup]="billForm" (ngSubmit)="onSubmit(billForm)">
+    <div>
+        <label>
+            Establishment name
+            <input type="text" formControlName="establishmentName" (blur)="onBlur(billForm)"/>
+        </label>
+        <div class="invalid-feedback" *ngIf="displayMessage">
+            <span>
+                {{displayMessage.establishmentName}}
+            </span>
+        </div>
+    </div>
+    <div>
+        <label>
+            Bill date
+            <select formControlName="billDateYear" (change)="yearChanged($event.target.value)">
+                <option *ngFor="let year of datePickerList.years" [value]="year">{{year}}</option>
+            </select>
+            <select formControlName="billDateMonth" (change)="monthChanged($event.target.value)">
+                <option *ngFor="let month of datePickerList.months; let i = index;" [value]="i + 1">{{month}}</option>
+            </select>
+            <select formControlName="billDateDay">
+                <option *ngFor="let day of datePickerList.days" [value]="day">{{day}}</option>
+            </select>
+        </label>
+    </div>
+    <div>
+        <label>
+            Remarks
+            <textarea formControlName="remarks" cols="30" rows="10"></textarea>
+        </label>
+    </div>
+    <button type="button" (click)="cancelEdit()">Cancel</button>
+    <button type="submit" [disabled]="!billForm.valid">Save</button>
+</form>
+
