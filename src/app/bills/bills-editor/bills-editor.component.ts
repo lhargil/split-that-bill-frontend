@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { BillsService } from '../bills.service';
-import { BillDto } from '../bills';
+import { BillDto, ExtraChargeDto } from '../bills';
 import { GenericValidator } from '../../shared/generic-validator';
 import { debounceTime, tap, catchError } from 'rxjs/operators';
 import { EMPTY } from 'rxjs';
@@ -24,6 +24,10 @@ export class BillsEditorComponent implements OnInit {
     years: number[],
     months: {[key: number]: string}[],
     days: number[]
+  }
+
+  get extraCharges() {
+    return <FormArray>this.billForm.get('extraCharges');
   }
 
   constructor(private activatedRoute: ActivatedRoute,
@@ -54,8 +58,6 @@ export class BillsEditorComponent implements OnInit {
             this.billForm = this.createForm(this.currentBill)
           });
       }
-
-
     });
 
           
@@ -79,7 +81,8 @@ export class BillsEditorComponent implements OnInit {
       billDateYear: [billDate.getFullYear(), [Validators.required]],
       billDateMonth: [billDate.getMonth() + 1, [Validators.required]],
       billDateDay: [billDate.getDate(), [Validators.required]],
-      remarks: [bill.remarks]
+      remarks: [bill.remarks],
+      extraCharges: this.fb.array(bill.extraCharges.map(ec => this.buildExtraCharge(ec)))
     });
   }
 
@@ -144,30 +147,60 @@ export class BillsEditorComponent implements OnInit {
           description: item.description,
           amount: item.unitPrice.amount
         }
-      })}
+      }), 
+      ...{extraCharges: this.extraCharges.value.map(ec => {
+        return {
+          id: ec.id,
+          description: ec.description,
+          rate: ec.rate
+        };
+      })}}
     };
     console.log(JSON.stringify(updatedBill));
-    if (0 == updatedBill.id) {
-      this.billsService.createBill(updatedBill)
-        .subscribe(result => {
-          this.redirect();
-        }, catchError(error => {
-          console.log(error);
-          return EMPTY;
-        }));
-    } else {
-      this.billsService.updateBill(updatedBill)
-        .subscribe(result => {
-          this.redirect();
-        }, catchError(error => {
-          console.log(error);
-          return EMPTY;
-        }))
-    }
+    // if (0 == updatedBill.id) {
+    //   this.billsService.createBill(updatedBill)
+    //     .subscribe(result => {
+    //       this.redirect();
+    //     }, catchError(error => {
+    //       console.log(error);
+    //       return EMPTY;
+    //     }));
+    // } else {
+    //   this.billsService.updateBill(updatedBill)
+    //     .subscribe(result => {
+    //       this.redirect();
+    //     }, catchError(error => {
+    //       console.log(error);
+    //       return EMPTY;
+    //     }))
+    // }
   }
 
   cancelEdit() {
     this.redirect();
+  }
+
+  addExtraCharge() {
+    this.extraCharges.push(this.buildExtraCharge(null));
+  }
+
+  removeExtraCharge(index: number) {
+    this.extraCharges.removeAt(index);
+  }
+
+  private buildExtraCharge(charge: ExtraChargeDto) {
+    if (charge == null) {
+      return this.fb.group({
+        id: [0],
+        description: ['', Validators.required],
+        rate: [1, Validators.required]
+      });
+    }
+    return this.fb.group({
+      id: [charge.id],
+      description: [charge.description, Validators.required],
+      rate: [charge.rate, Validators.required] // TODO: decimal validator
+    });
   }
 
   private getDefaultBill() {
@@ -176,13 +209,7 @@ export class BillsEditorComponent implements OnInit {
       establishmentName: '',
       billDate: new Date().toUTCString(),
       remarks: '',
-      billItems: [
-        {
-          id: 0,
-          description: 'nasi',
-          unitPrice: { amount: 10, currency: 'MYR' }
-        }
-      ],
+      billItems: [],
       extraCharges: []
     };
   }

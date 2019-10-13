@@ -1,7 +1,7 @@
 <form *ngIf="billForm" [formGroup]="billForm" (ngSubmit)="onSubmit(billForm)">
     <div>
         <label>
-            Establishment name
+            Establishment
             <input type="text" formControlName="establishmentName" (blur)="onBlur(billForm)"/>
         </label>
         <div class="invalid-feedback" *ngIf="displayMessage">
@@ -28,6 +28,18 @@
         <label>
             Remarks
             <textarea formControlName="remarks" cols="30" rows="10"></textarea>
+        </label>
+    </div>
+    <div>
+        <label>
+            Extra Charges &nbsp; <button type="button" (click)="addExtraCharge()">Add new</button>
+            <ul formArrayName="extraCharges" *ngFor="let extraCharge of extraCharges.controls; let i = index;">
+                <li [formGroupName]="i">
+                    <input type="text" formControlName="description" /> &nbsp;
+                    <input type="text" formControlName="rate" /> &nbsp;
+                    <button type="button" (click)="removeExtraCharge(i)">Remove</button>
+                </li>
+            </ul>
         </label>
     </div>
     <br><br>
