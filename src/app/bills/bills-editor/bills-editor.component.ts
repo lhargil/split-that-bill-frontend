@@ -151,8 +151,9 @@ export class BillsEditorComponent implements OnInit {
         return {
           id: item.id,
           description: item.description,
-          amount: item.amount
-        }
+          amount: item.amount,
+          discount: Number(item.discount) > 0? Number(item.discount) / 100: null
+        };
       }), 
       ...{extraCharges: this.extraCharges.value.map(ec => {
         return {
@@ -207,13 +208,15 @@ export class BillsEditorComponent implements OnInit {
       return this.fb.group({
         id: [0],
         description: ['', [Validators.required, Validators.minLength]],
-        amount: ['', [Validators.required]]
+        amount: ['', [Validators.required]],
+        discount: [null]
       });
     }
     return this.fb.group({
       id: [billItem.id],
       description: [billItem.description, [Validators.required, Validators.minLength]],
       amount: [billItem.unitPrice.amount.toFixed(2), [Validators.required]],
+      discount: [billItem.discount != null? billItem.discount * 100 : null]
     });
   }
 

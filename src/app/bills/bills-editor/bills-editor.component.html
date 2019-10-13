@@ -45,8 +45,9 @@
         <div style="margin-top: 8px;" formArrayName="billItems" *ngFor="let billItem of billItems.controls; let i = index;">
             <div style="margin-bottom: 8px;" [formGroupName]="i">
                 1
-                <input type="text" formControlName="description" /> &nbsp;
-                <input type="text" formControlName="amount" /> &nbsp;
+                <input type="text" formControlName="description" placeholder="Description" /> &nbsp;
+                <input type="text" formControlName="amount" placeholder="Amount" /> &nbsp;
+                <input type="text" formControlName="discount" placeholder="Discount" /> &nbsp;
                 <button type="button" (click)="removeBillItem(i)">Remove</button>
                 <div class="invalid-feedback" *ngIf="billItems.controls[i].get('description').invalid && (billItems.controls[i].get('description').dirty || billItems.controls[i].get('description').touched)"
                     class="alert alert-danger">
@@ -67,8 +68,8 @@
         Extra Charges &nbsp; <button type="button" (click)="addExtraCharge()">Add new</button>
         <div style="margin-top: 8px;" formArrayName="extraCharges" *ngFor="let extraCharge of extraCharges.controls; let i = index;">
             <div style="margin-bottom: 8px;" [formGroupName]="i">
-                <input type="text" formControlName="description" /> &nbsp;
-                <input type="text" formControlName="rate" /> &nbsp;
+                <input type="text" formControlName="description" placeholder="Description" /> &nbsp;
+                <input type="text" formControlName="rate" placeholder="Rate" /> &nbsp;
                 <button type="button" (click)="removeExtraCharge(i)">Remove</button>
                 <div class="invalid-feedback" *ngIf="extraCharges.controls[i].get('description').invalid && (extraCharges.controls[i].get('description').dirty || extraCharges.controls[i].get('description').touched)"
                     class="alert alert-danger">
