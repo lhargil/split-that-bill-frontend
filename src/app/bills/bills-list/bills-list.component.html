@@ -4,7 +4,9 @@
         <a [routerLink]="[0, 'edit']">Add new</a>
         <ul>
             <li *ngFor="let bill of bills">
-                <a [routerLink]="['/bills', bill.id]">{{bill.establishmentName}} {{bill.billDate | date: timezone: 'GMT+8'}}</a>
+                {{bill.establishmentName}} {{bill.billDate | date: timezone: 'GMT+8'}}
+                <br>
+                <a [routerLink]="['/bills', bill.id]">View</a> &nbsp; <a [routerLink]="['/bills', bill.id, 'edit']">Edit</a>
             </li>
         </ul>
     </div>

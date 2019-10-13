@@ -197,6 +197,7 @@ export class BillsEditorComponent implements OnInit {
 
   private redirect() {
     this.billForm.reset();
+    this.activatedRoute.parent
     this.router.navigate(['/bills']);
   }
 

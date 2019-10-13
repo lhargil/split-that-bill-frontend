@@ -1,16 +1,30 @@
 <div *ngIf="bill$ | async as bill">
     <h2>Bill from {{bill.establishmentName}} incurred on {{bill.billDate}}</h2>
-    <ul>
-        <li *ngFor="let billItem of bill.billItems">
-            1 {{billItem.description}} for {{billItem.unitPrice.amount | currency: billItem.unitPrice.currency}}
-        </li>
-    </ul>
-    <br>
-    <ul>
-        <li *ngFor="let extraCharge of bill.extraCharges">
-            {{ extraCharge.description }} {{ extraCharge.rate | percent }}
-        </li>
-    </ul>
+    <table style="width: 500px;">
+        <thead>
+            <tr>
+                <th></th>
+                <th>Description</th>
+                <th>Price</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let billItem of bill.billItems">
+                <td>1</td>
+                <td>{{billItem.description}}</td>
+                <td style="text-align: right;">{{billItem.unitPrice.amount | currency: billItem.unitPrice.currency}}</td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr *ngFor="let extraCharge of bill.extraCharges">
+                <td></td>
+                <td>
+                    {{ extraCharge.description }} {{ extraCharge.rate | percent }}
+                </td>
+                <td></td>
+            </tr>
+        </tfoot>
+    </table>
     <br>
     <a [routerLink]="['/bills', bill.id, 'edit']">Update</a>
     <button type="button" (click)="onDelete(bill.id)">Delete</button>
