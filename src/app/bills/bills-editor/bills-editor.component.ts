@@ -137,7 +137,7 @@ export class BillsEditorComponent implements OnInit {
     }
     
     const updatedBill = {...this.currentBill, ...billForm.value, 
-      ...{billDate: new Date(billForm.get('billDateYear').value, billForm.get('billDateMonth').value - 1, billForm.get('billDateDay').value).toUTCString()},
+      ...{billDate: new Date(Date.UTC(billForm.get('billDateYear').value, billForm.get('billDateMonth').value - 1, billForm.get('billDateDay').value)).toUTCString()},
       ...{billItems: this.currentBill.billItems.map(item => {
         return {
           id: item.id,
