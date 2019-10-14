@@ -6,6 +6,7 @@ import { BillDto, ExtraChargeDto, BillItemDto } from '../bills';
 import { GenericValidator } from '../../shared/generic-validator';
 import { debounceTime, tap, catchError } from 'rxjs/operators';
 import { EMPTY } from 'rxjs';
+import { decimalAmountValidator } from 'src/app/shared/validators/decimal-amount.directive';
 
 @Component({
   selector: 'app-bills-editor',
@@ -208,15 +209,15 @@ export class BillsEditorComponent implements OnInit {
       return this.fb.group({
         id: [0],
         description: ['', [Validators.required, Validators.minLength]],
-        amount: ['', [Validators.required]],
-        discount: [null]
+        amount: ['', [Validators.required, decimalAmountValidator()]],
+        discount: [null, [decimalAmountValidator(true)]]
       });
     }
     return this.fb.group({
       id: [billItem.id],
       description: [billItem.description, [Validators.required, Validators.minLength]],
-      amount: [billItem.unitPrice.amount.toFixed(2), [Validators.required]],
-      discount: [billItem.discount != null? billItem.discount * 100 : null]
+      amount: [billItem.unitPrice.amount.toFixed(2), [Validators.required, decimalAmountValidator()]],
+      discount: [billItem.discount != null? billItem.discount * 100 : null, [decimalAmountValidator(true)]]
     });
   }
 
@@ -225,13 +226,13 @@ export class BillsEditorComponent implements OnInit {
       return this.fb.group({
         id: [0],
         description: ['', [Validators.required, Validators.minLength]],
-        rate: ['', [Validators.required]]
+        rate: ['', [Validators.required, decimalAmountValidator()]]
       });
     }
     return this.fb.group({
       id: [charge.id],
       description: [charge.description, [Validators.required, Validators.minLength]],
-      rate: [(charge.rate*100).toFixed(), [Validators.required]] // TODO: decimal validator, between 1-100 inclusive
+      rate: [(charge.rate*100).toFixed(), [Validators.required, decimalAmountValidator()]]
     });
   }
 

@@ -57,9 +57,17 @@
                     <div *ngIf="billItems.controls[i].get('description').errors.minlength">
                         Description {{i + 1}} must be at least 3 characters long.
                     </div>
+                </div>
+                <div class="invalid-feedback" *ngIf="billItems.controls[i].get('amount').invalid && (billItems.controls[i].get('amount').dirty || billItems.controls[i].get('amount').touched)">
                     <div *ngIf="billItems.controls[i].get('amount').errors.required">
                         Amount {{i + 1}} is required.
                     </div>
+                    <div *ngIf="billItems.controls[i].get('amount').errors.notDecimal">
+                        Amount {{i + 1}} must be in decimal format.
+                    </div>
+                </div>
+                <div class="invalid-feedback" *ngIf="billItems.controls[i].get('discount').invalid && (billItems.controls[i].get('discount').dirty || billItems.controls[i].get('discount').touched)">
+                    Discount {{i + 1}} must be in decimal format.
                 </div>
             </div>
         </div>
@@ -79,8 +87,13 @@
                     <div *ngIf="extraCharges.controls[i].get('description').errors.minlength">
                         Description {{i + 1}} must be at least 3 characters long.
                     </div>
+                </div>
+                <div class="invalid-feedback" *ngIf="extraCharges.controls[i].get('rate').invalid && (extraCharges.controls[i].get('rate').dirty || extraCharges.controls[i].get('rate').touched)">
                     <div *ngIf="extraCharges.controls[i].get('rate').errors.required">
                         Rate {{i + 1}} is required.
+                    </div>
+                    <div *ngIf="extraCharges.controls[i].get('rate').errors.notDecimal">
+                        Rate {{i + 1}} must be in decimal format.
                     </div>
                 </div>
             </div>
