@@ -1,0 +1,9 @@
+<h3>List of people</h3>
+<ng-container *ngIf="people$ | async as people">
+    <ul *ngFor="let person of people">
+        <li>    
+            {{person.fullname}}
+        </li>
+    </ul>
+    {{people | json}}
+</ng-container>
