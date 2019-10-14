@@ -153,7 +153,7 @@ export class BillsEditorComponent implements OnInit {
           id: item.id,
           description: item.description,
           amount: item.amount,
-          discount: Number(item.discount) > 0? Number(item.discount) / 100: null
+          discount: Number(item.discount) > 0? Number(item.discount): null
         };
       }), 
       ...{extraCharges: this.extraCharges.value.map(ec => {
@@ -217,7 +217,7 @@ export class BillsEditorComponent implements OnInit {
       id: [billItem.id],
       description: [billItem.description, [Validators.required, Validators.minLength]],
       amount: [billItem.unitPrice.amount.toFixed(2), [Validators.required, decimalAmountValidator()]],
-      discount: [billItem.discount != null? billItem.discount * 100 : null, [decimalAmountValidator(true)]]
+      discount: [billItem.discount, [decimalAmountValidator(true)]]
     });
   }
 
