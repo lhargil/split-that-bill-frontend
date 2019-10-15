@@ -2,7 +2,7 @@
 <ng-container *ngIf="people$ | async as people">
     <ul *ngFor="let person of people">
         <li>    
-            {{person.fullname}}
+            {{person.fullname}} <a [routerLink]="[person.id, 'items']">View bill items</a>
         </li>
     </ul>
     {{people | json}}
