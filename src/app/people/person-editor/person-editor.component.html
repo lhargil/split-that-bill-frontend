@@ -1,0 +1,38 @@
+<form *ngIf="personForm" [formGroup]="personForm" (ngSubmit)="onSubmit()">
+    <div>
+        <label>Firstname:
+            <input type="text" formControlName="firstname" />
+        </label>
+        <div *ngIf="personForm.get('firstname').invalid && (personForm.get('firstname').dirty || personForm.get('firstname').touched)"
+            class="invalid-feedback">
+
+            <div *ngIf="personForm.get('firstname').errors.required">
+                Firstname is required.
+            </div>
+            <div *ngIf="personForm.get('firstname').errors.minlength">
+                Firstname must be at least 3 characters long.
+            </div>
+        </div>
+    </div>
+    <div>
+        <label>
+            Lastname
+            <input id="lastname" class="form-control"
+            formControlName="lastname" />
+        </label>
+        
+        <div *ngIf="personForm.get('lastname').invalid && (personForm.get('lastname').dirty || personForm.get('lastname').touched)"
+            class="invalid-feedback">
+
+            <div *ngIf="personForm.get('lastname').errors.required">
+                Lastname is required.
+            </div>
+            <div *ngIf="personForm.get('lastname').errors.minlength">
+                Lastname must be at least 3 characters long.
+            </div>
+        </div>
+    </div>
+    <br>
+    <button type="submit" [disabled]="personForm.invalid">Save</button> &nbsp;
+    <button type="button">Cancel</button>
+</form>

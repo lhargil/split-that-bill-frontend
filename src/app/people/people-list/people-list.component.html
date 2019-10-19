@@ -1,8 +1,12 @@
-<h3>List of people</h3>
+<h3>List of people</h3> &nbsp;
+<a [routerLink]="[0, 'edit']">Add new</a>
 <ng-container *ngIf="people$ | async as people">
     <ul *ngFor="let person of people">
         <li>    
-            {{person.fullname}} <a [routerLink]="[person.id, 'items']">View bill items</a>
+            {{person.fullname}}
+            <br>
+            <a [routerLink]="[person.id, 'items']">View bill items</a> &nbsp;
+            <a [routerLink]="[person.id, 'edit']">Edit</a>
         </li>
     </ul>
     {{people | json}}

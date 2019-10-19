@@ -4,7 +4,7 @@ export interface Person {
     id: number;
     firstname: string;
     lastname: string;
-    fullname: string;
+    fullname?: string;
 }
 
 export interface PersonBillItems {
