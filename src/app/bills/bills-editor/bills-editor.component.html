@@ -5,7 +5,7 @@
     <div>
         <label>
             Establishment
-            <input type="text" formControlName="establishmentName" (blur)="onBlur(billForm)"/>
+            <input type="text" formControlName="establishmentName" (blur)="onBlur()"/>
         </label>
         <div *ngIf="establishmentName.invalid && (establishmentName.dirty || establishmentName.touched)"
             class="alert alert-danger">
