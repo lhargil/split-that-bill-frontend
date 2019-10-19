@@ -5,10 +5,10 @@
     <div>
         <label>
             Establishment
-            <input type="text" formControlName="establishmentName" (blur)="onBlur()"/>
+            <input type="text" formControlName="establishmentName" />
         </label>
         <div *ngIf="establishmentName.invalid && (establishmentName.dirty || establishmentName.touched)"
-            class="alert alert-danger">
+            class="invalid-feedback">
 
             <div *ngIf="establishmentName.errors.required">
                 Establishment name is required.

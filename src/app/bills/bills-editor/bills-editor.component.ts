@@ -5,7 +5,7 @@ import { BillsService } from '../bills.service';
 import { BillDto, ExtraChargeDto, BillItemDto } from '../bills';
 import { GenericValidator } from '../../shared/generic-validator';
 import { debounceTime, tap, catchError } from 'rxjs/operators';
-import { EMPTY } from 'rxjs';
+import { EMPTY, throwError } from 'rxjs';
 import { decimalAmountValidator } from 'src/app/shared/validators/decimal-amount.directive';
 
 @Component({
@@ -62,14 +62,10 @@ export class BillsEditorComponent implements OnInit {
             this.currentBill = bill;
             this.billForm = this.createForm(this.currentBill);
           });
+      } else {
+        this.currentBill = this.getDefaultBill();
+        this.billForm = this.createForm(this.currentBill);
       }
-      // this.billForm && this.billForm.valueChanges
-      //       .pipe(
-      //         debounceTime(1000)
-      //       ).subscribe(valueChanges => {
-      //         console.log(this.extraCharges.errors)
-      //         this.displayMessage = this.genericValidator.processMessages(this.billForm);
-      //       });
     });
   }
 
@@ -134,20 +130,15 @@ export class BillsEditorComponent implements OnInit {
     this.setDaySelected();
   }
 
-  onBlur() {
-    this.displayMessage = this.genericValidator.processMessages(this.billForm);
-  }
-
   onSubmit(billForm: FormGroup) {
     if (!billForm.valid) {
       console.log("The bill is not valid.")
       return;
     }
-    
     const updatedBill = {...this.currentBill, ...billForm.value, 
       ...{billDate: new Date(Date.UTC(billForm.get('billDateYear').value,
             billForm.get('billDateMonth').value - 1,
-            billForm.get('billDateDay').value)).toUTCString()},
+            billForm.get('billDateDay').value))},
       ...{billItems: this.billItems.value.map(item => {
         return {
           id: item.id,
@@ -166,13 +157,12 @@ export class BillsEditorComponent implements OnInit {
     };
     console.log(JSON.stringify(updatedBill));
     if (0 == updatedBill.id) {
+      console.log('hello');
       this.billsService.createBill(updatedBill)
         .subscribe(result => {
+          console.log(result);
           this.redirect();
-        }, catchError(error => {
-          console.log(error);
-          return EMPTY;
-        }));
+        }, error => console.log('Unable to create a new bill'));
     } else {
       this.billsService.updateBill(updatedBill)
         .subscribe(result => {
