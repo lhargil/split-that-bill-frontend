@@ -42,7 +42,7 @@
         Bill Items &nbsp; <button type="button" (click)="addBillItem()">Add new</button>
         <div style="margin-top: 8px;" formArrayName="billItems" *ngFor="let billItem of billItems.controls; let i = index;">
             <div style="margin-bottom: 8px;" [formGroupName]="i">
-                1
+                <span>1 </span>
                 <input type="text" formControlName="description" placeholder="Description" /> &nbsp;
                 <input type="text" formControlName="amount" placeholder="Amount" /> &nbsp;
                 <input type="text" formControlName="discount" placeholder="Discount" /> &nbsp;
@@ -74,6 +74,7 @@
         Extra Charges &nbsp; <button type="button" (click)="addExtraCharge()">Add new</button>
         <div style="margin-top: 8px;" formArrayName="extraCharges" *ngFor="let extraCharge of extraCharges.controls; let i = index;">
             <div style="margin-bottom: 8px;" [formGroupName]="i">
+                <span>{{i + 1}} </span>
                 <input type="text" formControlName="description" placeholder="Description" /> &nbsp;
                 <input type="text" formControlName="rate" placeholder="Rate" /> &nbsp;
                 <button type="button" (click)="removeExtraCharge(i)">Remove</button>
