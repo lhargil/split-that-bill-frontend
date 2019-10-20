@@ -2,10 +2,11 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
+import { WithChargePipe } from './pipes/with-charge.pipe';
 
 
 @NgModule({
-  declarations: [],
+  declarations: [WithChargePipe],
   imports: [
     ReactiveFormsModule,
     HttpClientModule,
@@ -14,7 +15,8 @@ import { ReactiveFormsModule } from '@angular/forms';
   exports: [
     ReactiveFormsModule,
     HttpClientModule,
-    CommonModule
+    CommonModule,
+    WithChargePipe
   ]
 })
 export class SharedModule { }

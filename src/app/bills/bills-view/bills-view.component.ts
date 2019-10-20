@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { BillsService } from '../bills.service';
 import { Observable } from 'rxjs';
 import { BillDto } from '../bills';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-bills-view',
@@ -15,11 +16,21 @@ export class BillsViewComponent implements OnInit {
     private billsService: BillsService,
     private router: Router) { }
   bill$: Observable<BillDto>;
+  vm$: Observable<any>;
   ngOnInit() {
     this.activatedRoute.paramMap.subscribe(param => {
       const id = +param.get('id');
 
       this.bill$ = this.billsService.getBill(id);
+      this.vm$ = this.billsService.getBill(id)
+        .pipe(
+          map(bill => {
+            return {
+              bill,
+              extraCharges: bill.extraCharges.map(item => item.rate)
+            }
+          })
+        );
     });
   }
 
