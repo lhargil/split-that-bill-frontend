@@ -4,9 +4,10 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { BillDto } from 'src/app/bills/bills';
 import { FormGroup, FormBuilder, FormArray } from '@angular/forms';
 import { PeopleService } from 'src/app/people/people.service';
-import { combineLatest } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { combineLatest, throwError, of } from 'rxjs';
+import { map, switchMap, combineAll, withLatestFrom, catchError } from 'rxjs/operators';
 import { BillingService } from '../billing.service';
+import { PersonBillItems } from 'src/app/people/person';
 
 @Component({
   selector: 'app-billing-payment',
@@ -17,7 +18,7 @@ export class BillingPaymentComponent implements OnInit {
   vm: any;
   billForm: FormGroup;
 
-  private personId = 1;
+  private personId = 2;
 
   constructor(private billsService: BillsService,
     private peopleService: PeopleService,
@@ -30,47 +31,51 @@ export class BillingPaymentComponent implements OnInit {
       return this.billForm.get('billItems') as FormArray
     }
 
+  currentBill$ = this.activatedRoute.paramMap
+    .pipe(
+      switchMap(paramMap => this.billsService.getBill(+paramMap.get('id')))
+    );
+  currentPersonBillItems$ = this.peopleService.getPersonBillItems(this.personId)
+    .pipe(
+      catchError(error => {
+        console.log('Handled in service.');
+        return throwError(error);
+      })
+    );
   ngOnInit() {
-    this.activatedRoute.paramMap
-      .subscribe(params => {
-        const id = +params.get('id');
-
-        if (0 == id) {
-          return ;
-        }
-
-        combineLatest([
-          this.billsService.getBill(id),
-          this.peopleService.getPersonBillItems(this.personId)
-        ]).pipe(
-          map(([bill, personBillItems]) => {
-            return {
-              bill, 
-              personBillItems
-            };
-          })
-        ).subscribe(billPersonBillItems => {
-          this.vm = {
-            bill: billPersonBillItems.bill,
-            extraCharges: billPersonBillItems.bill.extraCharges.map(item => item.rate),
-            personBillItems: billPersonBillItems.personBillItems
+    combineLatest([this.currentBill$, this.currentPersonBillItems$])
+      .pipe(
+        map(([bill, personBillItems]) => {
+          return {
+            bill,
+            personBillItems
           };
+        })
+      ).subscribe(billPersonBillItems => {
+        this.vm = {
+          bill: billPersonBillItems.bill,
+          extraCharges: billPersonBillItems.bill.extraCharges.map(item => item.rate),
+          personBillItems: billPersonBillItems.personBillItems
+        };
 
-          this.billForm = this.fb.group({
-            billItems: this.fb.array(this.vm.bill.billItems.map(item => {
-              return this.fb.group({
-                id: [item.id],
-                description: [item.description],
-                unitPrice: this.fb.group({
-                  amount: [item.unitPrice.amount],
-                  currency: [item.unitPrice.currency]
-                }),
-                checked: billPersonBillItems.personBillItems.bills.find(b => b.id == item.id) != null
-              });
-            }))
-          });
+        this.billForm = this.createForm(this.vm);
+      }, error => console.log('got error one!'));
+  }
+
+  private createForm(billPersonBillItems: { bill: BillDto; personBillItems: PersonBillItems; }) {
+    return this.fb.group({
+      billItems: this.fb.array(this.vm.bill.billItems.map(item => {
+        return this.fb.group({
+          id: [item.id],
+          description: [item.description],
+          unitPrice: this.fb.group({
+            amount: [item.unitPrice.amount],
+            currency: [item.unitPrice.currency]
+          }),
+          checked: billPersonBillItems.personBillItems.bills.find(b => b.id == item.id) != null
         });
-      });
+      }))
+    });
   }
 
   onSubmit() {
@@ -88,6 +93,10 @@ export class BillingPaymentComponent implements OnInit {
     })}};
     console.log(JSON.stringify(personBilling));
     this.billingService.updateBilling(personBilling)
-      .subscribe();
+      .subscribe(() => this.redirect());
+  }
+
+  redirect() {
+    this.router.navigate(['/billing']);
   }
 }
