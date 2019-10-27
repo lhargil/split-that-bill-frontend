@@ -1,3 +1,5 @@
+import { Person } from '../people/person';
+
 export interface BillDto {
     id: number;
     establishmentName: string;
@@ -5,6 +7,7 @@ export interface BillDto {
     remarks: string;
     billItems: BillItemDto[];
     extraCharges: ExtraChargeDto[];
+    participants: BillParticipant[];
 }
 
 export interface BillItemDto {
@@ -18,4 +21,9 @@ export interface ExtraChargeDto {
     id: number;
     description: string;
     rate: number;
+}
+
+export interface BillParticipant {
+    id: number;
+    person: Person;
 }

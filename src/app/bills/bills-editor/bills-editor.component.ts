@@ -2,11 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators, FormArray, Form } from '@angular/forms';
 import { BillsService } from '../bills.service';
-import { BillDto, ExtraChargeDto, BillItemDto } from '../bills';
+import { BillDto, ExtraChargeDto, BillItemDto, BillParticipant } from '../bills';
 import { GenericValidator } from '../../shared/generic-validator';
-import { debounceTime, tap, catchError } from 'rxjs/operators';
-import { EMPTY, throwError } from 'rxjs';
+import { debounceTime, tap, catchError, switchMap, map } from 'rxjs/operators';
+import { EMPTY, throwError, combineLatest, of } from 'rxjs';
 import { decimalAmountValidator } from 'src/app/shared/validators/decimal-amount.directive';
+import { PeopleService } from 'src/app/people/people.service';
+import { Person } from 'src/app/people/person';
 
 @Component({
   selector: 'app-bills-editor',
@@ -19,12 +21,17 @@ export class BillsEditorComponent implements OnInit {
   private genericValidator: GenericValidator;
 
   currentBill: BillDto;
+  people: any[];
   displayMessage: {[key: string]: string};
   billForm: FormGroup;
   datePickerList: {
     years: number[],
     months: {[key: number]: string}[],
     days: number[]
+  }
+
+  get participants() {
+    return this.billForm.get('participants') as FormArray;
   }
 
   get extraCharges() {
@@ -42,6 +49,7 @@ export class BillsEditorComponent implements OnInit {
   constructor(private activatedRoute: ActivatedRoute,
     private fb: FormBuilder,
     private billsService: BillsService,
+    private peopleService: PeopleService,
     private router: Router) {
       this.validationMessages = {
         establishmentName: {
@@ -53,20 +61,41 @@ export class BillsEditorComponent implements OnInit {
       this.genericValidator = new GenericValidator(this.validationMessages);
     }
 
+  currentBill$ = this.activatedRoute.paramMap
+    .pipe(
+      switchMap(params => {
+        const id = +params.get('id');
+        if (0 < id) {
+          return this.billsService.getBill(id);
+        } else {
+          return of(this.getDefaultBill());
+        }
+      })
+    );
+  
+
   ngOnInit() {
-    this.activatedRoute.paramMap.subscribe(params => {
-      const id = +params.get('id');
-      if (0 < id) {
-        this.billsService.getBill(id)
-          .subscribe(bill => {
-            this.currentBill = bill;
-            this.billForm = this.createForm(this.currentBill);
-          });
-      } else {
-        this.currentBill = this.getDefaultBill();
+    combineLatest([this.currentBill$, this.peopleService.getPeople()])
+      .pipe(
+        map(([bill, people]) => {
+          return {
+            bill,
+            people: people.map(p => {
+              const billParticipant = bill.participants.find(bp => bp.person.id == p.id);
+              return {
+                ...p,
+                bpId: billParticipant == null ? 0 : billParticipant.id,
+                selected: billParticipant != null
+              };
+            })
+          };
+        })
+      )
+      .subscribe(item => {
+        this.currentBill = item.bill;
+        this.people = item.people;
         this.billForm = this.createForm(this.currentBill);
-      }
-    });
+      });
   }
 
   createForm(bill: BillDto) {
@@ -82,8 +111,16 @@ export class BillsEditorComponent implements OnInit {
       billDateMonth: [billDate.getMonth() + 1, [Validators.required]],
       billDateDay: [billDate.getDate(), [Validators.required]],
       remarks: [bill.remarks],
-      billItems: this.fb.array(bill.billItems.map(bi => this.buildBuildItem(bi))),
-      extraCharges: this.fb.array(bill.extraCharges.map(ec => this.buildExtraCharge(ec)))
+      billItems: this.fb.array(bill.billItems.map(bi => this.buildBillItem(bi))),
+      extraCharges: this.fb.array(bill.extraCharges.map(ec => this.buildExtraCharge(ec))),
+      participants: this.fb.array(this.people.map(p => {
+        return this.fb.group({
+          id: [p.id],
+          fullname: [p.fullname],
+          selected: [p.selected],
+          bpId: [p.bpId]
+        })
+      }))
     });
   }
 
@@ -139,25 +176,37 @@ export class BillsEditorComponent implements OnInit {
       ...{billDate: new Date(Date.UTC(billForm.get('billDateYear').value,
             billForm.get('billDateMonth').value - 1,
             billForm.get('billDateDay').value))},
-      ...{billItems: this.billItems.value.map(item => {
-        return {
-          id: item.id,
-          description: item.description,
-          amount: item.amount,
-          discount: Number(item.discount) > 0? Number(item.discount): null
-        };
-      }), 
-      ...{extraCharges: this.extraCharges.value.map(ec => {
-        return {
-          id: ec.id,
-          description: ec.description,
-          rate: Number(ec.rate) / 100
-        };
-      })}}
+      ...{
+        billItems: this.billItems.value.map(item => {
+          return {
+            id: item.id,
+            description: item.description,
+            amount: item.amount,
+            discount: Number(item.discount) > 0? Number(item.discount): null
+          };
+        }),
+      ...{
+          extraCharges: this.extraCharges.value.map(ec => {
+          return {
+            id: ec.id,
+            description: ec.description,
+            rate: Number(ec.rate) / 100
+          };
+        })},
+      ...{
+          participants: this.participants.value.filter(p => p.selected).map(p => {
+          return {
+            id: p.bpId,
+            person: {
+              id: p.id
+            }
+          }
+        })
+      }
+    }
     };
     console.log(JSON.stringify(updatedBill));
     if (0 == updatedBill.id) {
-      console.log('hello');
       this.billsService.createBill(updatedBill)
         .subscribe(result => {
           console.log(result);
@@ -179,7 +228,7 @@ export class BillsEditorComponent implements OnInit {
   }
 
   addBillItem() {
-    this.billItems.push(this.buildBuildItem(null));
+    this.billItems.push(this.buildBillItem(null));
   }
 
   removeBillItem(index: number) {
@@ -194,7 +243,15 @@ export class BillsEditorComponent implements OnInit {
     this.extraCharges.removeAt(index);
   }
 
-  private buildBuildItem(billItem: BillItemDto) {
+  addParticipant() {
+    this.participants.push(null);
+  }
+
+  removeParticipant(id: number) {
+    this.participants.removeAt(id);
+  }
+
+  private buildBillItem(billItem: BillItemDto) {
     if (billItem == null) {
       return this.fb.group({
         id: [0],
@@ -233,7 +290,8 @@ export class BillsEditorComponent implements OnInit {
       billDate: new Date().toUTCString(),
       remarks: '',
       billItems: [],
-      extraCharges: []
+      extraCharges: [],
+      participants: []
     } as BillDto;
   }
 

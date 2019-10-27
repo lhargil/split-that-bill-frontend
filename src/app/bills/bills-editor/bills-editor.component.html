@@ -71,6 +71,15 @@
         </div>
     </div>
     <div>
+        Participants &nbsp; <button type="button" (click)="addParticipant()">Add participant</button>
+        <div formArrayName="participants" *ngFor="let participant of participants.controls; let i = index;">
+            <label [formGroupName]="i">
+                <input type="checkbox" formControlName="selected" />
+                {{participant.get('fullname').value}}
+            </label>
+        </div>
+    </div>
+    <div>
         Extra Charges &nbsp; <button type="button" (click)="addExtraCharge()">Add new</button>
         <div style="margin-top: 8px;" formArrayName="extraCharges" *ngFor="let extraCharge of extraCharges.controls; let i = index;">
             <div style="margin-bottom: 8px;" [formGroupName]="i">
@@ -97,9 +106,9 @@
                 </div>
             </div>
         </div>
-    </div> 
-    <br><br>
-    <button type="button" (click)="cancelEdit()">Cancel</button>
+    </div>
+    <br>
+    <button type="button" (click)="cancelEdit()">Cancel</button> &nbsp;
     <button type="submit" [disabled]="!billForm.valid">Save</button>
 </form>
 
