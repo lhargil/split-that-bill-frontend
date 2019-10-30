@@ -243,10 +243,6 @@ export class BillsEditorComponent implements OnInit {
     this.extraCharges.removeAt(index);
   }
 
-  addParticipant() {
-    this.participants.push(null);
-  }
-
   removeParticipant(id: number) {
     this.participants.removeAt(id);
   }

@@ -27,11 +27,16 @@
         <tfoot>
             <tr *ngFor="let extraCharge of vm.bill.extraCharges">
                 <td></td>
-                <td colspan="4">
-                    {{ extraCharge.description }} {{ extraCharge.rate | percent }}
+                <td></td>
+                <td>
+                    {{ extraCharge.description }}
+                </td>
+                <td style="text-align: right;">
+                    {{ extraCharge.rate | percent }}                     
                 </td>
             </tr>
         </tfoot>
     </table>
+    <button type="button" (click)="cancelEdit()">Cancel</button> &nbsp;
     <button type="submit" [disabled]="billForm.invalid">Save</button>
 </form>

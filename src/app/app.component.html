@@ -8,15 +8,20 @@
         <a [routerLink]="['/bills']">Bills</a>
       </li>
       <li>
-        <a [routerLink]="['/people']">People</a>
+        <a [routerLink]="['/people']">Friends</a>
       </li>
       <li>
         <a [routerLink]="['/billing']">Billing</a>
       </li>
     </ul>
   </nav>
+  <div class="logo">
+    <h1>Welcome to Split That Bill application</h1>
+    <p>
+      Split that bill like it ain't no thang!
+    </p>
+  </div>
 </header>
 <main>
-  <h1>Welcome to Split That Bill application</h1>
   <router-outlet></router-outlet>
 </main>

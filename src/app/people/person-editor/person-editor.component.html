@@ -1,38 +1,43 @@
 <form *ngIf="personForm" [formGroup]="personForm" (ngSubmit)="onSubmit()">
+    <h2>
+        What is your friend's name?
+    </h2>
     <div>
-        <label>Firstname:
-            <input type="text" formControlName="firstname" />
+        <label>
+            First name
+            <input type="text" formControlName="firstname" placeholder="First name"/>
         </label>
         <div *ngIf="personForm.get('firstname').invalid && (personForm.get('firstname').dirty || personForm.get('firstname').touched)"
             class="invalid-feedback">
 
             <div *ngIf="personForm.get('firstname').errors.required">
-                Firstname is required.
+                First name is required.
             </div>
             <div *ngIf="personForm.get('firstname').errors.minlength">
-                Firstname must be at least 3 characters long.
+                First name must be at least 3 characters long.
             </div>
         </div>
     </div>
+    <br>
     <div>
         <label>
-            Lastname
+            Last name
             <input id="lastname" class="form-control"
-            formControlName="lastname" />
+            formControlName="lastname" placeholder="Last name" />
         </label>
         
         <div *ngIf="personForm.get('lastname').invalid && (personForm.get('lastname').dirty || personForm.get('lastname').touched)"
             class="invalid-feedback">
 
             <div *ngIf="personForm.get('lastname').errors.required">
-                Lastname is required.
+                Last name is required.
             </div>
             <div *ngIf="personForm.get('lastname').errors.minlength">
-                Lastname must be at least 3 characters long.
+                Last name must be at least 3 characters long.
             </div>
         </div>
     </div>
     <br>
-    <button type="submit" [disabled]="personForm.invalid">Save</button> &nbsp;
-    <button type="button">Cancel</button>
+    <button type="button" (click)="cancelEdit()">Cancel</button> &nbsp;
+    <button type="submit" [disabled]="personForm.invalid">Save</button>
 </form>

@@ -65,6 +65,10 @@ export class PersonEditorComponent implements OnInit {
     }
   }
 
+  cancelEdit() {
+    this.redirect();
+  }
+
   redirect() {
     this.router.navigate(['/people']);
   }

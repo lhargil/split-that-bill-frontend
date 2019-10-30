@@ -96,6 +96,10 @@ export class BillingPaymentComponent implements OnInit {
       .subscribe(() => this.redirect());
   }
 
+  cancelEdit() {
+    this.redirect();
+  }
+
   redirect() {
     this.router.navigate(['/billing']);
   }

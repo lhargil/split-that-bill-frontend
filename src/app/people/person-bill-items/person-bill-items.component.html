@@ -1,6 +1,6 @@
 <ng-container *ngIf="personBillItems$ | async as personBillItems">
     <div>
-        <h3>{{personBillItems.person.fullname}}'s items</h3>
+        <h3>{{personBillItems.person.fullname}}'s payables</h3>
         <ul>
             <li *ngFor="let billItem of personBillItems.bills">
                 1 {{billItem.description}} for {{billItem.unitPrice.amount | currency: 'MYR'}}

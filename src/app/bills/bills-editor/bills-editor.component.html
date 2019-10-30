@@ -1,26 +1,25 @@
 <form *ngIf="billForm" [formGroup]="billForm" (ngSubmit)="onSubmit(billForm)">
     <h2>
-        Add your bill details
+        Enter your bill details
     </h2>
     <div>
         <label>
-            Establishment
+            Place name
             <input type="text" formControlName="establishmentName" />
         </label>
         <div *ngIf="establishmentName.invalid && (establishmentName.dirty || establishmentName.touched)"
             class="invalid-feedback">
-
             <div *ngIf="establishmentName.errors.required">
-                Establishment name is required.
+                Place name is required.
             </div>
             <div *ngIf="establishmentName.errors.minlength">
-                Establishment name must be at least 3 characters long.
+                Place name must be at least 3 characters long.
             </div>
         </div>
     </div>
     <div>
         <label>
-            Bill date
+            When was this
             <select formControlName="billDateYear" (change)="yearChanged($event.target.value)">
                 <option *ngFor="let year of datePickerList.years" [value]="year">{{year}}</option>
             </select>
@@ -34,12 +33,15 @@
     </div>
     <div>
         <label>
-            Remarks
+            What was this all about
             <textarea formControlName="remarks" cols="30" rows="10"></textarea>
         </label>
     </div>
     <div>
-        Bill Items &nbsp; <button type="button" (click)="addBillItem()">Add new</button>
+        What items did you buy? <button type="button" (click)="addBillItem()">Add new</button><br>
+        <div style="font-size: 0.75em;">
+            <i>* Discounts are in unit price units</i>
+        </div>
         <div style="margin-top: 8px;" formArrayName="billItems" *ngFor="let billItem of billItems.controls; let i = index;">
             <div style="margin-bottom: 8px;" [formGroupName]="i">
                 <span>1 </span>
@@ -71,7 +73,7 @@
         </div>
     </div>
     <div>
-        Participants &nbsp; <button type="button" (click)="addParticipant()">Add participant</button>
+        Who were you with?
         <div formArrayName="participants" *ngFor="let participant of participants.controls; let i = index;">
             <label [formGroupName]="i">
                 <input type="checkbox" formControlName="selected" />
@@ -80,12 +82,15 @@
         </div>
     </div>
     <div>
-        Extra Charges &nbsp; <button type="button" (click)="addExtraCharge()">Add new</button>
+        Any extra charges? <button type="button" (click)="addExtraCharge()">Add new</button>
+        <div style="font-size: 0.75em;">
+            <i>** Extra charges are in percentage units</i>
+        </div>
         <div style="margin-top: 8px;" formArrayName="extraCharges" *ngFor="let extraCharge of extraCharges.controls; let i = index;">
             <div style="margin-bottom: 8px;" [formGroupName]="i">
                 <span>{{i + 1}} </span>
                 <input type="text" formControlName="description" placeholder="Description" /> &nbsp;
-                <input type="text" formControlName="rate" placeholder="Rate" /> &nbsp;
+                <input type="text" formControlName="rate" placeholder="Rate" />%&nbsp;
                 <button type="button" (click)="removeExtraCharge(i)">Remove</button>
                 <div class="invalid-feedback" *ngIf="extraCharges.controls[i].get('description').invalid && (extraCharges.controls[i].get('description').dirty || extraCharges.controls[i].get('description').touched)"
                     class="alert alert-danger">

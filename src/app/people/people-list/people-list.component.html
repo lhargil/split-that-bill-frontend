@@ -1,4 +1,4 @@
-<h3>List of people</h3> &nbsp;
+<h3>Your friends</h3> &nbsp;
 <a [routerLink]="[0, 'edit']">Add new</a>
 <ng-container *ngIf="people$ | async as people">
     <ul *ngFor="let person of people">
