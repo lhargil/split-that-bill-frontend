@@ -25,6 +25,16 @@
             </tr>
         </tfoot>
     </table>
+    <div>
+        <h4>
+            Participants
+        </h4>
+        <ul>
+            <li *ngFor="let p of vm.bill.participants">
+                {{p.person.fullname}}
+            </li>
+        </ul>
+    </div>
     <br>
     <a [routerLink]="['/bills', vm.bill.id, 'edit']">Update</a>
     <button type="button" (click)="onDelete(vm.bill.id)">Delete</button>
