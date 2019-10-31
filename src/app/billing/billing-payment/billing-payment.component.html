@@ -27,12 +27,30 @@
         <tfoot>
             <tr *ngFor="let extraCharge of vm.bill.extraCharges">
                 <td></td>
+                <td colspan="2">
+                    {{ extraCharge.description }}
+                    {{ extraCharge.rate | percent }}                     
+                </td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td style="text-align: right;">
+                    {{vm.bill.billTotalWithoutCharges | currency: 'MYR'}}
+                </td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
                 <td></td>
                 <td>
-                    {{ extraCharge.description }}
                 </td>
                 <td style="text-align: right;">
-                    {{ extraCharge.rate | percent }}                     
+                    {{vm.bill.billTotal | currency: 'MYR'}}
                 </td>
             </tr>
         </tfoot>

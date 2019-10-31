@@ -8,6 +8,9 @@ export interface BillDto {
     billItems: BillItemDto[];
     extraCharges: ExtraChargeDto[];
     participants: BillParticipant[];
+    billTotal: number;
+    billTotalWithoutCharges: number;
+    totalCharges: number;
 }
 
 export interface BillItemDto {

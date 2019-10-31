@@ -7,11 +7,11 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class BillingService {
-  private billingApi = `${environment.baseUrl}/api/billing`;
+  private billingApi = `${environment.baseUrl}/api/bills`;
   constructor(private httpClient: HttpClient) { }
 
-  updateBilling(billing: any): Observable<any> {
+  updatePersonBilling(personId: number, billing: any): Observable<any> {
     const headers = new HttpHeaders({'Content-Type': 'application/json'});
-    return this.httpClient.put(this.billingApi, billing, {headers});
+    return this.httpClient.put(`${this.billingApi}/${billing.bill.id}/billing/${personId}`, billing, {headers});
   }
 }

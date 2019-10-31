@@ -92,7 +92,7 @@ export class BillingPaymentComponent implements OnInit {
       };
     })}};
     console.log(JSON.stringify(personBilling));
-    this.billingService.updateBilling(personBilling)
+    this.billingService.updatePersonBilling(this.personId, personBilling)
       .subscribe(() => this.redirect());
   }
 
