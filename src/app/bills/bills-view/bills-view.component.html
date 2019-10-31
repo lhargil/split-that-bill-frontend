@@ -1,27 +1,49 @@
 <div *ngIf="vm$ | async as vm">
     <h2>Bill from {{vm.bill.establishmentName}} incurred on {{vm.bill.billDate}}</h2>
-    <table style="width: 500px;">
+    <table style="width: 400px;">
         <thead>
             <tr>
-                <th></th>
                 <th>Description</th>
-                <th>Price (with charges)</th>
+                <th style="text-align: right;">Unit price</th>
+                <th style="text-align: right;">Price (with charges)</th>
             </tr>
         </thead>
         <tbody>
             <tr *ngFor="let billItem of vm.bill.billItems">
-                <td>1</td>
-                <td>{{billItem.description}}</td>
+                <td>1 {{billItem.description}}</td>
+                <td style="text-align: right;">
+                    {{billItem.unitPrice.amount | currency: billItem.unitPrice.currency}}
+                </td>
                 <td style="text-align: right;">{{billItem.unitPrice.amount | withCharge: vm.extraCharges | currency: billItem.unitPrice.currency}}</td>
             </tr>
         </tbody>
         <tfoot>
-            <tr *ngFor="let extraCharge of vm.bill.extraCharges">
+            <tr>
+                <td>
+                    Subtotal
+                </td>
+                <td style="text-align: right;">
+                    {{vm.bill.billTotalWithoutCharges | currency: 'MYR'}}
+                </td>
                 <td></td>
+            </tr>
+            <tr *ngFor="let extraCharge of vm.bill.extraCharges">
                 <td>
                     {{ extraCharge.description }} {{ extraCharge.rate | percent }}
                 </td>
                 <td></td>
+                <td style="text-align: right;">
+                    {{getChargePrice(extraCharge.rate, vm.bill.billTotalWithoutCharges) | currency: 'MYR'}}
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <strong>Grand total</strong>
+                </td>
+                <td></td>
+                <td style="text-align: right;">
+                    <strong>{{vm.bill.billTotal | currency: 'MYR'}}</strong>
+                </td>
             </tr>
         </tfoot>
     </table>

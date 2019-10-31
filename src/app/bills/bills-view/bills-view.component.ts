@@ -41,6 +41,10 @@ export class BillsViewComponent implements OnInit {
     }
   }
 
+  getChargePrice(rate: number, total: number) {
+    return total * rate;
+  }
+
   redirect() {
     this.router.navigate(['/bills']);
   }
