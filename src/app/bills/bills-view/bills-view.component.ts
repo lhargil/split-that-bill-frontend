@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BillsService } from '../bills.service';
-import { Observable } from 'rxjs';
+import { Observable, combineLatest } from 'rxjs';
 import { BillDto } from '../bills';
-import { map } from 'rxjs/operators';
+import { map, mergeMap, switchMap } from 'rxjs/operators';
+import { BillingService } from 'src/app/billing/billing.service';
 
 @Component({
   selector: 'app-bills-view',
@@ -14,25 +15,20 @@ export class BillsViewComponent implements OnInit {
 
   constructor(private activatedRoute: ActivatedRoute,
     private billsService: BillsService,
+    private billingService: BillingService,
     private router: Router) { }
-  bill$: Observable<BillDto>;
-  vm$: Observable<any>;
-  ngOnInit() {
-    this.activatedRoute.paramMap.subscribe(param => {
-      const id = +param.get('id');
-
-      this.bill$ = this.billsService.getBill(id);
-      this.vm$ = this.billsService.getBill(id)
-        .pipe(
-          map(bill => {
-            return {
-              bill,
-              extraCharges: bill.extraCharges.map(item => item.rate)
-            }
-          })
-        );
-    });
-  }
+    
+  vm$ = this.activatedRoute.paramMap
+    .pipe(
+      switchMap(params => this.billsService.getBill(+params.get('id'))),
+      map(bill => {
+        return {
+          bill,
+          extraCharges: bill.extraCharges.map(item => item.rate)
+        };
+      })
+    );
+  ngOnInit() {}
 
   onDelete(id: number) {
     if (confirm('Are you sure you want to delete this bill?')) {

@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { BillsService } from 'src/app/bills/bills.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { BillDto } from 'src/app/bills/bills';
-import { FormGroup, FormBuilder, FormArray } from '@angular/forms';
+import { BillDto, BillItemDto } from 'src/app/bills/bills';
+import { FormGroup, FormBuilder, FormArray, FormControl } from '@angular/forms';
 import { PeopleService } from 'src/app/people/people.service';
-import { combineLatest, throwError, of } from 'rxjs';
+import { combineLatest, throwError, of, Subscription } from 'rxjs';
 import { map, switchMap, combineAll, withLatestFrom, catchError } from 'rxjs/operators';
 import { BillingService } from '../billing.service';
 import { PersonBillItems } from 'src/app/people/person';
@@ -17,7 +17,7 @@ import { PersonBillItems } from 'src/app/people/person';
 export class BillingPaymentComponent implements OnInit {
   vm: any;
   billForm: FormGroup;
-
+  sub: Subscription;
   private personId = 2;
 
   constructor(private billsService: BillsService,
@@ -31,40 +31,61 @@ export class BillingPaymentComponent implements OnInit {
       return this.billForm.get('billItems') as FormArray
     }
 
-  currentBill$ = this.activatedRoute.paramMap
-    .pipe(
-      switchMap(paramMap => this.billsService.getBill(+paramMap.get('id')))
-    );
-  currentPersonBillItems$ = this.peopleService.getPersonBillItems(this.personId)
-    .pipe(
-      catchError(error => {
-        console.log('Handled in service.');
-        return throwError(error);
-      })
-    );
-  ngOnInit() {
-    combineLatest([this.currentBill$, this.currentPersonBillItems$])
-      .pipe(
-        map(([bill, personBillItems]) => {
-          return {
-            bill,
-            personBillItems
-          };
-        })
-      ).subscribe(billPersonBillItems => {
-        this.vm = {
-          bill: billPersonBillItems.bill,
-          extraCharges: billPersonBillItems.bill.extraCharges.map(item => item.rate),
-          personBillItems: billPersonBillItems.personBillItems
-        };
+  vm$ = this.activatedRoute.paramMap.pipe(
+    switchMap(paramMap => {
+      const id = +paramMap.get('id');
 
-        this.billForm = this.createForm(this.vm);
-      }, error => console.log('got error one!'));
+      return combineLatest([
+        this.billsService.getBill(id),
+        this.peopleService.getPersonBillItems(this.personId)
+      ]);
+    }),
+    map(([bill, personBillItems]) => {
+      const extraCharges = bill.extraCharges.map(item => item.rate);
+      const aggregate = {
+        bill: bill,
+        extraCharges,
+        personBillItems: {...personBillItems, ...{totalPayable: personBillItems.bills.reduce((acc, curr) => {
+          const accUnitPrice = acc.amount + curr.unitPrice.amount;
+          return {
+            ...acc,
+            amount: extraCharges.reduce((a, b) => a+b) * curr.unitPrice.amount + accUnitPrice
+          };
+        }, {amount: 0, currency: 'MYR'})}}
+      };
+      return {
+        aggregate,
+        billForm: this.createForm(aggregate)
+      };
+    })
+  );
+  ngOnInit() { 
+    this.sub = this.vm$.subscribe(item => {
+      this.vm = item.aggregate,
+      this.billForm = item.billForm;
+    });
+  }
+
+  ngOnDestroy() {
+    this.sub && this.sub.unsubscribe()
+  }
+
+  onAssign(checkedEvent: any) {
+    const modifier = checkedEvent.value.checked ? 1 : -1;
+    const amount = checkedEvent.value.unitPrice.amount * modifier;
+
+    this.vm.personBillItems = {
+      ...this.vm.personBillItems,
+      totalPayable: {
+        ...this.vm.personBillItems.totalPayable,
+        amount: this.vm.personBillItems.totalPayable.amount + (amount * this.vm.extraCharges.reduce((a, b) => a+b) + amount)
+      }
+    };
   }
 
   private createForm(billPersonBillItems: { bill: BillDto; personBillItems: PersonBillItems; }) {
     return this.fb.group({
-      billItems: this.fb.array(this.vm.bill.billItems.map(item => {
+      billItems: this.fb.array(billPersonBillItems.bill.billItems.map(item => {
         return this.fb.group({
           id: [item.id],
           description: [item.description],

@@ -31,10 +31,10 @@
                 <td>
                     {{ extraCharge.description }} {{ extraCharge.rate | percent }}
                 </td>
-                <td></td>
                 <td style="text-align: right;">
                     {{getChargePrice(extraCharge.rate, vm.bill.billTotalWithoutCharges) | currency: 'MYR'}}
                 </td>
+                <td></td>
             </tr>
             <tr>
                 <td>

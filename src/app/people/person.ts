@@ -1,4 +1,4 @@
-import { BillItemDto } from '../bills/bills';
+import { BillItemDto, BillDto } from '../bills/bills';
 
 export interface Person {
     id: number;
@@ -10,4 +10,9 @@ export interface Person {
 export interface PersonBillItems {
     person: Person;
     bills: BillItemDto[];
+}
+
+export interface Billing {
+    bill: BillDto;
+    peopleBilling: PersonBillItems;
 }

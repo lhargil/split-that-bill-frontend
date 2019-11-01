@@ -1,60 +1,67 @@
-<form *ngIf="billForm" [formGroup]="billForm" (ngSubmit)="onSubmit()">
-    <table style="width: 500px;">
-        <thead>
-            <tr>
-                <th></th>
-                <th>Quantity</th>
-                <th>Description</th>
-                <th>Unit price</th>
-                <th>Payable price (with charges)</th>
-            </tr>
-        </thead>
-        <tbody>
-            <ng-container formArrayName="billItems">
-                <tr *ngFor="let billItem of billItems.controls; let i = index;" [formGroupName]="i">
-                    <td>
-                        <input type="checkbox" formControlName="checked"/>
-                    </td>
-                    <td style="text-align: center;">1</td>
-                    <td>{{billItem.get('description').value}}</td>
-                    <td style="text-align: right;">
-                        {{billItem.get('unitPrice').value.amount | currency: billItem.get('unitPrice').value.currency}}
-                    </td>
-                    <td style="text-align: right;">{{billItem.get('unitPrice').value.amount | withCharge: vm.extraCharges | currency: billItem.get('unitPrice').value.currency}}</td>
+<div *ngIf="billForm" >
+    <h2>Assign payables to: {{vm.personBillItems.person.fullname}}</h2>
+    <p>
+        Total: {{vm.personBillItems.totalPayable.amount | currency: vm.personBillItems.totalPayable.currency}}
+    </p>
+    <form [formGroup]="billForm" (ngSubmit)="onSubmit()">
+        <table style="width: 500px;">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Quantity</th>
+                    <th>Description</th>
+                    <th>Unit price</th>
+                    <th>Payable price (with charges)</th>
                 </tr>
-            </ng-container>
-        </tbody>
-        <tfoot>
-            <tr *ngFor="let extraCharge of vm.bill.extraCharges">
-                <td></td>
-                <td colspan="2">
-                    {{ extraCharge.description }}
-                    {{ extraCharge.rate | percent }}                     
-                </td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td style="text-align: right;">
-                    {{vm.bill.billTotalWithoutCharges | currency: 'MYR'}}
-                </td>
-                <td></td>
-            </tr>
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td>
-                </td>
-                <td style="text-align: right;">
-                    {{vm.bill.billTotal | currency: 'MYR'}}
-                </td>
-            </tr>
-        </tfoot>
-    </table>
-    <button type="button" (click)="cancelEdit()">Cancel</button> &nbsp;
-    <button type="submit" [disabled]="billForm.invalid">Save</button>
-</form>
+            </thead>
+            <tbody>
+                <ng-container formArrayName="billItems">
+                    <tr *ngFor="let billItem of billItems.controls; let i = index;" [formGroupName]="i">
+                        <td>
+                            <input type="checkbox" formControlName="checked" (change)="onAssign(billItem)"/>
+                        </td>
+                        <td style="text-align: center;">1</td>
+                        <td>{{billItem.get('description').value}}</td>
+                        <td style="text-align: right;">
+                            {{billItem.get('unitPrice').value.amount | currency: billItem.get('unitPrice').value.currency}}
+                        </td>
+                        <td style="text-align: right;">{{billItem.get('unitPrice').value.amount | withCharge: vm.extraCharges | currency: billItem.get('unitPrice').value.currency}}</td>
+                    </tr>
+                </ng-container>
+            </tbody>
+            <tfoot>
+                <tr *ngFor="let extraCharge of vm.bill.extraCharges">
+                    <td></td>
+                    <td colspan="2">
+                        {{ extraCharge.description }}
+                        {{ extraCharge.rate | percent }}                     
+                    </td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td colspan="2">
+                        Subtotal
+                    </td>
+                    <td style="text-align: right;">
+                        {{vm.bill.billTotalWithoutCharges | currency: 'MYR'}}
+                    </td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>
+                    </td>
+                    <td style="text-align: right;">
+                        {{vm.bill.billTotal | currency: 'MYR'}}
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+        <button type="button" (click)="cancelEdit()">Cancel</button> &nbsp;
+        <button type="submit" [disabled]="billForm.invalid">Save</button>
+    </form>
+</div>
