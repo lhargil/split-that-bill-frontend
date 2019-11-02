@@ -51,16 +51,18 @@
                 </tr>
                 <tr>
                     <td></td>
-                    <td></td>
-                    <td></td>
+                    <td colspan="2">
+                        <strong>Grand total</strong>
+                    </td>
                     <td>
                     </td>
                     <td style="text-align: right;">
-                        {{vm.bill.billTotal | currency: 'MYR'}}
+                        <strong>{{vm.bill.billTotal | currency: 'MYR'}}</strong>
                     </td>
                 </tr>
             </tfoot>
         </table>
+        <br>
         <button type="button" (click)="cancelEdit()">Cancel</button> &nbsp;
         <button type="submit" [disabled]="billForm.invalid">Save</button>
     </form>

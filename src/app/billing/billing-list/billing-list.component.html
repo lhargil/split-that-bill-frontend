@@ -1,11 +1,13 @@
 <ng-container *ngIf="bills$ | async as bills">
-    <h2>Bills</h2>
+    <h2>Your bills</h2>
     <div>
         <ul>
             <li *ngFor="let bill of bills">
-                {{bill.establishmentName}}, {{bill.billDate | date: 'dd/MM/yyyy'}}
-                &nbsp;
-                <a [routerLink]="[bill.id, 'pay']">Pay</a>
+                <span>
+                    {{bill.establishmentName}}, {{bill.billDate | date: 'dd/MM/yyyy'}}
+                    &nbsp;
+                    <a [routerLink]="[bill.id, 'pay']">Pay</a>
+                </span>
             </li>
         </ul>
     </div>
