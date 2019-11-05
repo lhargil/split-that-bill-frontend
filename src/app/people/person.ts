@@ -5,14 +5,10 @@ export interface Person {
     firstname: string;
     lastname: string;
     fullname?: string;
+    totalPayable: number;
 }
 
 export interface PersonBillItems {
     person: Person;
     bills: BillItemDto[];
-}
-
-export interface Billing {
-    bill: BillDto;
-    peopleBilling: PersonBillItems;
 }

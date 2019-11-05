@@ -16,7 +16,8 @@ export interface BillDto {
 export interface BillItemDto {
     id: number;
     description: string;
-    unitPrice: { amount: number, currency: string };
+    unitPrice: Money;
+    priceWithCharges: Money;
     discount?: number;
 }
 
@@ -26,7 +27,13 @@ export interface ExtraChargeDto {
     rate: number;
 }
 
+export interface Money {
+    amount: number;
+    currency: string;
+};
+
 export interface BillParticipant {
     id: number;
     person: Person;
+    totalPayable: Money;
 }

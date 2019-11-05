@@ -13,7 +13,7 @@ const routes: Routes = [
         component: BillsListComponent
       },
       {
-        path: ':id',
+        path: ':id/receipt',
         component: BillsViewComponent
       },
       {

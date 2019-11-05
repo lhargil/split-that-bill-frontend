@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { PersonBillItems, Billing } from '../people/person';
+import { PersonBillItems } from '../people/person';
+import { Billing } from './billing';
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +21,7 @@ export class BillingService {
     return this.httpClient.get<PersonBillItems>(`${this.billingApi}/billings/${personId}`);
   }
 
-  getBilling(id: number): Observable<Billing> {
-    return this.httpClient.get<Billing>(`${this.billingApi}/${id}/billing`);
+  getBillings(id: number): Observable<Billing> {
+    return this.httpClient.get<Billing>(`${this.billingApi}/${id}/billings`);
   }
 }

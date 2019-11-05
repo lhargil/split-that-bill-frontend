@@ -1,13 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { BillsService } from 'src/app/bills/bills.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { BillDto, BillItemDto } from 'src/app/bills/bills';
-import { FormGroup, FormBuilder, FormArray, FormControl } from '@angular/forms';
+import { FormGroup, FormBuilder, FormArray, FormControl, Validators } from '@angular/forms';
 import { PeopleService } from 'src/app/people/people.service';
-import { combineLatest, throwError, of, Subscription } from 'rxjs';
-import { map, switchMap, combineAll, withLatestFrom, catchError } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
 import { BillingService } from '../billing.service';
-import { PersonBillItems } from 'src/app/people/person';
+import { Billing } from '../billing';
 
 @Component({
   selector: 'app-billing-payment',
@@ -15,14 +14,12 @@ import { PersonBillItems } from 'src/app/people/person';
   styleUrls: ['./billing-payment.component.scss']
 })
 export class BillingPaymentComponent implements OnInit {
-  vm: any;
+  vm: Billing;
+  participantsPayable: any;
   billForm: FormGroup;
   sub: Subscription;
-  private personId = 2;
 
-  constructor(private billsService: BillsService,
-    private peopleService: PeopleService,
-    private billingService: BillingService,
+  constructor(private billingService: BillingService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private fb: FormBuilder) { }
@@ -30,73 +27,41 @@ export class BillingPaymentComponent implements OnInit {
     get billItems() {
       return this.billForm.get('billItems') as FormArray
     }
-
+  
   vm$ = this.activatedRoute.paramMap.pipe(
     switchMap(paramMap => {
       const id = +paramMap.get('id');
-
-      return combineLatest([
-        this.billsService.getBill(id),
-        this.peopleService.getPersonBillItems(this.personId)
-      ]);
-    }),
-    map(([bill, personBillItems]) => {
-      const extraCharges = bill.extraCharges.map(item => item.rate);
-      const aggregate = {
-        bill: bill,
-        extraCharges,
-        personBillItems: {...personBillItems, ...{totalPayable: personBillItems.bills.reduce((acc, curr) => {
-          const accUnitPrice = acc.amount + curr.unitPrice.amount;
-          return {
-            ...acc,
-            amount: extraCharges.reduce((a, b) => a+b) * curr.unitPrice.amount + accUnitPrice
-          };
-        }, {amount: 0, currency: 'MYR'})}}
-      };
-      return {
-        aggregate,
-        billForm: this.createForm(aggregate)
-      };
+      return this.billingService.getBillings(id);
     })
   );
-  ngOnInit() { 
-    this.sub = this.vm$.subscribe(item => {
-      this.vm = item.aggregate,
-      this.billForm = item.billForm;
-    });
+  ngOnInit() {
+    this.sub = this.vm$.subscribe(billing => {
+      this.vm = billing;
+      this.participantsPayable = this.vm.bill.participants.map(p => {
+        const personBilling = this.vm.peopleBilling.filter(item => item.person && item.person.id == p.person.id);
+        const billItems = [...personBilling.map(item => {
+          return item.billItem && {
+            id: item.billItem.id,
+            priceWithCharges: item.billItem.priceWithCharges
+          };
+        })];
+        return {
+          ...p,
+          billItems,
+          totalPayable: {
+            ...p.totalPayable,
+            ...{ amount: billItems.reduce((acc, curr) => {
+              return acc + curr.priceWithCharges.amount;
+            }, 0)}
+          }
+        };
+      });
+      this.billForm = this.createForm(this.vm);
+    })
   }
 
   ngOnDestroy() {
     this.sub && this.sub.unsubscribe()
-  }
-
-  onAssign(checkedEvent: any) {
-    const modifier = checkedEvent.value.checked ? 1 : -1;
-    const amount = checkedEvent.value.unitPrice.amount * modifier;
-
-    this.vm.personBillItems = {
-      ...this.vm.personBillItems,
-      totalPayable: {
-        ...this.vm.personBillItems.totalPayable,
-        amount: this.vm.personBillItems.totalPayable.amount + (amount * this.vm.extraCharges.reduce((a, b) => a+b) + amount)
-      }
-    };
-  }
-
-  private createForm(billPersonBillItems: { bill: BillDto; personBillItems: PersonBillItems; }) {
-    return this.fb.group({
-      billItems: this.fb.array(billPersonBillItems.bill.billItems.map(item => {
-        return this.fb.group({
-          id: [item.id],
-          description: [item.description],
-          unitPrice: this.fb.group({
-            amount: [item.unitPrice.amount],
-            currency: [item.unitPrice.currency]
-          }),
-          checked: billPersonBillItems.personBillItems.bills.find(b => b.id == item.id) != null
-        });
-      }))
-    });
   }
 
   onSubmit() {
@@ -104,17 +69,7 @@ export class BillingPaymentComponent implements OnInit {
       console.log('The form is not valid.');
       return;
     }
-
-    const personBilling = {...{bill: this.vm.bill}, ...this.vm.personBillItems, ...{billItems: this.billForm.value.billItems.filter(item => item.checked).map(item => {
-      return {
-        id: item.id,
-        description: item.description,
-        amount: item.unitPrice.amount
-      };
-    })}};
-    console.log(JSON.stringify(personBilling));
-    this.billingService.updatePersonBilling(this.personId, personBilling)
-      .subscribe(() => this.redirect());
+    console.log(JSON.stringify(this.billForm.value));
   }
 
   cancelEdit() {
@@ -123,5 +78,42 @@ export class BillingPaymentComponent implements OnInit {
 
   redirect() {
     this.router.navigate(['/billing']);
+  }
+
+  onChange($event: any, billItem: FormControl) {
+    this.participantsPayable = this.participantsPayable.map(p => {
+      const billItems = [...this.billItems.value.filter(item => +item.assignee == p.person.id)];
+      return {
+        ...p,
+        billItems: billItems.map(item => {
+          return {
+            id: item.itemId,
+            priceWithCharges: item.priceWithCharges
+          };
+        }),
+        totalPayable: {
+          ...p.totalPayable,
+          ...{ amount: billItems.reduce((acc, curr) => {
+            return acc + curr.priceWithCharges;
+          }, 0)}
+        }
+      }
+    });
+  }
+
+  private createForm(billing: Billing) {
+    const form = this.fb.group({
+      billItems: this.fb.array(billing.peopleBilling.map(pb => {
+        return this.fb.group({
+          itemId: [pb.billItem.id],
+          itemDescription: [pb.billItem.description],
+          amount: [pb.billItem.unitPrice.amount],
+          currency: [pb.billItem.unitPrice.currency],
+          priceWithCharges: [pb.billItem.priceWithCharges.amount],
+          assignee: [pb.person && pb.person.id || '']
+        })
+      }))
+    });
+    return form;
   }
 }

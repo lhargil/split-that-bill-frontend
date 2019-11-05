@@ -49,11 +49,11 @@
     </table>
     <div>
         <h4>
-            Participants
+            Friends
         </h4>
         <ul>
             <li *ngFor="let p of vm.bill.participants">
-                {{p.person.fullname}}
+                {{p.person.fullname}} <strong>{{p.person.totalPayable | currency: 'MYR'}}</strong>
             </li>
         </ul>
     </div>

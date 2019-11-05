@@ -6,7 +6,8 @@
             <li *ngFor="let bill of bills">
                 {{bill.establishmentName}} {{bill.billDate | date: 'full' : 'GMT+8'}}
                 <br>
-                <a [routerLink]="['/bills', bill.id]">View</a> &nbsp; <a [routerLink]="['/bills', bill.id, 'edit']">Edit</a>
+                <a [routerLink]="['/bills', bill.id, 'receipt']">Receipt</a> &nbsp;
+                <a [routerLink]="['/bills', bill.id, 'edit']">Edit</a>
             </li>
         </ul>
     </div>
