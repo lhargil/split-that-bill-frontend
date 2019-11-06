@@ -57,7 +57,9 @@
             </li>
         </ul>
     </div>
-    <br>
+    <button type="button" (click)="onCancel()">Cancel</button> &nbsp;
+    
     <a [routerLink]="['/bills', vm.bill.id, 'edit']">Update</a> &nbsp;
+    
     <button type="button" (click)="onDelete(vm.bill.id)">Delete</button>
 </div>

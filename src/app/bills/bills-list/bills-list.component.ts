@@ -10,11 +10,7 @@ import { tap, map } from 'rxjs/operators';
 export class BillsListComponent implements OnInit {
   constructor(private billsService: BillsService) { }
   
-  private currentUser = 1;
-  bills$ = this.billsService.getBills()
-      .pipe(
-        map(bills => bills.filter(bill => bill.participants.filter(p => p.person.id == this.currentUser).length > 0))
-      );
+  bills$ = this.billsService.getBills();
 
   ngOnInit() {
   }

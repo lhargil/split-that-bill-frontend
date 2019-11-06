@@ -4,9 +4,9 @@
         <ul>
             <li *ngFor="let bill of bills">
                 <span>
-                    {{bill.establishmentName}}, {{bill.billDate | date: 'dd/MM/yyyy'}}
+                    {{bill.establishmentName}} incurred on {{bill.billDate}}
                     &nbsp;
-                    <a [routerLink]="[bill.id, 'pay']">Pay</a>
+                    <a [routerLink]="[bill.id, 'pay']">Assign bill items</a>
                 </span>
             </li>
         </ul>

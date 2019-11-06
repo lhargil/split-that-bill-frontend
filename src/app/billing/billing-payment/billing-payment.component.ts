@@ -103,7 +103,7 @@ export class BillingPaymentComponent implements OnInit {
   }
 
   redirect() {
-    this.router.navigate(['/billing']);
+    this.router.navigate(['/bills']);
   }
 
   onChange($event: any, billItem: FormControl) {

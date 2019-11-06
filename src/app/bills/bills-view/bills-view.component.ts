@@ -44,4 +44,8 @@ export class BillsViewComponent implements OnInit {
   redirect() {
     this.router.navigate(['/bills']);
   }
+
+  cancel() {
+    this.redirect();
+  }
 }
