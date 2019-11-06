@@ -12,9 +12,9 @@ export class BillingService {
   private billingApi = `${environment.baseUrl}/api/bills`;
   constructor(private httpClient: HttpClient) { }
 
-  updatePersonBilling(personId: number, billing: any): Observable<any> {
+  updatePersonBilling(id: number, personId: number, billing: any): Observable<any> {
     const headers = new HttpHeaders({'Content-Type': 'application/json'});
-    return this.httpClient.put(`${this.billingApi}/${billing.bill.id}/billings/${personId}`, billing, {headers});
+    return this.httpClient.put(`${this.billingApi}/${id}/billings/${personId}`, billing, {headers});
   }
 
   getPersonBilling(personId: number): Observable<PersonBillItems> {

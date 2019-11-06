@@ -3,7 +3,7 @@ import { BillsService } from 'src/app/bills/bills.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormGroup, FormBuilder, FormArray, FormControl, Validators } from '@angular/forms';
 import { PeopleService } from 'src/app/people/people.service';
-import { Subscription } from 'rxjs';
+import { Subscription, combineLatest } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { BillingService } from '../billing.service';
 import { Billing } from '../billing';
@@ -16,7 +16,7 @@ import { Billing } from '../billing';
 export class BillingPaymentComponent implements OnInit {
   vm: Billing;
   participantsPayable: any;
-  billForm: FormGroup;
+  billingForm: FormGroup;
   sub: Subscription;
 
   constructor(private billingService: BillingService,
@@ -25,7 +25,7 @@ export class BillingPaymentComponent implements OnInit {
     private fb: FormBuilder) { }
 
     get billItems() {
-      return this.billForm.get('billItems') as FormArray
+      return this.billingForm.get('billItems') as FormArray
     }
   
   vm$ = this.activatedRoute.paramMap.pipe(
@@ -56,7 +56,7 @@ export class BillingPaymentComponent implements OnInit {
           }
         };
       });
-      this.billForm = this.createForm(this.vm);
+      this.billingForm = this.createForm(this.vm);
     })
   }
 
@@ -65,11 +65,37 @@ export class BillingPaymentComponent implements OnInit {
   }
 
   onSubmit() {
-    if (this.billForm.invalid) {
+    if (this.billingForm.invalid) {
       console.log('The form is not valid.');
       return;
     }
-    console.log(JSON.stringify(this.billForm.value));
+    console.log(JSON.stringify(this.billingForm.get('billItems').value));
+    const billItems = this.billingForm.value.billItems as any[];
+
+    const peopleBilling = this.vm.bill.participants.map(p => {
+      const assignedItems = billItems.filter(item => +item.assignee == p.person.id)
+        .map(item => {
+          return {
+            id: item.itemId,
+            description: item.itemDescription,
+            amount: item.amount
+            // TODO: discount field
+          }
+        });
+
+      return {
+        person: {...p.person},
+        billItems: assignedItems
+      };
+    });
+
+    combineLatest(peopleBilling.map(
+      pb => this.billingService.updatePersonBilling(this.vm.bill.id, pb.person.id, pb)
+    )).subscribe(() => {
+      console.log('Billings updated.');
+      this.redirect();
+    })
+
   }
 
   cancelEdit() {

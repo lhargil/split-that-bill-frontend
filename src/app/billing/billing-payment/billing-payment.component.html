@@ -1,5 +1,5 @@
-<div *ngIf="billForm" >
-    <form [formGroup]="billForm" (ngSubmit)="onSubmit()">
+<div *ngIf="billingForm" >
+    <form [formGroup]="billingForm" (ngSubmit)="onSubmit()">
         <h2>Bill from {{vm.bill.establishmentName}}</h2>
         <ng-container formArrayName="billItems">
             <div *ngFor="let billItem of billItems.controls; let i = index;" [formGroupName]="i">
@@ -26,6 +26,6 @@
         </div>
         <br>
         <button type="button" (click)="cancelEdit()">Cancel</button> &nbsp;
-        <button type="submit" [disabled]="billForm.invalid">Save</button>
+        <button type="submit" [disabled]="billingForm.invalid">Save</button>
     </form>
 </div>
