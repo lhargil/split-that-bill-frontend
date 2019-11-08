@@ -1,0 +1,42 @@
+<div *ngIf="vm$ | async as vm">
+    <h2>My bank accounts</h2> &nbsp; <button (click)="addBankAccount(vm)">Add new</button>
+    <br>
+    <br>
+    <form [formGroup]="vm.form" (ngSubmit)="onSubmit(vm)">
+        <div formArrayName="paymentDetails" *ngFor="let pd of vm.paymentDetails.controls; let i = index;">
+            <div [formGroupName]="i">
+                <div>
+                    Bank name
+                    <input type="text" formControlName="bankName" placeholder="Bank name" />
+                    <div class="invalid-feedback" *ngIf="pd.get('bankName').invalid && (pd.get('bankName').dirty || pd.get('bankName').touched)">
+                        <div *ngIf="pd.get('bankName').errors.required">
+                            Bank name is required.
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    Account number
+                    <input type="text" formControlName="accountNumber" placeholder="Account number" />
+                    <div class="invalid-feedback" *ngIf="pd.get('accountNumber').invalid && (pd.get('accountNumber').dirty || pd.get('accountNumber').touched)">
+                        <div *ngIf="pd.get('accountNumber').errors.required">
+                            Account number is required.
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    Account name
+                    <input type="text" formControlName="accountName" placeholder="Account name" />
+                    <div class="invalid-feedback" *ngIf="pd.get('accountName').invalid && (pd.get('accountName').dirty || pd.get('accountName').touched)">
+                        <div *ngIf="pd.get('accountName').errors.required">
+                            Account name is required.
+                        </div>
+                    </div>
+                </div>
+                <button type="button" (click)="onDelete(vm, i)">Delete</button>
+                <br>
+            </div>
+        </div>
+        <br><br>
+        <button type="submit" [disabled]="vm.form.invalid">Save</button>
+    </form>
+</div>

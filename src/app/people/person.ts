@@ -12,3 +12,10 @@ export interface PersonBillItems {
     person: Person;
     bills: BillItemDto[];
 }
+
+export interface PaymentDetail {
+    id: number;
+    bankName: string;
+    accountName: string;
+    accountNumber: string;
+}
