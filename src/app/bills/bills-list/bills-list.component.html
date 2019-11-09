@@ -6,8 +6,8 @@
             <li *ngFor="let bill of bills">
                 {{bill.establishmentName}} incurred on {{bill.billDate}}
                 <br>
-                <a [routerLink]="['/bills', bill.id, 'receipt']">Receipt</a> &nbsp;
                 <a [routerLink]="['/bills', bill.id, 'edit']">Edit</a> &nbsp;
+                <a [routerLink]="['/bills', bill.id, 'receipt']">Receipt</a> &nbsp;
                 <a [routerLink]="['/billing', bill.id, 'pay']">Assign items</a>
             </li>
         </ul>

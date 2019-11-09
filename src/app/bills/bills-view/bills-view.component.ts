@@ -20,13 +20,7 @@ export class BillsViewComponent implements OnInit {
     
   vm$ = this.activatedRoute.paramMap
     .pipe(
-      switchMap(params => this.billsService.getBill(+params.get('id'))),
-      map(bill => {
-        return {
-          bill,
-          extraCharges: bill.extraCharges.map(item => item.rate)
-        };
-      })
+      switchMap(params => this.billsService.getBill(+params.get('id')))
     );
   ngOnInit() {}
 

@@ -1,65 +1,51 @@
 <div *ngIf="vm$ | async as vm">
     <h2>Bill from {{vm.bill.establishmentName}} incurred on {{vm.bill.billDate}}</h2>
-    <table style="width: 400px;">
-        <thead>
-            <tr>
-                <th>Description</th>
-                <th style="text-align: right;">Unit price</th>
-                <th style="text-align: right;">Price (with charges)</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let billItem of vm.bill.billItems">
-                <td>1 {{billItem.description}}</td>
-                <td style="text-align: right;">
-                    {{billItem.unitPrice.amount | currency: billItem.unitPrice.currency}}
-                </td>
-                <td style="text-align: right;">{{billItem.unitPrice.amount | withCharge: vm.extraCharges | currency: billItem.unitPrice.currency}}</td>
-            </tr>
-        </tbody>
-        <tfoot>
-            <tr>
-                <td>
-                    Subtotal
-                </td>
-                <td style="text-align: right;">
-                    {{vm.bill.billTotalWithoutCharges | currency: 'MYR'}}
-                </td>
-                <td></td>
-            </tr>
-            <tr *ngFor="let extraCharge of vm.bill.extraCharges">
-                <td>
-                    {{ extraCharge.description }} {{ extraCharge.rate | percent }}
-                </td>
-                <td style="text-align: right;">
-                    {{getChargePrice(extraCharge.rate, vm.bill.billTotalWithoutCharges) | currency: 'MYR'}}
-                </td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>
-                    <strong>Grand total</strong>
-                </td>
-                <td></td>
-                <td style="text-align: right;">
-                    <strong>{{vm.bill.billTotal | currency: 'MYR'}}</strong>
-                </td>
-            </tr>
-        </tfoot>
-    </table>
+    <div style="width: 600px;">
+        <table style="width:100%;">
+            <thead>
+                <tr>
+                    <th>Item description</th>
+                    <th>Unit price</th>
+                    <th>Price with charges</th>
+                    <th>Assigned to</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let pb of vm.peopleBilling; let i = index;">
+                    <td>1 {{pb.billItem.description}}</td>
+                    <td style="text-align: right;">{{pb.billItem.unitPrice.amount | currency: pb.billItem.unitPrice.currency}}</td>
+                    <td style="text-align: right;">{{pb.billItem.priceWithCharges.amount | currency: pb.billItem.priceWithCharges.currency}}</td>
+                    <td style="text-align: center;">{{pb.person?.fullname}}</td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr *ngFor="let ec of vm.bill.extraCharges">
+                    <td>{{ec.description}} {{ec.rate | percent}}</td>
+                    <td style="text-align: right;">{{vm.bill.billTotalWithoutCharges * ec.rate | currency: 'MYR'}}</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>
+                        <strong>Grand total</strong>
+                    </td>
+                    <td style="text-align: right;">
+                        <strong>{{vm.bill.billTotal | currency: 'MYR'}}</strong>
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
     <div>
-        <h4>
-            Friends
-        </h4>
+        <h3>Friends</h3>
         <ul>
             <li *ngFor="let p of vm.bill.participants">
-                {{p.person.fullname}} <strong>{{p.person.totalPayable | currency: 'MYR'}}</strong>
+                {{p.person.fullname}} will pay <strong>{{p.totalPayable.amount | currency: p.totalPayable.currency}}</strong>
             </li>
         </ul>
     </div>
-    <button type="button" (click)="onCancel()">Cancel</button> &nbsp;
-    
-    <a [routerLink]="['/bills', vm.bill.id, 'edit']">Update</a> &nbsp;
-    
-    <button type="button" (click)="onDelete(vm.bill.id)">Delete</button>
+    <footer>
+        <button type="button" (click)="onCancel()">Cancel</button> &nbsp;
+        <a [routerLink]="['/bills', vm.bill.id, 'edit']">Update</a> &nbsp;
+        <button type="button" (click)="onDelete(vm.bill.id)">Delete</button>
+    </footer>
 </div>
