@@ -15,7 +15,6 @@ export class BillsViewComponent implements OnInit {
 
   constructor(private activatedRoute: ActivatedRoute,
     private billsService: BillsService,
-    private billingService: BillingService,
     private router: Router) { }
     
   vm$ = this.activatedRoute.paramMap

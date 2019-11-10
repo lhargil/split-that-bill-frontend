@@ -1,6 +1,9 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { PersonBillItemsComponent } from './person-bill-items.component';
+import { RouterTestingModule } from '@angular/router/testing';
+import { PeopleService } from '../people.service';
+import { PeopleMockService } from '../stub/people-mock.service';
 
 describe('PersonBillItemsComponent', () => {
   let component: PersonBillItemsComponent;
@@ -8,7 +11,13 @@ describe('PersonBillItemsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ PersonBillItemsComponent ]
+      declarations: [ PersonBillItemsComponent ],
+      providers: [
+        { provide: PeopleService, useClass: PeopleMockService }
+      ],
+      imports: [
+        RouterTestingModule
+      ]
     })
     .compileComponents();
   }));
