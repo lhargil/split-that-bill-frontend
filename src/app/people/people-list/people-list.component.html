@@ -1,13 +1,23 @@
-<h3>Your friends</h3> &nbsp;
-<a [routerLink]="[0, 'edit']">Add new</a>
-<ng-container *ngIf="people$ | async as people">
-    <ul *ngFor="let person of people">
-        <li>    
-            {{person.fullname}}
-            <br>
-            <a [routerLink]="[person.id, 'items']">View bill items</a> &nbsp;
-            <a [routerLink]="[person.id, 'edit']">Edit</a>
+<h1 class="h1 mb-8">My friends</h1>
+<a [routerLink]="[0, 'edit']" class="inline-block mb-8 bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded">Add new</a>
+<div *ngIf="people$ | async as people" class="w-1/2">
+    <ul>
+        <li *ngFor="let person of people" class="max-w-sm w-full lg:max-w-full">
+            <div class="bg-white pb-4 leading-normal">
+                <div class="mb-8">
+                    <div class="text-gray-900 font-bold text-xl mb-2">{{person.fullname}}</div>
+                    <div class="toolbar flex items-center">
+                        <a [routerLink]="[person.id, 'edit']" class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white px-2 border border-blue-500 hover:border-transparent rounded flex items-center mr-4">
+                            <svg class="w-4 h-4 inline-block mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M12.3 3.7l4 4L4 20H0v-4L12.3 3.7zm1.4-1.4L16 0l4 4-2.3 2.3-4-4z"/></svg>
+                            Edit
+                        </a>
+                        <a [routerLink]="[person.id, 'items']" class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white px-2 border border-blue-500 hover:border-transparent rounded flex items-center">
+                            <svg class="w-4 h-4 inline-block mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M1 4h2v2H1V4zm4 0h14v2H5V4zM1 9h2v2H1V9zm4 0h14v2H5V9zm-4 5h2v2H1v-2zm4 0h14v2H5v-2z"/></svg>
+                            View bills
+                        </a>
+                    </div>
+                </div>
+            </div>
         </li>
     </ul>
-    {{people | json}}
-</ng-container>
+</div>
