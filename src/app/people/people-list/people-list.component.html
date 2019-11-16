@@ -2,8 +2,8 @@
     <h1 class="h1 mb-8 mr-4">My friends</h1>
     <a [routerLink]="[0, 'edit']" class="inline-block mb-8 bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded">Add new</a>
 </div>
-<div *ngIf="people$ | async as people" class="w-full p-4 bg-white rounded shadow-md flex items-center">
-    <ul class="w-full">
+<div *ngIf="people$ | async as people" class="bg-white rounded shadow-md">
+    <ul>
         <li *ngFor="let person of people" class="border-t first:border-t-0 py-4">
             <div class="flex items-center">
                 <div class="photo">
@@ -18,7 +18,7 @@
                         </a>
                         <a [routerLink]="[person.id, 'items']" class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded inline-flex items-center">
                             <svg class="fill-current h-4 inline-block mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M1 4h2v2H1V4zm4 0h14v2H5V4zM1 9h2v2H1V9zm4 0h14v2H5V9zm-4 5h2v2H1v-2zm4 0h14v2H5v-2z"/></svg>
-                            Payables
+                            History
                         </a>
                     </div>
                 </div>

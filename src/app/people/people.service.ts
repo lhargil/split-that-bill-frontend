@@ -15,6 +15,10 @@ export class PeopleService {
     return this.httpClient.get<Person[]>(this.peopleApi);
   }
 
+  getPerson(id: number): Observable<Person> {
+    return this.httpClient.get<Person>(`${this.peopleApi}/${id}`);
+  }
+
   getPersonBillItems(id: number): Observable<PersonBillItems> {
     return this.httpClient.get<PersonBillItems>(`${this.peopleApi}/${id}/items`);
   }

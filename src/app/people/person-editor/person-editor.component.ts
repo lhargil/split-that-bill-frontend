@@ -22,9 +22,9 @@ export class PersonEditorComponent implements OnInit {
       const id = +params.get('id');
 
       if (0 < id) {
-        this.peeopleService.getPersonBillItems(id)
+        this.peeopleService.getPerson(id)
           .subscribe(person => {
-            this.currentPerson = person.person;
+            this.currentPerson = person;
             this.personForm = this.fb.group({
               lastname: [this.currentPerson.lastname, [Validators.required, Validators.minLength(3)]],
               firstname: [this.currentPerson.firstname, [Validators.required, Validators.minLength(3)]]
