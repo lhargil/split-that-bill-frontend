@@ -15,11 +15,12 @@ export class BillsViewComponent implements OnInit {
 
   constructor(private activatedRoute: ActivatedRoute,
     private billsService: BillsService,
+    private billingService: BillingService,
     private router: Router) { }
     
   vm$ = this.activatedRoute.paramMap
     .pipe(
-      switchMap(params => this.billsService.getBill(+params.get('id')))
+      switchMap(params => this.billingService.getBillings(+params.get('id')))
     );
   ngOnInit() {}
 
