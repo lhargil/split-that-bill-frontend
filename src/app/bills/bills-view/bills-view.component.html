@@ -47,7 +47,7 @@
             <h2 class="h2">Friends</h2>
         </header>
         <ul class="p-4">
-            <li *ngFor="let p of vm.bill.participants">
+            <li *ngFor="let p of vm.bill.participants" class="block mb-4">
                 {{p.person.fullname | titlecase }} will pay <strong>{{p.totalPayable.amount | currency: p.totalPayable.currency}}</strong>
             </li>
         </ul>

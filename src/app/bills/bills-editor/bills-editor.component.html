@@ -23,7 +23,7 @@
                 When was this
             </label>
             <div class="flex items-center justify-between md:justify-start">
-                <div class="inline-block relative">
+                <div class="inline-block relative mr-2">
                     <select class="field-select hover:border-gray-500 focus:outline-none focus:shadow-outline" formControlName="billDateYear" (change)="yearChanged($event.target.value)">
                         <option *ngFor="let year of datePickerList.years" [value]="year">{{year}}</option>
                     </select>
@@ -31,7 +31,7 @@
                         <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
                     </div>
                 </div>
-                <div class="inline-block relative">
+                <div class="inline-block relative mr-2">
                     <select class="field-select hover:border-gray-500 focus:outline-none focus:shadow-outline" formControlName="billDateMonth" (change)="monthChanged($event.target.value)">
                         <option *ngFor="let month of datePickerList.months; let i = index;" [value]="i + 1">{{month}}</option>
                     </select>
@@ -62,7 +62,7 @@
             <div formArrayName="participants" *ngFor="let participant of participants.controls; let i = index;">
                 <label [formGroupName]="i" class="block mb-4">
                     <input type="checkbox" formControlName="selected" />
-                    {{participant.get('fullname').value}}
+                    {{participant.get('fullname').value | titlecase}}
                 </label>
             </div>
         </div>
@@ -169,7 +169,7 @@
                 <svg class="fill-current w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M0 10a10 10 0 1 1 20 0 10 10 0 0 1-20 0zm16.32-4.9L5.09 16.31A8 8 0 0 0 16.32 5.09zm-1.41-1.42A8 8 0 0 0 3.68 14.91L14.91 3.68z"/></svg>
                 Cancel
             </button>
-            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded inline-flex items-center mr-2" type="submit" [disabled]="personForm.invalid">
+            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded inline-flex items-center" type="submit" [disabled]="billForm.invalid">
                 <svg class="fill-current h-4 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M0 11l2-2 5 5L18 3l2 2L7 18z"/></svg>
                 Save
             </button>

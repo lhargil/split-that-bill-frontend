@@ -138,7 +138,7 @@ export class BillsEditorComponent implements OnInit {
 
     const monthsInAYear = 12;
     for( var i = 0; i < monthsInAYear; i++ ){
-      datePickerListToReturn.months[i] = new Date(0,i).toLocaleString('en-US',{month:'long'});
+      datePickerListToReturn.months.push(new Date(2019, i, 1).toLocaleString('en-US',{month:'long'}));
       // you can also pass a local like : "en-US" instead of an empty object `{}`.
       // an empty object triggers the system's auto-detection
     }

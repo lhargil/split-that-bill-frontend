@@ -1,42 +1,57 @@
 <div *ngIf="vm$ | async as vm">
-    <h2>My bank accounts</h2> &nbsp; <button (click)="addBankAccount(vm)">Add new</button>
-    <br>
-    <br>
-    <form [formGroup]="vm.form" (ngSubmit)="onSubmit(vm)">
-        <div formArrayName="paymentDetails" *ngFor="let pd of vm.paymentDetails.controls; let i = index;">
-            <div [formGroupName]="i">
-                <div>
-                    Bank name
-                    <input type="text" formControlName="bankName" placeholder="Bank name" />
-                    <div class="invalid-feedback" *ngIf="pd.get('bankName').invalid && (pd.get('bankName').dirty || pd.get('bankName').touched)">
-                        <div *ngIf="pd.get('bankName').errors.required">
-                            Bank name is required.
+    <div class="flex items-center border-b-2">
+        <h1 class="h1 mb-8 mr-4">My bank accounts</h1>
+    </div>
+    <div class="rounded shadow-md bg-white p-4">
+        <form [formGroup]="vm.form" (ngSubmit)="onSubmit(vm)">
+            <div formArrayName="paymentDetails" *ngFor="let pd of vm.paymentDetails.controls; let i = index;">
+                <div [formGroupName]="i" class="mb-8">
+                    <div class="field-container">
+                        <label class="field-label">
+                            Bank name
+                        </label>
+                        <input class="field-input-text focus:outline-none focus:shadow-outline" type="text" formControlName="bankName" placeholder="Bank name" />
+                        <div class="field-error" *ngIf="pd.get('bankName').invalid && (pd.get('bankName').dirty || pd.get('bankName').touched)">
+                            <div *ngIf="pd.get('bankName').errors.required">
+                                Bank name is required.
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div>
-                    Account number
-                    <input type="text" formControlName="accountNumber" placeholder="Account number" />
-                    <div class="invalid-feedback" *ngIf="pd.get('accountNumber').invalid && (pd.get('accountNumber').dirty || pd.get('accountNumber').touched)">
-                        <div *ngIf="pd.get('accountNumber').errors.required">
-                            Account number is required.
+                    <div class="field-container">
+                        <label class="field-label">
+                            Account number
+                        </label>
+                        <input class="field-input-text focus:outline-none focus:shadow-outline" type="text" formControlName="accountNumber" placeholder="Account number" />
+                        <div class="field-error" *ngIf="pd.get('accountNumber').invalid && (pd.get('accountNumber').dirty || pd.get('accountNumber').touched)">
+                            <div *ngIf="pd.get('accountNumber').errors.required">
+                                Account number is required.
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div>
-                    Account name
-                    <input type="text" formControlName="accountName" placeholder="Account name" />
-                    <div class="invalid-feedback" *ngIf="pd.get('accountName').invalid && (pd.get('accountName').dirty || pd.get('accountName').touched)">
-                        <div *ngIf="pd.get('accountName').errors.required">
-                            Account name is required.
+                    <div class="field-container">
+                        <label class="field-label">
+                            Account name
+                        </label>
+                        <input class="field-input-text focus:outline-none focus:shadow-outline" type="text" formControlName="accountName" placeholder="Account name" />
+                        <div class="field-error" *ngIf="pd.get('accountName').invalid && (pd.get('accountName').dirty || pd.get('accountName').touched)">
+                            <div *ngIf="pd.get('accountName').errors.required">
+                                Account name is required.
+                            </div>
                         </div>
                     </div>
+                    <div class="flex items-center justify-start">
+                        <button class="bg-transparent text-green-700 font-semibold hover:text-white py-2 px-4 hover:bg-green-500 hover:border-transparent rounded inline-flex items-center justify-center" type="button" (click)="addBankAccount(vm)">
+                            <svg class="fill-current h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M11 9V5H9v4H5v2h4v4h2v-4h4V9h-4zm-1 11a10 10 0 1 1 0-20 10 10 0 0 1 0 20z"/></svg>
+                        </button>
+                        <button class="text-red-700 font-bold py-2 px-4 rounded inline-flex items-center justify-center hover:bg-red-500 hover:text-white" type="button" (click)="onDelete(vm, i)">
+                            <svg class="fill-current h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M6 2l2-2h4l2 2h4v2H2V2h4zM3 6h14l-1 14H4L3 6zm5 2v10h1V8H8zm3 0v10h1V8h-1z"/></svg> 
+                        </button>
+                    </div>
                 </div>
-                <button type="button" (click)="onDelete(vm, i)">Delete</button>
-                <br>
             </div>
-        </div>
-        <br><br>
-        <button type="submit" [disabled]="vm.form.invalid">Save</button>
-    </form>
+            <div class="flex items-center justify-end">
+                <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded inline-flex items-center" type="submit" [disabled]="vm.form.invalid">Save</button>
+            </div>
+        </form>
+    </div>
 </div>
