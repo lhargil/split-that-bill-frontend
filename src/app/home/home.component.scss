@@ -5,7 +5,7 @@
 		rgba(0, 0, 0, 0.6)
 	  ), url('../../assets/images/cheers.jpg');
 	height: 600px;
-	min-height: 100vh;
+    min-height: 100vh - 15vh;
 }
 
 .transparent {
@@ -32,8 +32,4 @@
 	/* Firefox 0.9+, Safari 2?, Chrome any?
 	/* Opera 9+, IE 9+ */
 	opacity: 0.75;
-}
-
-#features {
-    min-height: 600px;
 }

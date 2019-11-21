@@ -1,19 +1,19 @@
 <div
-    id="hero"
-    class="mt-20 bg-cover bg-local bg-no-repeat bg-top w-full flex items-center justify-center"
-  >
-    <h1 class="h1 text-3xl md:text-6xl text-white mb-48 font-bold">We eatin'</h1>
-    <h1 class="h1 text-3xl md:text-6xl text-white mb-32 font-bold text-teal-400"> / We split 'em</h1>
-  </div>
-  <div class="bg-white">
-    <section id="features" class="flex flex-col justify-center p-8">
-      <div class="text-center mb-16">
+id="hero"
+class="mt-20 bg-cover bg-local bg-no-repeat bg-top w-full flex items-center justify-center"
+>
+<h1 class="h1 text-3xl md:text-6xl text-white mb-40 font-bold">We eatin'</h1>
+<h1 class="h1 text-3xl md:text-6xl text-white mb-32 font-bold text-teal-400"> / We split 'em</h1>
+</div>
+<section id="features" class="py-12 md:py-16 px-4 md:px-16 bg-white">
+  <div class="flex flex-col items-center justify-center max-w-6xl mx-auto">
+    <div class="text-center mb-16">
         <h1 class="h1 text-4xl font-bold">
           Split that bill
         </h1>
         <p class="italic">like it ain't no thang</p>
       </div>
-      <div class="flex items-start justify-center flex-col md:flex-row mx-auto" style="max-width: 1800px;">
+      <div class="flex items-start justify-center flex-col md:flex-row mx-auto">
         <div class="flex-1 p-4 m-4">
           <header class="flex flex-col items-center mb-4">
             <svg
@@ -56,26 +56,28 @@
           </p>
         </div>
       </div>
-    </section>
-    <section id="about" class="py-12 md:py-16 px-4 md:px-16 bg-teal-900">
-      <div class="flex flex-col-reverse items-center justify-center p-8 mx-auto md:flex-row" style="max-width: 1800px;">
-        <div class="flex-1 py-4 md:px-8">
-          <h2 class="h2 mb-4 leading-tight text-4xl font-bold text-gray-500">
-            Splitting bills has never been this easy.
-          </h2>
-          <p class="text-gray-200 mb-16">
-            Time is better spent with friends rather than lurking in a corner busily calculating bills when you don't have to.
-          </p>
-          <a [routerLink]="['bills', 0, 'edit']" class="bg-teal-500 hover:bg-teal-400 text-white font-bold py-2 px-4 border-b-4 border-teal-700 hover:border-teal-500 rounded">Get started</a>
-        </div>
-        <div class="flex-1 py-4 md:px-8">
-          <div class="rounded shadow-md overflow-hidden">
-            <img src="../../assets/images/men-and-women.jpg" alt="">
-          </div>
-        </div>
-      </div>
-    </section>
-    <footer class="p-4 text-black text-center">
-      Copyright © 2019 | <a href="https://tensileform.com">TensileForm</a> | All Rights Reserved
-    </footer>
   </div>
+</section>
+<section id="about" class="py-12 md:py-16 px-4 md:px-16 bg-teal-900">
+  <div class="flex flex-col-reverse items-center justify-center p-8 mx-auto max-w-6xl md:flex-row">
+    <div class="flex-1 py-4 md:px-8">
+      <h2 class="h2 mb-4 leading-tight text-4xl font-bold text-gray-500">
+        Splitting bills has never been this easy.
+      </h2>
+      <p class="text-gray-200 mb-16">
+        Time is better spent with friends rather than lurking in a corner busily calculating bills when you don't have to.
+      </p>
+      <a [routerLink]="['bills', 0, 'edit']" class="bg-teal-500 hover:bg-teal-400 text-white font-bold py-2 px-4 border-b-4 border-teal-700 hover:border-teal-500 rounded">Get started</a>
+    </div>
+    <div class="flex-1 py-4 md:px-8">
+      <div class="rounded shadow-md overflow-hidden">
+        <img src="../../assets/images/men-and-women.jpg" alt="">
+      </div>
+    </div>
+  </div>
+</section>
+<footer class="bg-white">
+  <div class="p-4 text-black text-center">
+    Copyright © 2019 | <a href="https://tensileform.com">TensileForm</a> | All Rights Reserved
+  </div>
+</footer>
