@@ -1,4 +1,4 @@
-<header class="mx-auto h-20 bg-white fixed top-0 inset-x-0 z-100 text-white bg-gray-800 flex items-center justify-between px-4 z-10">
+<header class="mx-auto h-20 bg-white fixed top-0 inset-x-0 z-100 text-gray-800 flex items-center justify-between px-4 z-10 shadow">
   <a routerLink="/">
     <svg class="h-8 w-auto inline-block" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns="http://www.w3.org/2000/svg" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:svg="http://www.w3.org/2000/svg" id="svg2" xml:space="preserve" viewBox="0 0 128 128" version="1.0">
       <g id="g11" stroke="#000" transform="matrix(1.25 0 0 -1.25 -538.6 808.93)">
@@ -11,12 +11,9 @@
     </svg>
     Split that bill
   </a>
+  <a [routerLink]="['bills', 0, 'edit']" class="block bg-teal-500 hover:bg-teal-400 text-white font-bold py-2 px-4 border-b-4 border-teal-700 hover:border-teal-500 rounded">Get started</a>
 </header>
-<main class="w-full max-w-screen-xl mx-auto px-6 pb-20">
-  <div id="content-wrapper" class="min-h-screen w-full lg:static lg:max-h-full lg:overflow-visible lg:w-3/4 xl:w-4/5 mx-auto">
-    <div id="content" class="pt-24 pb-16 lg:pt-28 w-full">
-      <router-outlet></router-outlet>
-    </div>
-  </div>
+<main class="w-full max-w-screen-xl mx-auto pb-24 md:pb-32">
+    <router-outlet></router-outlet>
 </main>
 <app-footer></app-footer>
