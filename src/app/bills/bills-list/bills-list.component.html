@@ -1,31 +1,84 @@
-<div class="flex items-center border-b-2">
+<div class="container inner">
+  <div class="flex items-center border-b-2 xxs:px-4">
     <h1 class="h1 mb-8 mr-4">My bills</h1>
-    <a [routerLink]="[0, 'edit']" class="inline-block mb-8 bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded">Add new</a>
-</div>
-<div class="rounded shadow-md bg-white" *ngIf="bills$ | async as bills">
+    <a
+      [routerLink]="[0, 'edit']"
+      class="inline-block mb-8 bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded"
+      >Add new</a
+    >
+  </div>
+  <div class="rounded shadow-md bg-white" *ngIf="bills$ | async as bills">
     <ul>
-        <li *ngFor="let bill of bills" class="border-t first:border-t-0">
-            <div class="p-4">
-                <p class="text-sm text-gray-600 flex items-center">
-                    <svg class="fill-current text-gray-500 w-3 h-3 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M1 4c0-1.1.9-2 2-2h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V4zm2 2v12h14V6H3zm2-6h2v2H5V0zm8 0h2v2h-2V0zM5 9h2v2H5V9zm0 4h2v2H5v-2zm4-4h2v2H9V9zm0 4h2v2H9v-2zm4-4h2v2h-2V9zm0 4h2v2h-2v-2z"/></svg>
-                    {{bill.billDate}}
-                </p>
-                <div class="text-gray-900 font-bold text-xl mb-8">{{bill.establishmentName}}</div>
-                <div class="toolbar flex items-center justify-between md:justify-start">
-                    <a [routerLink]="['/bills', bill.id, 'edit']" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded inline-flex items-center md:mr-2">
-                        <svg class="fill-current h-4 inline-block mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M12.3 3.7l4 4L4 20H0v-4L12.3 3.7zm1.4-1.4L16 0l4 4-2.3 2.3-4-4z"/></svg>
-                        Edit
-                    </a>
-                    <a [routerLink]="['/bills', bill.id, 'receipt']" class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded inline-flex items-center md:mr-2">
-                        <svg class="fill-current h-4 inline-block mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M1 4h2v2H1V4zm4 0h14v2H5V4zM1 9h2v2H1V9zm4 0h14v2H5V9zm-4 5h2v2H1v-2zm4 0h14v2H5v-2z"/></svg>
-                        Receipt
-                    </a>
-                    <a [routerLink]="['/billing', bill.id, 'pay']" class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded inline-flex items-center">
-                        <svg class="fill-current h-4 inline-block mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M0 10V2l2-2h8l10 10-10 10L0 10zm4.5-4a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z"/></svg>
-                        Assign
-                    </a>
-                </div>
-            </div>
-        </li>
+      <li *ngFor="let bill of bills" class="border-t first:border-t-0">
+        <div class="p-4">
+          <p class="text-sm text-gray-600 flex items-center">
+            <svg
+              class="fill-current text-gray-500 w-3 h-3 mr-2"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 20 20"
+            >
+              <path
+                d="M1 4c0-1.1.9-2 2-2h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V4zm2 2v12h14V6H3zm2-6h2v2H5V0zm8 0h2v2h-2V0zM5 9h2v2H5V9zm0 4h2v2H5v-2zm4-4h2v2H9V9zm0 4h2v2H9v-2zm4-4h2v2h-2V9zm0 4h2v2h-2v-2z"
+              />
+            </svg>
+            {{ bill.billDate }}
+          </p>
+          <div class="text-gray-900 font-bold text-xl mb-8">
+            {{ bill.establishmentName }}
+          </div>
+          <div
+            class="toolbar flex items-center justify-start"
+          >
+            <a
+              [routerLink]="['/bills', bill.id, 'edit']"
+              class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded inline-flex items-center mr-2"
+            >
+              <svg
+                class="fill-current h-4 inline-block"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20"
+              >
+                <path
+                  d="M12.3 3.7l4 4L4 20H0v-4L12.3 3.7zm1.4-1.4L16 0l4 4-2.3 2.3-4-4z"
+                />
+              </svg>
+              <span class="hidden md:inline md:ml-2">Edit</span>
+            </a>
+            <a
+              [routerLink]="['/bills', bill.id, 'receipt']"
+              class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded inline-flex items-center mr-2"
+            >
+              <svg
+                class="fill-current h-4 inline-block"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20"
+              >
+                <path
+                  d="M1 4h2v2H1V4zm4 0h14v2H5V4zM1 9h2v2H1V9zm4 0h14v2H5V9zm-4 5h2v2H1v-2zm4 0h14v2H5v-2z"
+                />
+              </svg>
+              <span class="hidden md:inline md:ml-2">Receipt</span>
+            </a>
+            <a
+              [routerLink]="['/billing', bill.id, 'pay']"
+              class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded inline-flex items-center"
+            >
+              <svg
+                class="fill-current h-4 inline-block"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20"
+              >
+                <path
+                  d="M0 10V2l2-2h8l10 10-10 10L0 10zm4.5-4a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z"
+                />
+              </svg>
+              <span class="hidden md:inline md:ml-2">
+                    Assign
+              </span>
+            </a>
+          </div>
+        </div>
+      </li>
     </ul>
+  </div>
 </div>

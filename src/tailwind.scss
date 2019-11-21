@@ -10,7 +10,7 @@ h3 {
 }
 @tailwind components;
 .inner {
-    @apply mt-32 mx-auto p-4;
+    @apply mt-32 mx-auto;
 }
 .field-container {
     @apply mb-8;
@@ -35,5 +35,9 @@ h3 {
 }
 .icon-md {
     @apply h-8;
+}
+.abs-v-middle {
+    @apply top-1/2;
+    transform: translateY(-50%);
 }
 @tailwind utilities;

@@ -1,6 +1,14 @@
 module.exports = {
   theme: {
-    extend: {}
+    extend: {
+      inset: {
+        '1/2': '50%',
+      },
+      screens: {
+        'xxs': '325px',
+        'xs': '375px'
+      }
+    },
   },
   variants: {
     borderWidth: ['responsive', 'first', 'last', 'odd', 'even', 'hover', 'focus'],
