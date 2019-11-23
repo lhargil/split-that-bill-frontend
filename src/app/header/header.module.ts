@@ -5,6 +5,7 @@ import { NavComponent } from './nav/nav.component';
 import { SharedModule } from '../shared/shared.module';
 import { AppRoutingModule } from '../app-routing.module';
 import { FloatieNavComponent } from './floatie-nav/floatie-nav.component';
+import { MenuComponent } from './menu/menu.component';
 
 
 
@@ -12,7 +13,8 @@ import { FloatieNavComponent } from './floatie-nav/floatie-nav.component';
   declarations: [
     HeaderComponent,
     NavComponent,
-    FloatieNavComponent
+    FloatieNavComponent,
+    MenuComponent
   ],
   imports: [
     SharedModule,
