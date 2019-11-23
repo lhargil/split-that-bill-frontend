@@ -6,25 +6,48 @@ import {
   ElementRef,
   ViewChild,
   Renderer2,
-  AfterViewInit
+  AfterViewInit,
+  OnDestroy
 } from "@angular/core";
+import { fromEvent, ReplaySubject } from 'rxjs';
+import { takeUntil, map } from 'rxjs/operators';
 
 @Component({
   selector: "app-floatie-nav",
   templateUrl: "./floatie-nav.component.html",
   styleUrls: ["./floatie-nav.component.scss"]
 })
-export class FloatieNavComponent implements OnInit, AfterViewInit {
+export class FloatieNavComponent implements OnInit, OnDestroy, AfterViewInit {
   @Output() showMenu: EventEmitter<boolean>;
   @ViewChild("floatieNav", { static: false }) floatieNav: ElementRef;
   @ViewChild('floatieBg', {static: false}) floatieBg: ElementRef;
+
+  private destroy$ = new ReplaySubject(0);
+  clickOut$ = fromEvent(window, 'click')
+    .pipe(
+      takeUntil(this.destroy$),
+      map(ev => ev)
+    )
 
   constructor(private renderer2: Renderer2) {
     this.showMenu = new EventEmitter();
   }
 
   ngOnInit() {
+    setTimeout(() => {
+      this.clickOut$
+      .subscribe(ev => {
+        const clickedInside = this.floatieNav.nativeElement.contains(ev.target);
+        if (!clickedInside) {
+          this.hide();
+        }
+      });  
+    });
+  }
 
+  ngOnDestroy() {
+    this.destroy$.next(true);
+    this.destroy$.complete();
   }
 
   ngAfterViewInit() {

@@ -22,11 +22,6 @@ export class AccountsComponent implements OnInit {
     .pipe(
       map(pd => {
         const form = this.createForm(pd);
-        console.log({
-          form,
-          paymentDetailsList: pd,
-          paymentDetails: form.get('paymentDetails') as FormArray
-        });
         return {
           form,
           paymentDetailsList: pd,
