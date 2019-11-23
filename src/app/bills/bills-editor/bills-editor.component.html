@@ -2,8 +2,8 @@
         <div class="mb-8 px-4 sm:px-0">
                 <h1 class="h1">Enter your bill details</h1>
             </div>
-            <div class="shadow-md rounded bg-white p-4">
-                <form *ngIf="billForm" [formGroup]="billForm" (ngSubmit)="onSubmit(billForm)">
+            <div class="shadow-md rounded bg-white px-4 py-8">
+                <form *ngIf="billForm" [formGroup]="billForm" (ngSubmit)="onSubmit(billForm)" class="md:w-3/4 md:mx-auto">
                     <div class="field-container">
                         <label class="field-label">
                             Place name

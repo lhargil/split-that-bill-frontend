@@ -4,8 +4,8 @@
                 What is your friend's name?
             </h1>
         </div>
-        <div class="mb-8 shadow-md rounded bg-white p-4">
-            <form *ngIf="personForm" [formGroup]="personForm" (ngSubmit)="onSubmit()">
+        <div class="mb-8 shadow-md rounded bg-white px-4 py-8">
+            <form *ngIf="personForm" [formGroup]="personForm" (ngSubmit)="onSubmit()" class="md:w-1/2 md:mx-auto">
                 <div>
                     <label class="field-label">
                         First name
