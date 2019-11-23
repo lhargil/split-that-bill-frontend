@@ -36,8 +36,22 @@ h3 {
 .icon-md {
     @apply h-8;
 }
+@tailwind utilities;
 .abs-v-middle {
     @apply top-1/2;
     transform: translateY(-50%);
 }
-@tailwind utilities;
+.floatie-on {
+    @apply max-w-sm w-full right-0;
+    transform: translateX(0);
+    transition: 200ms ease-in-out;
+}
+.floatie-off {
+    @apply max-w-sm w-full;
+    right: -100%;
+    transform: translateX(100%);
+    transition: 200ms ease-in-out;
+}
+.floatie-bg {
+    @apply fixed inset-0 bg-gray-800 opacity-75 z-20;
+}

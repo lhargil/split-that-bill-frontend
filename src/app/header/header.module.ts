@@ -4,13 +4,15 @@ import { HeaderComponent } from './header.component';
 import { NavComponent } from './nav/nav.component';
 import { SharedModule } from '../shared/shared.module';
 import { AppRoutingModule } from '../app-routing.module';
+import { FloatieNavComponent } from './floatie-nav/floatie-nav.component';
 
 
 
 @NgModule({
   declarations: [
     HeaderComponent,
-    NavComponent
+    NavComponent,
+    FloatieNavComponent
   ],
   imports: [
     SharedModule,
