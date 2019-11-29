@@ -65,6 +65,22 @@
                   "maximumError": "10kb"
                 }
               ]
+            },
+            "local": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.local.ts"
+                }
+              ]
+            },
+            "dev": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.dev.ts"
+                }
+              ]
             }
           }
         },
@@ -79,6 +95,12 @@
           "configurations": {
             "production": {
               "browserTarget": "splitthatbill:build:production"
+            },
+            "local": {
+              "browserTarget": "splitthatbill:build:local"
+            },
+            "dev": {
+              "browserTarget": "splitthatbill:build:dev"
             }
           }
         },

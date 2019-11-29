@@ -3,8 +3,11 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve -o",
+    "start": "ng serve --configuration=dev -o",
+    "start:local": "ng serve -o --configuration=local",
     "build": "ng build",
+    "build:local": "ng build --configuration=local",
+    "build:dev": "ng build --configuration=dev",
     "build:prod": "ng build --prod",
     "test": "ng test",
     "coverage": "ng test --code-coverage --watch=false",
