@@ -24,6 +24,12 @@ steps:
 - script: |
     npm run build:prod
   displayName: 'build production'
+- task: CopyFiles@2
+  inputs:
+    Contents: '**'
+    TargetFolder: '$(build.artifactsstagingdirectory)'
+    CleanTargetFolder: true
+    OverWrite: true
 - task: PublishBuildArtifacts@1
   inputs:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
