@@ -26,9 +26,9 @@ steps:
   displayName: 'build production'
 - task: CopyFiles@2
   inputs:
-    SourceFolder: $(Build.ArtifactStagingDirectory)/dist
+    SourceFolder: $(Build.SourcesDirectory)/dist
     Contents: '**'
-    TargetFolder: '$(Build.artifactsstagingdirectory)/published_client'
+    TargetFolder: '$(Build.ArtifactStagingDirectory)/published_client'
     CleanTargetFolder: true
     OverWrite: true
 - task: PublishBuildArtifacts@1
