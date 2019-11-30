@@ -21,7 +21,10 @@ import { MenuComponent } from './menu/menu.component';
     AppRoutingModule
   ],
   exports: [
-    HeaderComponent
+    HeaderComponent,
+    NavComponent,
+    FloatieNavComponent,
+    MenuComponent
   ]
 })
 export class HeaderModule { }
