@@ -22,10 +22,17 @@ steps:
     npm run coverage
   displayName: 'run coverage'
 - script: |
-    npm run build:prod
+    npm run build:$(buildConfig)
   displayName: 'build production'
+- task: CopyFiles@2
+  inputs:
+    SourceFolder: $(Build.SourcesDirectory)/dist/splitthatbill
+    Contents: '**'
+    TargetFolder: '$(Build.ArtifactStagingDirectory)/published_client'
+    CleanTargetFolder: true
+    OverWrite: true
 - task: PublishBuildArtifacts@1
   inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)/published_client'
     ArtifactName: 'drop'
     publishLocation: 'Container'
