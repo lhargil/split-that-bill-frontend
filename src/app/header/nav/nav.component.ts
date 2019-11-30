@@ -31,6 +31,7 @@ export class NavComponent implements OnInit, OnDestroy, AfterViewInit {
   );
 
   visible = false;
+  isHome = false;
 
   constructor(private renderer2: Renderer2, private router: Router) {}
 
@@ -54,7 +55,8 @@ export class NavComponent implements OnInit, OnDestroy, AfterViewInit {
       .subscribe(ev => {
         if (ev instanceof NavigationEnd) {
           const activeUrl = (ev as NavigationEnd).url;
-          if (activeUrl == "/home" || activeUrl == "/") {
+          this.isHome = activeUrl == "/home" || activeUrl == "/";
+          if (this.isHome) {
             this.shadowOff();
           } else {
             this.shadowOn();
@@ -68,7 +70,10 @@ export class NavComponent implements OnInit, OnDestroy, AfterViewInit {
   onScroll() {
     const scrollY = window.scrollY || window.pageYOffset;
 
-    if (scrollY > 0) {
+    if (!this.isHome) {
+      this.shadowOn();
+    }
+    else if (scrollY > 0) {
       this.shadowOn();
     } else {
       this.shadowOff();
