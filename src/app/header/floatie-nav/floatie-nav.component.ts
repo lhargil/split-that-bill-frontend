@@ -22,12 +22,17 @@ export class FloatieNavComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild("floatieNav", { static: false }) floatieNav: ElementRef;
   @ViewChild('floatieBg', {static: false}) floatieBg: ElementRef;
 
-  private destroy$ = new ReplaySubject(0);
+  private isDestroyed$ = new ReplaySubject(0);
   clickOut$ = fromEvent(window, 'click')
     .pipe(
-      takeUntil(this.destroy$),
+      takeUntil(this.isDestroyed$),
       map(ev => ev)
-    )
+    );
+  resize$ = fromEvent(window, 'resize')
+      .pipe(
+        takeUntil(this.isDestroyed$),
+        map(ev => ev)
+      );
 
   constructor(private renderer2: Renderer2) {
     this.showMenu = new EventEmitter();
@@ -46,11 +51,18 @@ export class FloatieNavComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngOnDestroy() {
-    this.destroy$.next(true);
-    this.destroy$.complete();
+    this.isDestroyed$.next(true);
+    this.isDestroyed$.complete();
   }
 
   ngAfterViewInit() {
+    this.resize$
+      .subscribe(() => this.hide());
+
+    this.show();
+  }
+
+  show() {
     setTimeout(() => {
       this.renderer2.removeClass(this.floatieNav.nativeElement, "floatie-off");
       this.renderer2.addClass(this.floatieNav.nativeElement, "floatie-on");
