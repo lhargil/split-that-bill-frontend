@@ -75,6 +75,14 @@
                 }
               ]
             },
+            "localdev": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.localdev.ts"
+                }
+              ]
+            },
             "dev": {
               "fileReplacements": [
                 {
@@ -120,6 +128,9 @@
             },
             "local": {
               "browserTarget": "splitthatbill:build:local"
+            },
+            "localdev": {
+              "browserTarget": "splitthatbill:build:localdev"
             },
             "dev": {
               "browserTarget": "splitthatbill:build:dev"
