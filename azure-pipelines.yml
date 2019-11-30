@@ -22,7 +22,7 @@ steps:
     npm run coverage
   displayName: 'run coverage'
 - script: |
-    npm run build:prod
+    npm run build:$(buildConfig)
   displayName: 'build production'
 - task: CopyFiles@2
   inputs:
