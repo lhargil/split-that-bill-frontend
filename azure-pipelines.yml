@@ -26,7 +26,7 @@ steps:
   displayName: 'build production'
 - task: CopyFiles@2
   inputs:
-    SourceFolder: $(Build.SourcesDirectory)/dist
+    SourceFolder: $(Build.SourcesDirectory)/dist/splitthatbill
     Contents: '**'
     TargetFolder: '$(Build.ArtifactStagingDirectory)/published_client'
     CleanTargetFolder: true
