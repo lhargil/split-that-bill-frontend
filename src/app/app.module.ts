@@ -12,6 +12,8 @@ import { FooterComponent } from './footer/footer.component';
 import { HomeModule } from './home/home.module';
 import { HeaderModule } from './header/header.module';
 import { FooterModule } from './footer/footer.module';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { LoadingInterceptor } from './shared/loader/loading-interceptor';
 
 @NgModule({
   declarations: [
@@ -27,7 +29,9 @@ import { FooterModule } from './footer/footer.module';
     HeaderModule,
     FooterModule
   ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
