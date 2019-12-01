@@ -24,13 +24,14 @@ steps:
 - script: |
     npm run build:$(buildConfig)
   displayName: 'build production'
-- task: CopyFiles@2
+- task: ArchiveFiles@2
   inputs:
-    SourceFolder: $(Build.SourcesDirectory)/dist/splitthatbill
-    Contents: '**'
-    TargetFolder: '$(Build.ArtifactStagingDirectory)/published_client'
-    CleanTargetFolder: true
-    OverWrite: true
+    rootFolderOrFile: '$(Build.SourcesDirectory)/dist/splitthatbill'
+    includeRootFolder: true
+    archiveType: 'zip'
+    archiveFile: '$(Build.ArtifactStagingDirectory)/published_client/$(Build.BuildId).zip'
+    replaceExistingArchive: true
+    verbose: true
 - task: PublishBuildArtifacts@1
   inputs:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)/published_client'
