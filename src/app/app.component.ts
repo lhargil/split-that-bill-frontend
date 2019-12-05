@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Router, NavigationStart } from '@angular/router';
+import { Router, NavigationStart, RouteConfigLoadStart, RouteConfigLoadEnd, NavigationEnd, NavigationCancel } from '@angular/router';
 import { tap, takeUntil } from 'rxjs/operators';
 import { LoaderService } from './shared/loader/loader.service';
 import { ReplaySubject } from 'rxjs';
@@ -20,9 +20,9 @@ export class AppComponent implements OnInit, OnDestroy {
       .pipe(
         takeUntil(this.destroyed$),
         tap(ev => {
-          if (ev instanceof NavigationStart) {
+          if (ev instanceof RouteConfigLoadStart || ev instanceof NavigationStart) {
             this.loaderService.show();
-          } else {
+          } else if (ev instanceof RouteConfigLoadEnd || ev instanceof NavigationEnd || ev instanceof NavigationCancel) {
             this.loaderService.hide();
           }
         })
