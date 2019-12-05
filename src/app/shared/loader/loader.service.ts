@@ -5,12 +5,19 @@ import { Subject } from 'rxjs';
   providedIn: 'root'
 })
 export class LoaderService {
+  private loadingCollection = [];
   isLoading = new Subject<boolean>();
   show() {
-      this.isLoading.next(true);
+    this.loadingCollection.push(1);
+    this.somethingIsLoading();
   }
   hide() {
-      this.isLoading.next(false);
+    this.loadingCollection.pop();
+    this.somethingIsLoading();
   }
-  constructor() { }
+  private somethingIsLoading() {
+    console.log(this.loadingCollection.length);
+    this.isLoading.next(this.loadingCollection && this.loadingCollection.length > 0);
+  }
+  constructor() {}
 }

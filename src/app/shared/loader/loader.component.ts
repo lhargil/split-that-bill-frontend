@@ -8,7 +8,7 @@ import { LoaderService } from './loader.service';
   styleUrls: ['./loader.component.scss']
 })
 export class LoaderComponent implements OnInit {
-  isLoading: Subject<boolean> = this.loaderService.isLoading;
+  isLoading = this.loaderService.isLoading;
 
   constructor(private loaderService: LoaderService) { }
 
