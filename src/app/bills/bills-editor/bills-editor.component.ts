@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ɵCompiler_compileModuleAndAllComponentsSync__POST_R3__ } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators, FormArray, Form } from '@angular/forms';
 import { BillsService } from '../bills.service';
-import { BillDto, ExtraChargeDto, BillItemDto, BillParticipant } from '../bills';
+import { BillDto, ExtraChargeDto, BillItemDto, BillParticipant, Money } from '../bills';
 import { GenericValidator } from '../../shared/generic-validator';
 import { debounceTime, tap, catchError, switchMap, map } from 'rxjs/operators';
 import { EMPTY, throwError, combineLatest, of } from 'rxjs';
@@ -233,6 +233,9 @@ export class BillsEditorComponent implements OnInit {
 
   removeBillItem(index: number) {
     this.billItems.removeAt(index);
+    if (this.billItems.value.length <= 0) {
+      this.addBillItem();
+    }
   }
 
   addExtraCharge() {
@@ -241,6 +244,9 @@ export class BillsEditorComponent implements OnInit {
 
   removeExtraCharge(index: number) {
     this.extraCharges.removeAt(index);
+    if (this.extraCharges.value.length <= 0) {
+      this.addExtraCharge();
+    }
   }
 
   removeParticipant(id: number) {
@@ -252,7 +258,7 @@ export class BillsEditorComponent implements OnInit {
       return this.fb.group({
         id: [0],
         description: ['', [Validators.required, Validators.minLength]],
-        amount: ['', [Validators.required, decimalAmountValidator()]],
+        amount: [Number(0).toFixed(2), [Validators.required, decimalAmountValidator()]],
         discount: [null, [decimalAmountValidator(true)]]
       });
     }
@@ -269,7 +275,7 @@ export class BillsEditorComponent implements OnInit {
       return this.fb.group({
         id: [0],
         description: ['', [Validators.required, Validators.minLength]],
-        rate: ['', [Validators.required, decimalAmountValidator()]]
+        rate: [0, [Validators.required, decimalAmountValidator()]]
       });
     }
     return this.fb.group({
@@ -280,14 +286,28 @@ export class BillsEditorComponent implements OnInit {
   }
 
   private getDefaultBill() {
+    const emptyBillItem = {
+      id: 0,
+      description: '',
+      unitPrice: { currency: 'MYR', amount: 0 } as Money,
+      priceWithCharges: { currency: 'MYR', amount: 0 } as Money,
+    };
+    const emptyExtraCharge = {
+      id: 0,
+      description: '',
+      rate: 0
+    };
     return {
       id: 0,
       establishmentName: '',
       billDate: new Date().toUTCString(),
       remarks: '',
-      billItems: [],
-      extraCharges: [],
-      participants: []
+      billItems: [emptyBillItem],
+      extraCharges: [emptyExtraCharge],
+      participants: [],
+      billTotal: 0,
+      billTotalWithoutCharges: 0,
+      totalCharges: 0,
     } as BillDto;
   }
 
