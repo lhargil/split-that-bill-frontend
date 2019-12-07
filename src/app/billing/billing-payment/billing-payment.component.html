@@ -29,12 +29,12 @@
                                     <td class="p-5">1 {{billItem.get('itemDescription').value}}</td>
                                     <td class="text-right">{{billItem.get('amount').value | currency: billItem.get('currency').value }}</td>
                                     <td class="text-right">{{billItem.get('priceWithCharges').value | currency: billItem.get('currency').value }}</td>
-                                    <td class="p-5">
+                                    <td class="p-5 text-center">
                                         <div class="inline-block relative">
                                             <select class="field-select hover:border-gray-500 focus:outline-none focus:shadow-outline" formControlName="assignee" (change)="onChange($event, billItem)">
                                                 <option value="">Assign to</option>
                                                 <option *ngFor="let p of vm.bill.participants" [value]="p.person.id">
-                                                    {{p.person.fullname}}
+                                                    {{p.person.fullname | titlecase}}
                                                 </option>
                                             </select>
                                             <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
