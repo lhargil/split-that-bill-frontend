@@ -8,6 +8,9 @@ trigger: none
 pool:
   vmImage: 'ubuntu-latest'
 
+variables:
+- group: $(VariableGroup)
+
 steps:
 - task: NodeTool@0
   inputs:
@@ -22,7 +25,7 @@ steps:
     npm run coverage
   displayName: 'run coverage'
 - script: |
-    npm run build:$(buildConfig)
+    npm run build:$(BUILD_CONFIG)
   displayName: 'build production'
 - task: ArchiveFiles@2
   inputs:
