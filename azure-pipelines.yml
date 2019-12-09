@@ -9,7 +9,7 @@ pool:
   vmImage: 'ubuntu-latest'
 
 variables:
-- group: $(VariableGroup)
+- group: On Build
 
 steps:
 - task: NodeTool@0
@@ -21,9 +21,9 @@ steps:
     npm install -g @angular/cli
     npm install
   displayName: 'install'
-# - script: |
-#     npm run coverage
-#   displayName: 'run coverage'
+- script: |
+    npm run coverage
+  displayName: 'run coverage'
 - script: |
     npm run build:$(BUILD_CONFIG)
   displayName: 'build production'
