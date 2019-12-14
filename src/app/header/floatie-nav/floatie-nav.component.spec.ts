@@ -10,12 +10,12 @@ describe('FloatieNavComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ FloatieNavComponent, MenuComponent ],
+      declarations: [FloatieNavComponent, MenuComponent],
       imports: [
         RouterTestingModule
       ]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

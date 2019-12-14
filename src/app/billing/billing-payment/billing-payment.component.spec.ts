@@ -26,7 +26,7 @@ describe('BillingPaymentComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ BillingPaymentComponent ],
+      declarations: [BillingPaymentComponent],
       providers: [
         { provide: BillingService, useClass: BillingMockService }
       ],
@@ -37,7 +37,7 @@ describe('BillingPaymentComponent', () => {
         ReactiveFormsModule
       ]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

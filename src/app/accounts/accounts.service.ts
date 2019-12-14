@@ -26,8 +26,8 @@ export class AccountsService {
 
   updatePaymentDetails(id: number, paymentDetailId: number, personPaymentDetail: any) {
     const paymentDetailsApi = `${this.accountsApi.paymentDetails.replace('{0}', String(id))}/${paymentDetailId}`;
-    const headers = new HttpHeaders({'Content-Type': 'application/json'});
-    return this.httpClient.put(paymentDetailsApi, personPaymentDetail, {headers})
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    return this.httpClient.put(paymentDetailsApi, personPaymentDetail, { headers })
       .pipe(
         map(() => 'Payment details updated')
       );
@@ -35,8 +35,8 @@ export class AccountsService {
 
   createPaymentDetails(id: number, personPaymentDetail: any) {
     const paymentDetailsApi = this.accountsApi.paymentDetails.replace('{0}', String(id));
-    const headers = new HttpHeaders({'Content-Type': 'application/json'});
-    return this.httpClient.post(paymentDetailsApi, personPaymentDetail, {headers, observe: 'response'})
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    return this.httpClient.post(paymentDetailsApi, personPaymentDetail, { headers, observe: 'response' })
       .pipe(
         map(response => {
           return {

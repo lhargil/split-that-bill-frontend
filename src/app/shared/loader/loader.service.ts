@@ -18,5 +18,5 @@ export class LoaderService {
   private somethingIsLoading() {
     this.isLoading.next(this.loadingCollection && this.loadingCollection.length > 0);
   }
-  constructor() {}
+  constructor() { }
 }

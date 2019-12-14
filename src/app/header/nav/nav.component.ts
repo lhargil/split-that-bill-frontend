@@ -33,7 +33,7 @@ export class NavComponent implements OnInit, OnDestroy, AfterViewInit {
   visible = false;
   isHome = false;
 
-  constructor(private renderer2: Renderer2, private router: Router) {}
+  constructor(private renderer2: Renderer2, private router: Router) { }
 
   ngOnInit() {
     this.scrolling$.subscribe(() => this.onScroll());

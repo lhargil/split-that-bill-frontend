@@ -12,7 +12,7 @@ describe('BillingListComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ BillingListComponent ],
+      declarations: [BillingListComponent],
       providers: [
         { provide: BillsService, useClass: BillsMockService }
       ],
@@ -20,7 +20,7 @@ describe('BillingListComponent', () => {
         RouterTestingModule
       ]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

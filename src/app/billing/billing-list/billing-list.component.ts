@@ -14,5 +14,5 @@ export class BillingListComponent implements OnInit {
 
   constructor(private billsService: BillsService) { }
   bills$ = this.billsService.getBills();
-  ngOnInit() {}
+  ngOnInit() { }
 }

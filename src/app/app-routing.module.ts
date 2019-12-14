@@ -13,9 +13,9 @@ const routes: Routes = [
   {
     path: '',
     redirectTo: '/home',
-    pathMatch: 'full' 
+    pathMatch: 'full'
   },
-{ path: '**', component: PageNotFoundComponent }];
+  { path: '**', component: PageNotFoundComponent }];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

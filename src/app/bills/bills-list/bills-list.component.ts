@@ -9,7 +9,7 @@ import { tap, map } from 'rxjs/operators';
 })
 export class BillsListComponent implements OnInit {
   constructor(private billsService: BillsService) { }
-  
+
   bills$ = this.billsService.getBills();
 
   ngOnInit() {

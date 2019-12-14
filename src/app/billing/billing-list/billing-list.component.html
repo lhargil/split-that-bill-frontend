@@ -1,14 +1,14 @@
 <ng-container *ngIf="bills$ | async as bills">
-    <h2>Your bills</h2>
-    <div>
-        <ul>
-            <li *ngFor="let bill of bills">
-                <span>
-                    {{bill.establishmentName}} incurred on {{bill.billDate}}
-                    &nbsp;
-                    <a [routerLink]="[bill.id, 'pay']">Assign bill items</a>
-                </span>
-            </li>
-        </ul>
-    </div>
+  <h2>Your bills</h2>
+  <div>
+    <ul>
+      <li *ngFor="let bill of bills">
+        <span>
+          {{bill.establishmentName}} incurred on {{bill.billDate}}
+          &nbsp;
+          <a [routerLink]="[bill.id, 'pay']">Assign bill items</a>
+        </span>
+      </li>
+    </ul>
+  </div>
 </ng-container>

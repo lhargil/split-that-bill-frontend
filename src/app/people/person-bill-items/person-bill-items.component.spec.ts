@@ -11,7 +11,7 @@ describe('PersonBillItemsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ PersonBillItemsComponent ],
+      declarations: [PersonBillItemsComponent],
       providers: [
         { provide: PeopleService, useClass: PeopleMockService }
       ],
@@ -19,7 +19,7 @@ describe('PersonBillItemsComponent', () => {
         RouterTestingModule
       ]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

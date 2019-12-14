@@ -50,7 +50,7 @@ export class AccountsComponent implements OnInit {
     });
   }
 
-  addBankAccount(vm: {form: FormGroup, paymentDetailsList: PaymentDetail[], paymentDetails: FormArray}) {
+  addBankAccount(vm: { form: FormGroup, paymentDetailsList: PaymentDetail[], paymentDetails: FormArray }) {
     vm.paymentDetails.push(this.createBankDetails({
       id: 0,
       bankName: '',
@@ -59,12 +59,12 @@ export class AccountsComponent implements OnInit {
     }));
   }
 
-  patchBankDetails(vm: {form: FormGroup, paymentDetailsList: PaymentDetail[], paymentDetails: FormArray}, paymentDetail: PaymentDetail) {
+  patchBankDetails(vm: { form: FormGroup, paymentDetailsList: PaymentDetail[], paymentDetails: FormArray }, paymentDetail: PaymentDetail) {
     vm.paymentDetailsList = [...vm.paymentDetailsList, paymentDetail];
     vm.paymentDetails.patchValue(vm.paymentDetailsList);
   }
 
-  onDelete(vm: {form: FormGroup, paymentDetailsList: PaymentDetail[], paymentDetails: FormArray}, index: number) {
+  onDelete(vm: { form: FormGroup, paymentDetailsList: PaymentDetail[], paymentDetails: FormArray }, index: number) {
     const paymentDetailsToDelete = vm.paymentDetails.value.find((_, i) => i == index);
     console.log(paymentDetailsToDelete);
     if (paymentDetailsToDelete == null) {
@@ -79,10 +79,10 @@ export class AccountsComponent implements OnInit {
       ).subscribe();
   }
 
-  onSubmit(vm: {form: FormGroup, paymentDetailsList: PaymentDetail[], paymentDetails: FormArray}) {
+  onSubmit(vm: { form: FormGroup, paymentDetailsList: PaymentDetail[], paymentDetails: FormArray }) {
     if (vm.form.invalid) {
       console.log('Invalid form')
-      return ;
+      return;
     }
     console.log(JSON.stringify(vm.form.value));
 

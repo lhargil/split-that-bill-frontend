@@ -12,7 +12,7 @@ describe('PersonEditorComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ PersonEditorComponent ],
+      declarations: [PersonEditorComponent],
       providers: [
         { provide: PeopleService, useClass: PeopleMockService }
       ],
@@ -21,7 +21,7 @@ describe('PersonEditorComponent', () => {
         ReactiveFormsModule,
       ]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

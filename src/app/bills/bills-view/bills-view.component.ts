@@ -17,17 +17,17 @@ export class BillsViewComponent implements OnInit {
     private billsService: BillsService,
     private billingService: BillingService,
     private router: Router) { }
-    
+
   vm$ = this.activatedRoute.paramMap
     .pipe(
       switchMap(params => this.billingService.getBillings(+params.get('id')))
     );
-  ngOnInit() {}
+  ngOnInit() { }
 
   onDelete(id: number) {
     if (confirm('Are you sure you want to delete this bill?')) {
       this.billsService.deleteBill(id)
-        .subscribe(result => this.redirect());      
+        .subscribe(result => this.redirect());
     }
   }
 

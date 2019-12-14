@@ -24,10 +24,10 @@ export class BillingPaymentComponent implements OnInit {
     private router: Router,
     private fb: FormBuilder) { }
 
-    get billItems() {
-      return this.billingForm.get('billItems') as FormArray
-    }
-  
+  get billItems() {
+    return this.billingForm.get('billItems') as FormArray
+  }
+
   vm$ = this.activatedRoute.paramMap.pipe(
     switchMap(paramMap => {
       const id = +paramMap.get('id');
@@ -50,9 +50,11 @@ export class BillingPaymentComponent implements OnInit {
           billItems,
           totalPayable: {
             ...p.totalPayable,
-            ...{ amount: billItems.reduce((acc, curr) => {
-              return acc + curr.priceWithCharges.amount;
-            }, 0)}
+            ...{
+              amount: billItems.reduce((acc, curr) => {
+                return acc + curr.priceWithCharges.amount;
+              }, 0)
+            }
           }
         };
       });
@@ -84,7 +86,7 @@ export class BillingPaymentComponent implements OnInit {
         });
 
       return {
-        person: {...p.person},
+        person: { ...p.person },
         billItems: assignedItems
       };
     });
@@ -119,9 +121,11 @@ export class BillingPaymentComponent implements OnInit {
         }),
         totalPayable: {
           ...p.totalPayable,
-          ...{ amount: billItems.reduce((acc, curr) => {
-            return acc + curr.priceWithCharges;
-          }, 0)}
+          ...{
+            amount: billItems.reduce((acc, curr) => {
+              return acc + curr.priceWithCharges;
+            }, 0)
+          }
         }
       }
     });

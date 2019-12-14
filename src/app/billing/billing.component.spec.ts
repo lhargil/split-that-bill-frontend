@@ -9,12 +9,12 @@ describe('BillingComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ BillingComponent ],
+      declarations: [BillingComponent],
       imports: [
         RouterTestingModule
       ]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

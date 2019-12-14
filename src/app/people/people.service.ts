@@ -24,13 +24,13 @@ export class PeopleService {
   }
 
   createPerson(person: Person): Observable<Person> {
-    const headers = new HttpHeaders({'Content-Type': 'application/json'});
-    return this.httpClient.post<Person>(this.peopleApi, person, {headers});
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    return this.httpClient.post<Person>(this.peopleApi, person, { headers });
   }
 
   updatePerson(person: Person): Observable<Person> {
-    const headers = new HttpHeaders({'Content-Type': 'application/json'});
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     const url = `${this.peopleApi}/${person.id}`;
-    return this.httpClient.put<Person>(url, person, {headers});
+    return this.httpClient.put<Person>(url, person, { headers });
   }
 }

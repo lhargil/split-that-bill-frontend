@@ -22,11 +22,11 @@ export class BillsEditorComponent implements OnInit {
 
   currentBill: BillDto;
   people: any[];
-  displayMessage: {[key: string]: string};
+  displayMessage: { [key: string]: string };
   billForm: FormGroup;
   datePickerList: {
     years: number[],
-    months: {[key: number]: string}[],
+    months: { [key: number]: string }[],
     days: number[]
   }
 
@@ -41,7 +41,7 @@ export class BillsEditorComponent implements OnInit {
   get billItems() {
     return this.billForm.get('billItems') as FormArray
   }
-  
+
   get establishmentName() {
     return this.billForm.get('establishmentName') as FormGroup;
   }
@@ -51,15 +51,15 @@ export class BillsEditorComponent implements OnInit {
     private billsService: BillsService,
     private peopleService: PeopleService,
     private router: Router) {
-      this.validationMessages = {
-        establishmentName: {
-          required: 'Establishment name is required.',
-          minlength: 'Minimum length is 3 characters'
-        }
-      };
+    this.validationMessages = {
+      establishmentName: {
+        required: 'Establishment name is required.',
+        minlength: 'Minimum length is 3 characters'
+      }
+    };
 
-      this.genericValidator = new GenericValidator(this.validationMessages);
-    }
+    this.genericValidator = new GenericValidator(this.validationMessages);
+  }
 
   currentBill$ = this.activatedRoute.paramMap
     .pipe(
@@ -72,7 +72,7 @@ export class BillsEditorComponent implements OnInit {
         }
       })
     );
-  
+
 
   ngOnInit() {
     combineLatest([this.currentBill$, this.peopleService.getPeople()])
@@ -103,10 +103,10 @@ export class BillsEditorComponent implements OnInit {
     this.datePickerList = this.getDatePickerList(billDate);
     return this.fb.group({
       establishmentName: [bill.establishmentName,
-        [
-          Validators.required,
-          Validators.minLength(3)
-        ]],
+      [
+        Validators.required,
+        Validators.minLength(3)
+      ]],
       billDateYear: [billDate.getFullYear(), [Validators.required]],
       billDateMonth: [billDate.getMonth() + 1, [Validators.required]],
       billDateDay: [billDate.getDate(), [Validators.required]],
@@ -127,7 +127,7 @@ export class BillsEditorComponent implements OnInit {
   getDatePickerList(date: Date) {
     let datePickerListToReturn: {
       years: number[],
-      months: {[key: number]: string}[],
+      months: { [key: number]: string }[],
       days: number[]
     } = { years: [], months: [], days: [] };
 
@@ -137,8 +137,8 @@ export class BillsEditorComponent implements OnInit {
     }
 
     const monthsInAYear = 12;
-    for( var i = 0; i < monthsInAYear; i++ ){
-      datePickerListToReturn.months.push(new Date(2019, i, 1).toLocaleString('en-US',{month:'long'}));
+    for (var i = 0; i < monthsInAYear; i++) {
+      datePickerListToReturn.months.push(new Date(2019, i, 1).toLocaleString('en-US', { month: 'long' }));
       // you can also pass a local like : "en-US" instead of an empty object `{}`.
       // an empty object triggers the system's auto-detection
     }
@@ -158,12 +158,12 @@ export class BillsEditorComponent implements OnInit {
   }
 
   yearChanged(year: number) {
-    this.datePickerList = {...this.datePickerList, ...{days: this.getUpdatedDays(year, this.billForm.get('billDateMonth').value) }};
+    this.datePickerList = { ...this.datePickerList, ...{ days: this.getUpdatedDays(year, this.billForm.get('billDateMonth').value) } };
     this.setDaySelected();
   }
 
   monthChanged(month: number) {
-    this.datePickerList = {...this.datePickerList, ...{days: this.getUpdatedDays(this.billForm.get('billDateYear').value, month)}};
+    this.datePickerList = { ...this.datePickerList, ...{ days: this.getUpdatedDays(this.billForm.get('billDateYear').value, month) } };
     this.setDaySelected();
   }
 
@@ -172,38 +172,42 @@ export class BillsEditorComponent implements OnInit {
       console.log("The bill is not valid.")
       return;
     }
-    const updatedBill = {...this.currentBill, ...billForm.value, 
-      ...{billDate: new Date(Date.UTC(billForm.get('billDateYear').value,
-            billForm.get('billDateMonth').value - 1,
-            billForm.get('billDateDay').value))},
+    const updatedBill = {
+      ...this.currentBill, ...billForm.value,
+      ...{
+        billDate: new Date(Date.UTC(billForm.get('billDateYear').value,
+          billForm.get('billDateMonth').value - 1,
+          billForm.get('billDateDay').value))
+      },
       ...{
         billItems: this.billItems.value.map(item => {
           return {
             id: item.id,
             description: item.description,
             amount: item.amount,
-            discount: Number(item.discount) > 0? Number(item.discount): null
+            discount: Number(item.discount) > 0 ? Number(item.discount) : null
           };
         }),
-      ...{
+        ...{
           extraCharges: this.extraCharges.value.map(ec => {
-          return {
-            id: ec.id,
-            description: ec.description,
-            rate: Number(ec.rate) / 100
-          };
-        })},
-      ...{
+            return {
+              id: ec.id,
+              description: ec.description,
+              rate: Number(ec.rate) / 100
+            };
+          })
+        },
+        ...{
           participants: this.participants.value.filter(p => p.selected).map(p => {
-          return {
-            id: p.bpId,
-            person: {
-              id: p.id
+            return {
+              id: p.bpId,
+              person: {
+                id: p.id
+              }
             }
-          }
-        })
+          })
+        }
       }
-    }
     };
     console.log(JSON.stringify(updatedBill));
     if (0 == updatedBill.id) {
@@ -281,7 +285,7 @@ export class BillsEditorComponent implements OnInit {
     return this.fb.group({
       id: [charge.id],
       description: [charge.description, [Validators.required, Validators.minLength]],
-      rate: [(charge.rate*100).toFixed(), [Validators.required, decimalAmountValidator()]]
+      rate: [(charge.rate * 100).toFixed(), [Validators.required, decimalAmountValidator()]]
     });
   }
 
@@ -327,9 +331,9 @@ export class BillsEditorComponent implements OnInit {
 
   // Month here is 1-indexed (January is 1, February is 2, etc). This is
   // because we're using 0 as the day so that it returns the last day
-  // of the last month, so you have to add 1 to the month number 
+  // of the last month, so you have to add 1 to the month number
   // so it returns the correct amount of days
-  private daysInMonth (month, year) {
+  private daysInMonth(month, year) {
     return new Date(year, month, 0).getDate();
   }
 }

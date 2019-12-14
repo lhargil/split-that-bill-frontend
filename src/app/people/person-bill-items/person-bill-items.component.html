@@ -1,11 +1,11 @@
 <ng-container *ngIf="personBillItems$ | async as personBillItems">
-    <div>
-        <h3>{{personBillItems.person.fullname}}'s payables</h3>
-        <ul>
-            <li *ngFor="let billItem of personBillItems.bills">
-                1 {{billItem.description}} for {{billItem.unitPrice.amount | currency: 'MYR'}}
-            </li>
-        </ul>
-        {{personBillItems | json}}
-    </div>
+  <div>
+    <h3>{{personBillItems.person.fullname}}'s payables</h3>
+    <ul>
+      <li *ngFor="let billItem of personBillItems.bills">
+        1 {{billItem.description}} for {{billItem.unitPrice.amount | currency: 'MYR'}}
+      </li>
+    </ul>
+    {{personBillItems | json}}
+  </div>
 </ng-container>

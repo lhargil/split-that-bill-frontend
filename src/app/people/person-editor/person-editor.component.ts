@@ -48,10 +48,10 @@ export class PersonEditorComponent implements OnInit {
   onSubmit() {
     if (this.personForm.invalid) {
       console.log('error!');
-      return ;
+      return;
     }
 
-    const updatedPerson = {...this.currentPerson, ...this.personForm.value };
+    const updatedPerson = { ...this.currentPerson, ...this.personForm.value };
     console.log(JSON.stringify(updatedPerson));
     if (0 == this.currentPerson.id) {
       this.peeopleService.createPerson(updatedPerson)

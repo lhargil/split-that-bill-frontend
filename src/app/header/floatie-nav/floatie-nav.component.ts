@@ -20,7 +20,7 @@ import { takeUntil, map } from 'rxjs/operators';
 export class FloatieNavComponent implements OnInit, OnDestroy, AfterViewInit {
   @Output() showMenu: EventEmitter<boolean>;
   @ViewChild("floatieNav", { static: false }) floatieNav: ElementRef;
-  @ViewChild('floatieBg', {static: false}) floatieBg: ElementRef;
+  @ViewChild('floatieBg', { static: false }) floatieBg: ElementRef;
 
   private isDestroyed$ = new ReplaySubject(0);
   clickOut$ = fromEvent(window, 'click')
@@ -29,10 +29,10 @@ export class FloatieNavComponent implements OnInit, OnDestroy, AfterViewInit {
       map(ev => ev)
     );
   resize$ = fromEvent(window, 'resize')
-      .pipe(
-        takeUntil(this.isDestroyed$),
-        map(ev => ev)
-      );
+    .pipe(
+      takeUntil(this.isDestroyed$),
+      map(ev => ev)
+    );
 
   constructor(private renderer2: Renderer2) {
     this.showMenu = new EventEmitter();
@@ -41,12 +41,12 @@ export class FloatieNavComponent implements OnInit, OnDestroy, AfterViewInit {
   ngOnInit() {
     setTimeout(() => {
       this.clickOut$
-      .subscribe(ev => {
-        const clickedInside = this.floatieNav.nativeElement.contains(ev.target);
-        if (!clickedInside) {
-          this.hide();
-        }
-      });  
+        .subscribe(ev => {
+          const clickedInside = this.floatieNav.nativeElement.contains(ev.target);
+          if (!clickedInside) {
+            this.hide();
+          }
+        });
     });
   }
 

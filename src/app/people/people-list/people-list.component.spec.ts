@@ -11,7 +11,7 @@ describe('PeopleListComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ PeopleListComponent ],
+      declarations: [PeopleListComponent],
       providers: [
         { provide: PeopleService, useClass: PeopleMockService }
       ],
@@ -19,7 +19,7 @@ describe('PeopleListComponent', () => {
         RouterTestingModule
       ]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

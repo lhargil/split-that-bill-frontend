@@ -14,7 +14,7 @@ describe('BillsEditorComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ BillsEditorComponent ],
+      declarations: [BillsEditorComponent],
       providers: [
         { provide: BillsService, useClass: BillsMockService },
         { provide: PeopleService, useClass: PeopleMockService }
@@ -24,7 +24,7 @@ describe('BillsEditorComponent', () => {
         RouterTestingModule
       ]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

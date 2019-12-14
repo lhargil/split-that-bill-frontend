@@ -7,19 +7,19 @@ import { Observable, of, from } from 'rxjs';
 import { AccountsService } from './accounts.service';
 
 class AccountMockService {
-  getPaymentDetails(): Observable<any>{
+  getPaymentDetails(): Observable<any> {
     return from([]);
   }
-  getSinglePaymentDetails(): Observable<any>{
+  getSinglePaymentDetails(): Observable<any> {
     return of({});
   }
-  updatePaymentDetails(): Observable<any>{
+  updatePaymentDetails(): Observable<any> {
     return of({});
   }
-  createPaymentDetails(): Observable<any>{
+  createPaymentDetails(): Observable<any> {
     return of({});
   }
-  deletePaymentDetails(): Observable<any>{
+  deletePaymentDetails(): Observable<any> {
     return of({});
   }
 }
@@ -30,7 +30,7 @@ describe('AccountsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AccountsComponent ],
+      declarations: [AccountsComponent],
       providers: [
         { provide: AccountsService, useClass: AccountMockService }
       ],
@@ -40,7 +40,7 @@ describe('AccountsComponent', () => {
         ReactiveFormsModule
       ]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

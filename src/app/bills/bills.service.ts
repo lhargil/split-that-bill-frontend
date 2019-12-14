@@ -22,7 +22,7 @@ export class BillsService {
 
   createBill(bill: BillDto) {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    return this.httpClient.post<BillDto>(this.billsApi, bill, {headers})
+    return this.httpClient.post<BillDto>(this.billsApi, bill, { headers })
       .pipe(
         catchError(error => throwError(error))
       );
@@ -31,7 +31,7 @@ export class BillsService {
   updateBill(bill: BillDto) {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     const url = `${this.billsApi}/${bill.id}`;
-    return this.httpClient.put<BillDto>(url, bill, {headers});
+    return this.httpClient.put<BillDto>(url, bill, { headers });
   }
 
   deleteBill(id: number) {

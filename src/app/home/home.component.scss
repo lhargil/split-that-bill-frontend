@@ -1,7 +1,7 @@
 #hero {
 	background-image: url('../../assets/images/cheers_1600x1068.jpg');
     background-image: linear-gradient(
-		rgba(0, 0, 0, 0.3), 
+		rgba(0, 0, 0, 0.3),
 		rgba(0, 0, 0, 0.6)
 	  ), url('../../assets/images/cheers_1600x1068.jpg');
 	height: 600px;
@@ -11,23 +11,23 @@
 .transparent {
 	/* Required for IE 5, 6, 7 */
 	/* ...or something to trigger hasLayout, like zoom: 1; */
-	width: 100%; 
-		
-	/* Theoretically for IE 8 & 9 (more valid) */	
+	width: 100%;
+
+	/* Theoretically for IE 8 & 9 (more valid) */
 	/* ...but not required as filter works too */
 	/* should come BEFORE filter */
 	-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
-	
+
 	/* This works in IE 8 & 9 too */
 	/* ... but also 5, 6, 7 */
 	filter: alpha(opacity=75);
-	
+
 	/* Older than Firefox 0.9 */
 	-moz-opacity:0.75;
-	
+
 	/* Safari 1.x (pre WebKit!) */
 	-khtml-opacity: 0.75;
-    
+
 	/* Modern!
 	/* Firefox 0.9+, Safari 2?, Chrome any?
 	/* Opera 9+, IE 9+ */

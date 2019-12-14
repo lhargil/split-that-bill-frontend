@@ -13,7 +13,7 @@ export class AppComponent implements OnInit, OnDestroy {
   private destroyed$ = new ReplaySubject(0);
   title = 'splitthatbill';
 
-  constructor(private router: Router, private loaderService: LoaderService) {}
+  constructor(private router: Router, private loaderService: LoaderService) { }
 
   ngOnInit() {
     this.router.events

@@ -7,7 +7,8 @@ import { BillsViewComponent } from './bills-view/bills-view.component';
 import { BillsEditorComponent } from './bills-editor/bills-editor.component';
 
 const routes: Routes = [
-  { path: '', component: BillsComponent, children: [
+  {
+    path: '', component: BillsComponent, children: [
       {
         path: '',
         component: BillsListComponent
