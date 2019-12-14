@@ -1,5 +1,8 @@
-export const environment = {
+import { IEnvironment } from './ienvironment';
+
+export const environment: IEnvironment = {
   production: true,
-  baseUrl: 'https://localhost:5001',
-  name: 'prod'
+  baseUrl: $ENV.BaseURL,
+  name: $ENV.Environment,
+  auth: $ENV.Auth
 };

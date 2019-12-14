@@ -1,5 +1,9 @@
-export const environment = {
+import { IEnvironment } from './ienvironment';
+
+export const environment: IEnvironment = {
   production: false,
-  baseUrl: "https://dev-api-splitthatbill.tensileform.com",
-  name: 'dev'
+  baseUrl: $ENV.BaseURL,
+  name: $ENV.Environment,
+  auth: $ENV.Auth
 };
+

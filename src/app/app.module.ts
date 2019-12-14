@@ -14,6 +14,7 @@ import { HeaderModule } from './header/header.module';
 import { FooterModule } from './footer/footer.module';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { LoadingInterceptor } from './shared/loader/loading-interceptor';
+import { AuthInterceptorService } from './core/auth/auth-interceptor.service';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { LoadingInterceptor } from './shared/loader/loading-interceptor';
     FooterModule
   ],
   providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true },
   ],
   bootstrap: [AppComponent]
 })

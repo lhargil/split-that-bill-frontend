@@ -6,25 +6,26 @@ import {
   ElementRef,
   Renderer2,
   AfterViewInit
-} from "@angular/core";
-import { merge, fromEvent, BehaviorSubject, ReplaySubject } from "rxjs";
-import { map, takeUntil, filter } from "rxjs/operators";
-import { Router, NavigationEnd, NavigationStart } from "@angular/router";
+} from '@angular/core';
+import { merge, fromEvent, BehaviorSubject, ReplaySubject } from 'rxjs';
+import { map, takeUntil, filter } from 'rxjs/operators';
+import { Router, NavigationEnd, NavigationStart } from '@angular/router';
+import { AuthService } from 'src/app/core/auth/auth.service';
 
 @Component({
-  selector: "app-nav",
-  templateUrl: "./nav.component.html",
-  styleUrls: ["./nav.component.scss"]
+  selector: 'app-nav',
+  templateUrl: './nav.component.html',
+  styleUrls: ['./nav.component.scss']
 })
 export class NavComponent implements OnInit, OnDestroy, AfterViewInit {
-  @ViewChild("siteNav", { static: false }) siteNav: ElementRef;
-  @ViewChild("siteTitle", { static: false }) siteTitle: ElementRef;
-  @ViewChild("siteNavTrigger", { static: false }) siteNavTrigger: ElementRef;
+  @ViewChild('siteNav', { static: false }) siteNav: ElementRef;
+  @ViewChild('siteTitle', { static: false }) siteTitle: ElementRef;
+  @ViewChild('siteNavTrigger', { static: false }) siteNavTrigger: ElementRef;
 
   private destroy$ = new ReplaySubject(0);
   scrolling$ = merge(
-    fromEvent(window, "scroll"),
-    fromEvent(window, "resize")
+    fromEvent(window, 'scroll'),
+    fromEvent(window, 'resize')
   ).pipe(
     takeUntil(this.destroy$),
     map(ev => ev)
@@ -33,7 +34,7 @@ export class NavComponent implements OnInit, OnDestroy, AfterViewInit {
   visible = false;
   isHome = false;
 
-  constructor(private renderer2: Renderer2, private router: Router) { }
+  constructor(public authService: AuthService, private renderer2: Renderer2, private router: Router) { }
 
   ngOnInit() {
     this.scrolling$.subscribe(() => this.onScroll());
@@ -55,7 +56,7 @@ export class NavComponent implements OnInit, OnDestroy, AfterViewInit {
       .subscribe(ev => {
         if (ev instanceof NavigationEnd) {
           const activeUrl = (ev as NavigationEnd).url;
-          this.isHome = activeUrl == "/home" || activeUrl == "/";
+          this.isHome = activeUrl == '/home' || activeUrl == '/';
           if (this.isHome) {
             this.shadowOff();
           } else {
@@ -89,21 +90,21 @@ export class NavComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   private shadowOff() {
-    this.renderer2.removeClass(this.siteNav.nativeElement, "bg-white");
-    this.renderer2.removeClass(this.siteNav.nativeElement, "shadow-md");
-    this.renderer2.addClass(this.siteNav.nativeElement, "text-white");
-    this.renderer2.removeClass(this.siteTitle.nativeElement, "text-gray-800");
+    this.renderer2.removeClass(this.siteNav.nativeElement, 'bg-white');
+    this.renderer2.removeClass(this.siteNav.nativeElement, 'shadow-md');
+    this.renderer2.addClass(this.siteNav.nativeElement, 'text-white');
+    this.renderer2.removeClass(this.siteTitle.nativeElement, 'text-gray-800');
     this.renderer2.removeClass(
       this.siteNavTrigger.nativeElement,
-      "text-gray-800"
+      'text-gray-800'
     );
   }
 
   private shadowOn() {
-    this.renderer2.addClass(this.siteNav.nativeElement, "bg-white");
-    this.renderer2.addClass(this.siteNav.nativeElement, "shadow-md");
-    this.renderer2.addClass(this.siteTitle.nativeElement, "text-gray-800");
-    this.renderer2.removeClass(this.siteNav.nativeElement, "text-white");
-    this.renderer2.addClass(this.siteNavTrigger.nativeElement, "text-gray-800");
+    this.renderer2.addClass(this.siteNav.nativeElement, 'bg-white');
+    this.renderer2.addClass(this.siteNav.nativeElement, 'shadow-md');
+    this.renderer2.addClass(this.siteTitle.nativeElement, 'text-gray-800');
+    this.renderer2.removeClass(this.siteNav.nativeElement, 'text-white');
+    this.renderer2.addClass(this.siteNavTrigger.nativeElement, 'text-gray-800');
   }
 }

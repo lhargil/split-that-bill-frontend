@@ -25,7 +25,7 @@ steps:
     npm run coverage
   displayName: 'run coverage'
 - script: |
-    npm run build:$(BUILD_CONFIG)
+    npm run build:prod
   displayName: 'build production'
 - task: ArchiveFiles@2
   inputs:
