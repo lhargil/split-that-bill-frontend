@@ -1,12 +1,58 @@
 @tailwind base;
+@font-face {
+  font-family: raleway, sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  src: url("https://use.typekit.net/tqd1cmy.css");
+}
+@font-face {
+  font-family: raleway, sans-serif;
+  font-style: normal;
+  font-weight: 700;
+  src: url("https://use.typekit.net/tqd1cmy.css");
+}
+@font-face {
+  font-family: roboto,sans-serif;
+  font-weight: 700;
+  font-style: normal;
+  src: url("https://use.typekit.net/tqd1cmy.css");
+}
+@font-face {
+  font-family: roboto,sans-serif;
+  font-weight: 700;
+  font-style: italic;
+  src: url("https://use.typekit.net/tqd1cmy.css");
+}
+@font-face {
+  font-family: roboto,sans-serif;
+  font-weight: 400;
+  font-style: italic;
+  src: url("https://use.typekit.net/tqd1cmy.css");
+}
+@font-face {
+  font-family: roboto,sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  src: url("https://use.typekit.net/tqd1cmy.css");
+}
+
 h1 {
-    @apply text-2xl;
+  font-family: raleway, sans-serif;
+  font-weight: 700;
+  @apply text-3xl;
 }
 h2 {
-    @apply text-xl;
+  font-family: raleway, sans-serif;
+  font-weight: 700;
+  @apply text-2xl;
 }
 h3 {
-    @apply text-lg;
+  font-family: raleway, sans-serif;
+  font-weight: 700;
+  @apply text-lg;
+}
+a {
+  @apply text-blue-600 underline;
 }
 @tailwind components;
 .inner {
