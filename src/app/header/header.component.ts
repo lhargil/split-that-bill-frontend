@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Renderer2 } from '@angular/core';
 
 @Component({
   selector: 'app-header',
@@ -8,18 +8,14 @@ import { Component, OnInit } from '@angular/core';
 export class HeaderComponent implements OnInit {
   visible: boolean;
 
-  constructor() {
+  constructor(private renderer2: Renderer2) {
     this.visible = false;
   }
 
   ngOnInit() {
   }
 
-  hideMenu(invisible: boolean) {
-    this.visible = invisible;
-  }
-
-  showMenu(isVisible: boolean) {
+  showMenu(isVisible) {
     this.visible = isVisible;
   }
 }

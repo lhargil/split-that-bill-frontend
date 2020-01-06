@@ -8,18 +8,18 @@ import {
   Renderer2,
   AfterViewInit,
   OnDestroy
-} from "@angular/core";
+} from '@angular/core';
 import { fromEvent, ReplaySubject } from 'rxjs';
 import { takeUntil, map } from 'rxjs/operators';
 
 @Component({
-  selector: "app-floatie-nav",
-  templateUrl: "./floatie-nav.component.html",
-  styleUrls: ["./floatie-nav.component.scss"]
+  selector: 'app-floatie-nav',
+  templateUrl: './floatie-nav.component.html',
+  styleUrls: ['./floatie-nav.component.scss']
 })
 export class FloatieNavComponent implements OnInit, OnDestroy, AfterViewInit {
   @Output() showMenu: EventEmitter<boolean>;
-  @ViewChild("floatieNav", { static: false }) floatieNav: ElementRef;
+  @ViewChild('floatieNav', { static: false }) floatieNav: ElementRef;
   @ViewChild('floatieBg', { static: false }) floatieBg: ElementRef;
 
   private isDestroyed$ = new ReplaySubject(0);
@@ -64,15 +64,15 @@ export class FloatieNavComponent implements OnInit, OnDestroy, AfterViewInit {
 
   show() {
     setTimeout(() => {
-      this.renderer2.removeClass(this.floatieNav.nativeElement, "floatie-off");
-      this.renderer2.addClass(this.floatieNav.nativeElement, "floatie-on");
+      this.renderer2.removeClass(this.floatieNav.nativeElement, 'floatie-off');
+      this.renderer2.addClass(this.floatieNav.nativeElement, 'floatie-on');
       this.renderer2.addClass(this.floatieBg.nativeElement, 'floatie-bg');
     }, 50);
   }
 
   hide() {
-    this.renderer2.addClass(this.floatieNav.nativeElement, "floatie-off");
-    this.renderer2.removeClass(this.floatieNav.nativeElement, "floatie-on");
+    this.renderer2.addClass(this.floatieNav.nativeElement, 'floatie-off');
+    this.renderer2.removeClass(this.floatieNav.nativeElement, 'floatie-on');
     this.renderer2.removeClass(this.floatieBg.nativeElement, 'floatie-bg');
     setTimeout(() => {
       this.showMenu.emit(false);

@@ -19,20 +19,23 @@
               d="m482.37 593.22c-2.09 0-3.79 1.69-3.79 3.78s1.7 3.79 3.79 3.79 3.78-1.7 3.78-3.79-1.69-3.78-3.78-3.78" />
           </g>
         </svg>
-        <span #siteTitle class="inline-block h-8 font-bold text-white text-lg">Split that bill</span>
+        <span #siteTitle class="inline-block h-8 text-white text-lg">
+          Split that bill
+        </span>
       </a>
-      <app-menu class="fixed lg:relative top-0 inset-x-0"></app-menu>
+      <app-menu class="hidden lg:inline-block"></app-menu>
     </nav>
     <span>
       <a [routerLink]="['bills', 0, 'edit']"
         class="bg-teal-500 hover:bg-teal-400 text-white font-bold p-4 border-b-4 border-teal-700 hover:border-teal-500 rounded flex-1 xxs: hidden lg:block no-underline">Get
         started
       </a>
-      <a href="#" class="no-underline text-white lg:hidden">
+      <button #siteNavTrigger class="no-underline text-white lg:hidden" (click)="showMenu(true)">
         <svg class="h-6 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
           <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z" />
         </svg>
-      </a>
+      </button>
     </span>
   </span>
+  <app-floatie-nav (showMenu)="showMenu($event)" *ngIf="visible"></app-floatie-nav>
 </header>

@@ -1,14 +1,9 @@
-<div class="bg-teal-900 mt-12 lg:mt-0 lg:bg-transparent">
+<div class="lg:mt-0">
   <ul class="flex flex-col lg:inline-flex lg:flex-row lg:mx-8">
     <li class="w-full h-full inline-flex justify-start" routerLinkActive="bg-teal-900 text-white border-teal-900"
       [routerLinkActiveOptions]="{exact: true}" *ngFor="let item of menuItems">
-      <a [routerLink]="item.url" class="inline-flex items-start justify-start w-full p-4 text-white no-underline">
-        <svg class="fill-current h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-          <path [attr.d]="item.iconHtml" />
-        </svg>
-        <span class="inline ml-2">
-          {{item.name}}
-        </span>
+      <a [routerLink]="item.url" class="text-white no-underline p-4">
+        {{item.name}}
       </a>
     </li>
   </ul>
