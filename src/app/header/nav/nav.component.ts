@@ -46,36 +46,35 @@ export class NavComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    // this.router.events
-    //   .pipe(
-    //     takeUntil(this.destroy$),
-    //     filter(
-    //       ev => ev instanceof NavigationEnd || ev instanceof NavigationStart
-    //     )
-    //   )
-    //   .subscribe(ev => {
-    //     if (ev instanceof NavigationEnd) {
-    //       const activeUrl = (ev as NavigationEnd).url;
-    //       this.isHome = activeUrl == '/home' || activeUrl == '/';
-    //       if (this.isHome) {
-    //         this.shadowOff();
-    //       } else {
-    //         this.shadowOn();
-    //       }
-    //     }
-    //   });
+    this.router.events
+      .pipe(
+        takeUntil(this.destroy$),
+        filter(
+          ev => ev instanceof NavigationEnd || ev instanceof NavigationStart
+        )
+      )
+      .subscribe(ev => {
+        if (ev instanceof NavigationEnd) {
+          const activeUrl = (ev as NavigationEnd).url;
+          this.isHome = activeUrl == '/home' || activeUrl == '/';
+          if (this.isHome) {
+            this.shadowOff();
+          } else {
+            this.shadowOn();
+          }
+        }
+      });
   }
 
   onScroll() {
-    // const scrollY = window.scrollY || window.pageYOffset;
-
-    // if (!this.isHome) {
-    //   this.shadowOn();
-    // } else if (scrollY > 0) {
-    //   this.shadowOn();
-    // } else {
-    //   this.shadowOff();
-    // }
+    const scrollY = window.scrollY || window.pageYOffset;
+    if (!this.isHome) {
+      this.shadowOn();
+    } else if (scrollY > 0) {
+      this.shadowOn();
+    } else {
+      this.shadowOff();
+    }
   }
 
   private shadowOff() {

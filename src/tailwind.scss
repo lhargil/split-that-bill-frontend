@@ -51,9 +51,7 @@ h3 {
   font-weight: 700;
   @apply text-lg;
 }
-a {
-  @apply text-blue-600 underline;
-}
+
 @tailwind components;
 .inner {
     @apply mt-32 mx-auto;

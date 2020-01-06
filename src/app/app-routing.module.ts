@@ -12,25 +12,25 @@ const routes: Routes = [
   {
     path: 'bills',
     loadChildren: () => import('./bills/bills.module').then(m => m.BillsModule),
-    canActivate: [AuthGuard]
+    // canActivate: [AuthGuard]
   },
   {
     path: 'people',
     loadChildren: () =>
       import('./people/people.module').then(m => m.PeopleModule),
-    canActivate: [AuthGuard]
+    // canActivate: [AuthGuard]
   },
   {
     path: 'billing',
     loadChildren: () =>
       import('./billing/billing.module').then(m => m.BillingModule),
-    canActivate: [AuthGuard]
+    // canActivate: [AuthGuard]
   },
   {
     path: 'accounts',
     loadChildren: () =>
       import('./accounts/accounts.module').then(m => m.AccountsModule),
-    canActivate: [AuthGuard]
+    // canActivate: [AuthGuard]
   },
   {
     path: '',

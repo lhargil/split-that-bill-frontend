@@ -1,7 +1,7 @@
-<header class="fixed inset-x-0 top-0 text-gray-800 bg-transparent p-2">
+<header #header class="fixed inset-x-0 top-0 bg-transparent text-white p-2">
   <span class="flex items-center justify-between">
     <nav class="flex items-center justify-start">
-      <a routerLink="/" class="no-underline text-white">
+      <a routerLink="/" class="no-underline text-xl">
         <svg class="h-8 w-auto inline-block fill-current mr-3" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
           xmlns="http://www.w3.org/2000/svg" xmlns:cc="http://creativecommons.org/ns#"
           xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:svg="http://www.w3.org/2000/svg" id="svg2"
@@ -19,9 +19,7 @@
               d="m482.37 593.22c-2.09 0-3.79 1.69-3.79 3.78s1.7 3.79 3.79 3.79 3.78-1.7 3.78-3.79-1.69-3.78-3.78-3.78" />
           </g>
         </svg>
-        <span #siteTitle class="inline-block h-8 text-white text-lg">
-          Split that bill
-        </span>
+        Split that bill
       </a>
       <app-menu class="hidden lg:inline-block"></app-menu>
     </nav>
@@ -30,12 +28,12 @@
         class="bg-teal-500 hover:bg-teal-400 text-white font-bold p-4 border-b-4 border-teal-700 hover:border-teal-500 rounded flex-1 xxs: hidden lg:block no-underline">Get
         started
       </a>
-      <button #siteNavTrigger class="no-underline text-white lg:hidden" (click)="showMenu(true)">
+      <button #siteNavTrigger class="no-underline lg:hidden" (click)="showMenu(true)">
         <svg class="h-6 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
           <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z" />
         </svg>
       </button>
     </span>
   </span>
-  <app-floatie-nav (showMenu)="showMenu($event)" *ngIf="visible"></app-floatie-nav>
+  <app-floatie-nav (showMenu)="showMenu($event)" *ngIf="menuIsVisible"></app-floatie-nav>
 </header>

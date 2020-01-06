@@ -1,10 +1,8 @@
-<div class="lg:mt-0">
-  <ul class="flex flex-col lg:inline-flex lg:flex-row lg:mx-8">
-    <li class="w-full h-full inline-flex justify-start" routerLinkActive="bg-teal-900 text-white border-teal-900"
-      [routerLinkActiveOptions]="{exact: true}" *ngFor="let item of menuItems">
-      <a [routerLink]="item.url" class="text-white no-underline p-4">
-        {{item.name}}
-      </a>
-    </li>
-  </ul>
-</div>
+<ul class="flex flex-col lg:inline-flex lg:flex-row lg:mx-8">
+  <li class="w-full h-full inline-flex justify-start" routerLinkActive="bg-teal-900 text-white border-teal-900"
+    [routerLinkActiveOptions]="{exact: true}" *ngFor="let item of menuItems">
+    <a [routerLink]="item.url" class="no-underline p-4">
+      {{item.name}}
+    </a>
+  </li>
+</ul>
