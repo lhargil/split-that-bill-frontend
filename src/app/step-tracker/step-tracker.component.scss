@@ -1,0 +1,50 @@
+ul.toc-list li:not(:first-child)::before {
+  border-top: 2px solid #dbdbdb;
+  content: '';
+  position: absolute;
+  right: 50%;
+  left: -50%;
+  top: 0;
+  z-index: 1;
+}
+
+ul.toc-list li a::before {
+  content: '';
+  border: 2px solid #dbdbdb;
+  background-color: #fff;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  position: absolute;
+  top: -15px;
+  left: 50%;
+  transform: translate(-50%, 0);
+  z-index: 2;
+}
+
+ul.toc-list li svg {
+  top: -8px;
+  left: 50%;
+  transform: translate(-50%, 0);
+  transition: opacity 500ms;
+  opacity: 0;
+  z-index: 3;
+}
+
+ul.toc-list li.active, ul.toc-list li.done {
+  color: #41b0ee;
+  &::before {
+    border-color: #41b0ee;
+  }
+}
+
+ul.toc-list li.done a {
+  color: #41b0ee;
+  &::before {
+    border-color: #41b0ee;
+    background-color: #41b0ee;
+  }
+  & svg {
+    opacity: 1;
+  }
+}

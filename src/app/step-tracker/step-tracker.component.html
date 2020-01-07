@@ -1,0 +1,10 @@
+<ul class="toc-list relative flex items-start pt-4">
+  <li class="flex-1 relative text-center" [ngClass]="{'done': step.id < currentStep, 'active': step.id == currentStep }"
+    *ngFor="let step of steps; trackBy: trackById">
+    <a href="#" class="inline-block p-4" (click)="goto($event, step.id)">
+      {{ step.name }}
+      <svg class="text-white fill-current h-4 absolute" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+        <path d="M0 11l2-2 5 5L18 3l2 2L7 18z" /></svg>
+    </a>
+  </li>
+</ul>
