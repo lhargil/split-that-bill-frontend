@@ -1,3 +1,6 @@
-<step-tracker></step-tracker>
-<app-wizard-nav></app-wizard-nav>
-<app-wizard-content></app-wizard-content>
+<step-tracker [steps]="steps" [config]="{orientation: orientations.horizontal}"></step-tracker>
+<ng-template content-host></ng-template>
+<div class="px-24 text-right">
+  <button type="button" class="btn btn-outline">Cancel</button>
+  <button type="button" class="btn btn-blue ml-4">Save</button>
+</div>

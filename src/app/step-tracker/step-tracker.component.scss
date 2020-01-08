@@ -48,3 +48,55 @@ ul.toc-list li.done a {
     opacity: 1;
   }
 }
+
+ul.toc-list-vertical li:not(:first-child)::before {
+  border-left: 2px solid #dbdbdb;
+  border-top: 0;
+  content: '';
+  position: absolute;
+  left: 0;
+  top: -50%;
+  bottom: 50%;
+  z-index: 1;
+}
+
+ul.toc-list-vertical li a::before {
+  content: '';
+  border: 2px solid #dbdbdb;
+  background-color: #fff;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  position: absolute;
+  left: -15px;
+  top: 50%;
+  transform: translate(0, -50%);
+  z-index: 2;
+}
+
+ul.toc-list-vertical li svg {
+  left: -8px;
+  top: 50%;
+  transform: translate(0, -50%);
+  transition: opacity 500ms;
+  opacity: 0;
+  z-index: 3;
+}
+
+ul.toc-list-vertical li.active, ul.toc-list-vertical li.done {
+  color: #41b0ee;
+  &::before {
+    border-color: #41b0ee;
+  }
+}
+
+ul.toc-list-vertical li.done a {
+  color: #41b0ee;
+  &::before {
+    border-color: #41b0ee;
+    background-color: #41b0ee;
+  }
+  & svg {
+    opacity: 1;
+  }
+}
