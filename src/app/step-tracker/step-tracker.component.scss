@@ -1,3 +1,6 @@
+ul.toc-list {
+  flex-direction: row;
+}
 ul.toc-list li:not(:first-child)::before {
   border-top: 2px solid #dbdbdb;
   content: '';
@@ -33,7 +36,7 @@ ul.toc-list li svg {
 
 ul.toc-list li.active, ul.toc-list li.done {
   color: #41b0ee;
-  &::before {
+  &::before, a::before {
     border-color: #41b0ee;
   }
 }
@@ -49,6 +52,9 @@ ul.toc-list li.done a {
   }
 }
 
+ul.toc-list-vertical {
+  flex-direction: column;
+}
 ul.toc-list-vertical li:not(:first-child)::before {
   border-left: 2px solid #dbdbdb;
   border-top: 0;
@@ -85,7 +91,7 @@ ul.toc-list-vertical li svg {
 
 ul.toc-list-vertical li.active, ul.toc-list-vertical li.done {
   color: #41b0ee;
-  &::before {
+  &::before, a::before {
     border-color: #41b0ee;
   }
 }

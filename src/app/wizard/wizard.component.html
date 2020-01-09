@@ -1,6 +1,9 @@
-<step-tracker [steps]="steps" [config]="{orientation: orientations.horizontal}"></step-tracker>
-<ng-template content-host></ng-template>
-<div class="px-24 text-right">
-  <button type="button" class="btn btn-outline">Cancel</button>
-  <button type="button" class="btn btn-blue ml-4">Save</button>
+<step-tracker class="block" [steps]="steps" [config]="{orientation: orientations.horizontal}"></step-tracker>
+
+<div class="w-2/3 mx-auto rounded shadow-md bg-white p-4">
+  <ng-template content-host></ng-template>
+  <div class="text-right">
+    <button type="button" class="btn btn-outline">Cancel</button>
+    <button type="button" class="btn btn-blue ml-4">Save</button>
+  </div>
 </div>
