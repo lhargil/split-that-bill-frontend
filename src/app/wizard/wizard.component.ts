@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, ComponentFactoryResolver } from '@angular/core';
 import { Step, Orientations } from '../step-tracker/models';
-import { ContentHostDirective } from './content-host.directive';
+import { ContentHostDirective } from '../shared/directives/content-host.directive';
 
 @Component({
   selector: 'app-wizard',
@@ -27,6 +27,27 @@ export class WizardComponent implements OnInit {
         }
       };
     });
+    this.loadComponent();
   }
 
+  loadComponent() {
+    //   // this.currentAdIndex = (this.currentAdIndex + 1) % this.ads.length;
+    //   // const adItem = this.ads[this.currentAdIndex];
+
+    //   const componentFactory = this.componentFactoryResolver.resolveComponentFactory(SampleEditorComponent);
+
+    //   const viewContainerRef = this.contentHost.viewContainerRef;
+    //   viewContainerRef.clear();
+
+    //   const componentRef = viewContainerRef.createComponent(componentFactory);
+    //   // (<SampleEditorComponent>componentRef.instance).data = adItem.data;
+  }
+
+  onCancel($event) {
+    console.log('Cancel clicked');
+  }
+
+  onSave($event) {
+    console.log('Save clicked');
+  }
 }

@@ -35,17 +35,17 @@ ul.toc-list li svg {
 }
 
 ul.toc-list li.active, ul.toc-list li.done {
-  color: #41b0ee;
+  color: #38b2ac;
   &::before, a::before {
-    border-color: #41b0ee;
+    border-color: #38b2ac;
   }
 }
 
 ul.toc-list li.done a {
-  color: #41b0ee;
+  color: #38b2ac;
   &::before {
-    border-color: #41b0ee;
-    background-color: #41b0ee;
+    border-color: #38b2ac;
+    background-color: #38b2ac;
   }
   & svg {
     opacity: 1;
@@ -90,17 +90,17 @@ ul.toc-list-vertical li svg {
 }
 
 ul.toc-list-vertical li.active, ul.toc-list-vertical li.done {
-  color: #41b0ee;
+  color: #38b2ac;
   &::before, a::before {
-    border-color: #41b0ee;
+    border-color: #38b2ac;
   }
 }
 
 ul.toc-list-vertical li.done a {
-  color: #41b0ee;
+  color: #38b2ac;
   &::before {
-    border-color: #41b0ee;
-    background-color: #41b0ee;
+    border-color: #38b2ac;
+    background-color: #38b2ac;
   }
   & svg {
     opacity: 1;
