@@ -15,7 +15,7 @@ export class WizardComponent implements OnInit {
   @Input() wizardSteps: WizardStep[];
   @Input() config: Config;
 
-  currentStep = 0;
+  currentStep = 1;
   steps: Step[] = [];
   orientations = Orientations;
 
@@ -24,7 +24,7 @@ export class WizardComponent implements OnInit {
   ngOnInit() {
     this.steps = this.wizardSteps.map((wizardStep, i) => {
       return {
-        id: i,
+        id: i + 1,
         name: wizardStep.stepName,
         isActive: wizardStep.isActive,
         isDone: wizardStep.isDone,
@@ -35,7 +35,7 @@ export class WizardComponent implements OnInit {
   }
 
   loadComponent(step) {
-    const wizardStep = this.wizardSteps[step];
+    const wizardStep = this.wizardSteps.find(ws => ws.id == step);
     const componentFactory = this.componentFactoryResolver.resolveComponentFactory(wizardStep.component);
 
     const viewContainerRef = this.contentHost.viewContainerRef;
@@ -60,7 +60,6 @@ export class WizardComponent implements OnInit {
 
   private nextCallback(nextData) {
     this.currentStep = this.getCurrentStep(1);
-    console.log(this.currentStep);
     this.steps = this.steps.map(step => {
       return {
         ...step,
@@ -76,6 +75,7 @@ export class WizardComponent implements OnInit {
     this.steps = this.steps.map(step => {
       return {
         ...step,
+        isDone: step.id < this.currentStep,
         isActive: step.id == this.currentStep
       };
     });
@@ -83,6 +83,6 @@ export class WizardComponent implements OnInit {
   }
 
   private getCurrentStep(step: number) {
-    return this.currentStep + step < this.steps.length ? this.currentStep + step : this.currentStep;
+    return this.currentStep + step <= this.steps.length ? this.currentStep + step : this.currentStep;
   }
 }

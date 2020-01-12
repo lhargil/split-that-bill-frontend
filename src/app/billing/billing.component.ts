@@ -13,23 +13,18 @@ import { BillEditorShellComponent } from './bill-editor-shell/bill-editor-shell.
 export class BillingComponent implements OnInit {
   wizardSteps$ = of([{
     id: 1,
-    stepName: 'Bill profile',
+    stepName: 'Your friends',
     isDone: false,
     isActive: true,
-    component: BillEditorShellComponent
-  }, {
-    id: 2,
-    stepName: 'People profile',
-    isDone: false,
-    isActive: false,
     component: PeopleEditorShellComponent
   }, {
-    id: 3,
-    stepName: 'Friend profile',
+    id: 2,
+    stepName: 'Bill form',
     isDone: false,
     isActive: false,
-    component: PersonEditorShellComponent
-  },] as WizardStep[]);
+    component: BillEditorShellComponent
+  },
+  ] as WizardStep[]);
 
   constructor() { }
 

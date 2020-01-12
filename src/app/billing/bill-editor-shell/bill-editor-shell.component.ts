@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { decimalAmountValidator } from 'src/app/shared/validators/decimal-amount.directive';
 import { ReplaySubject } from 'rxjs';
@@ -10,7 +10,7 @@ import { WizardService } from 'src/app/wizard/wizard.service';
   templateUrl: './bill-editor-shell.component.html',
   styles: []
 })
-export class BillEditorShellComponent implements OnInit {
+export class BillEditorShellComponent implements OnInit, OnDestroy {
   private destroyed$ = new ReplaySubject(0);
   billForm: FormGroup;
   constructor(private fb: FormBuilder, private wizardService: WizardService) {
@@ -68,6 +68,11 @@ export class BillEditorShellComponent implements OnInit {
         if (backData == null) return;
         this.formSubmit(_ => backData.back());
       });
+  }
+
+  ngOnDestroy() {
+    this.destroyed$.next(true);
+    this.destroyed$.complete();
   }
 
   private formSubmit(callback) {

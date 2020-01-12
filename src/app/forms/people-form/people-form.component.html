@@ -1,6 +1,6 @@
 <form *ngIf="peopleForm" [formGroup]="peopleForm">
   <div formArrayName="people" *ngFor="let person of peopleForm.get('people').controls; let i = index;">
-    <div [formGroupName]="i">
+    <div [formGroupName]="i" class="mb-8">
       <div class="mb-4">
         <label class="field-label">
           First name
@@ -19,6 +19,8 @@
             First name must be at least 3 characters long.
           </div>
         </div>
+      </div>
+      <div class="mb-4">
         <label class="field-label">
           Last name
         </label>

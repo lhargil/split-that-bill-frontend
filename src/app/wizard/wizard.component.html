@@ -4,7 +4,7 @@
     <ng-template content-host></ng-template>
   </div>
   <div class="text-right border-t p-4">
-    <button *ngIf="currentStep > 0" type="button" class="btn btn-outline" (click)="onBack($event)">
+    <button *ngIf="currentStep > 1" type="button" class="btn btn-outline" (click)="onBack($event)">
       Back
     </button>
     <button type="button" class="btn btn-primary ml-4" (click)="onNext($event)">
