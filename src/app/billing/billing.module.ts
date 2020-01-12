@@ -9,10 +9,12 @@ import { SharedModule } from '../shared/shared.module';
 import { WizardModule } from '../wizard/wizard.module';
 import { PersonEditorShellComponent } from './person-editor-shell/person-editor-shell.component';
 import { FormsModule } from '../forms/forms.module';
+import { PeopleEditorShellComponent } from './people-editor-shell/people-editor-shell.component';
+import { BillEditorShellComponent } from './bill-editor-shell/bill-editor-shell.component';
 
 
 @NgModule({
-  declarations: [BillingComponent, BillingListComponent, BillingPaymentComponent, PersonEditorShellComponent],
+  declarations: [BillingComponent, BillingListComponent, BillingPaymentComponent, PersonEditorShellComponent, PeopleEditorShellComponent, BillEditorShellComponent],
   imports: [
     SharedModule,
     BillingRoutingModule,
@@ -21,6 +23,8 @@ import { FormsModule } from '../forms/forms.module';
   ],
   entryComponents: [
     PersonEditorShellComponent,
+    PeopleEditorShellComponent,
+    BillEditorShellComponent
   ]
 })
 export class BillingModule { }
