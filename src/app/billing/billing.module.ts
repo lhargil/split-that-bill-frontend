@@ -7,14 +7,20 @@ import { BillingListComponent } from './billing-list/billing-list.component';
 import { BillingPaymentComponent } from './billing-payment/billing-payment.component';
 import { SharedModule } from '../shared/shared.module';
 import { WizardModule } from '../wizard/wizard.module';
+import { PersonEditorShellComponent } from './person-editor-shell/person-editor-shell.component';
+import { FormsModule } from '../forms/forms.module';
 
 
 @NgModule({
-  declarations: [BillingComponent, BillingListComponent, BillingPaymentComponent],
+  declarations: [BillingComponent, BillingListComponent, BillingPaymentComponent, PersonEditorShellComponent],
   imports: [
     SharedModule,
+    BillingRoutingModule,
     WizardModule,
-    BillingRoutingModule
+    FormsModule
+  ],
+  entryComponents: [
+    PersonEditorShellComponent,
   ]
 })
 export class BillingModule { }

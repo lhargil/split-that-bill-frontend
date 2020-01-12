@@ -1,53 +1,88 @@
-import { Component, OnInit, ViewChild, ComponentFactoryResolver } from '@angular/core';
-import { Step, Orientations } from '../step-tracker/models';
+import { Component, OnInit, ViewChild, ComponentFactoryResolver, Input } from '@angular/core';
+import { Step, Orientations, Config } from '../step-tracker/models';
 import { ContentHostDirective } from '../shared/directives/content-host.directive';
+import { WizardStep } from './models';
+import { WizardService } from './wizard.service';
 
 @Component({
-  selector: 'app-wizard',
+  selector: 'wizard',
   templateUrl: './wizard.component.html',
   styleUrls: ['./wizard.component.scss']
 })
 export class WizardComponent implements OnInit {
   @ViewChild(ContentHostDirective, { static: true }) contentHost: ContentHostDirective;
 
+  @Input() wizardSteps: WizardStep[];
+  @Input() config: Config;
+
+  currentStep = 0;
   steps: Step[] = [];
   orientations = Orientations;
 
-  constructor(private componentFactoryResolver: ComponentFactoryResolver) { }
+  constructor(private componentFactoryResolver: ComponentFactoryResolver, private wizardService: WizardService) { }
 
   ngOnInit() {
-    this.steps = Array.from({ length: 5 }, (_, i) => {
+    this.steps = this.wizardSteps.map((wizardStep, i) => {
       return {
-        id: i + 1,
-        name: `Step ${i + 1}`,
-        isActive: i == 2,
-        isDone: false,
-        onClick: (eventData) => {
-          console.log('clicked: ', eventData.step.name);
-        }
+        id: i,
+        name: wizardStep.stepName,
+        isActive: wizardStep.isActive,
+        isDone: wizardStep.isDone,
+        onClick: (eventData) => this.onNext(eventData)
+      } as Step;
+    });
+    this.loadComponent(this.currentStep);
+  }
+
+  loadComponent(step) {
+    const wizardStep = this.wizardSteps[step];
+    const componentFactory = this.componentFactoryResolver.resolveComponentFactory(wizardStep.component);
+
+    const viewContainerRef = this.contentHost.viewContainerRef;
+    viewContainerRef.clear();
+
+    const componentRef = viewContainerRef.createComponent(componentFactory);
+  }
+
+  onBack($event) {
+    this.wizardService.tryGoBack({
+      $event,
+      back: (backData) => this.backCallback(backData)
+    });
+  }
+
+  onNext($event) {
+    this.wizardService.tryGoNext({
+      $event,
+      next: (nextData) => this.nextCallback(nextData)
+    });
+  }
+
+  private nextCallback(nextData) {
+    this.currentStep = this.getCurrentStep(1);
+    console.log(this.currentStep);
+    this.steps = this.steps.map(step => {
+      return {
+        ...step,
+        isDone: step.id < this.currentStep,
+        isActive: step.id == this.currentStep
       };
     });
-    this.loadComponent();
+    this.loadComponent(this.currentStep);
   }
 
-  loadComponent() {
-    //   // this.currentAdIndex = (this.currentAdIndex + 1) % this.ads.length;
-    //   // const adItem = this.ads[this.currentAdIndex];
-
-    //   const componentFactory = this.componentFactoryResolver.resolveComponentFactory(SampleEditorComponent);
-
-    //   const viewContainerRef = this.contentHost.viewContainerRef;
-    //   viewContainerRef.clear();
-
-    //   const componentRef = viewContainerRef.createComponent(componentFactory);
-    //   // (<SampleEditorComponent>componentRef.instance).data = adItem.data;
+  private backCallback(backData) {
+    this.currentStep = this.getCurrentStep(-1);
+    this.steps = this.steps.map(step => {
+      return {
+        ...step,
+        isActive: step.id == this.currentStep
+      };
+    });
+    this.loadComponent(this.currentStep);
   }
 
-  onCancel($event) {
-    console.log('Cancel clicked');
-  }
-
-  onSave($event) {
-    console.log('Save clicked');
+  private getCurrentStep(step: number) {
+    return this.currentStep + step < this.steps.length ? this.currentStep + step : this.currentStep;
   }
 }

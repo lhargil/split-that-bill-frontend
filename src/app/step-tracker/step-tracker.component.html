@@ -1,7 +1,7 @@
 <ul
   [ngClass]="{'toc-list-vertical': config.orientation == orientations.vertical, 'toc-list': config.orientation == orientations.horizontal}"
   class="flex items-start justify-center">
-  <li class="relative text-center" [ngClass]="{'done': step.id < currentStep, 'active': step.id == currentStep }"
+  <li class="relative text-center" [ngClass]="{'done': step.isDone, 'active': step.isActive }"
     *ngFor="let step of steps; trackBy: trackById">
     <a href="#" class="inline-block px-8 py-6" (click)="goto($event, step)">
       {{ step.name }}
