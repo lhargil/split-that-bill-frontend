@@ -60,17 +60,6 @@
   </div>
   <div class="mb-8">
     <div class="mb-4">
-      <h2 class="h2">Who were you with?</h2>
-    </div>
-    <div formArrayName="participants" *ngFor="let participant of participants.controls; let i = index;">
-      <label [formGroupName]="i" class="block mb-4">
-        <input type="checkbox" formControlName="selected" />
-        {{participant.get('fullname').value | titlecase}}
-      </label>
-    </div>
-  </div>
-  <div class="mb-8">
-    <div class="mb-4">
       <h2 class="h2">Any extra charges?</h2>
       <em class="text-red-500 text-sm">
         ** Extra charges are in percentage units

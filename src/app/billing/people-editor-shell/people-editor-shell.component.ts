@@ -19,7 +19,20 @@ export class PeopleEditorShellComponent implements OnInit, OnDestroy {
         id: [''],
         lastname: ['lastname', [Validators.required, Validators.minLength(3)]],
         firstname: ['firstname', [Validators.required, Validators.minLength(3)]]
-      })])
+      })]),
+      participants: this.fb.array([{
+        id: 1,
+        fullname: 'lhar gil',
+        selected: true,
+        bpId: 1
+      }].map(p => {
+        return this.fb.group({
+          id: [p.id],
+          fullname: [p.fullname],
+          selected: [p.selected],
+          bpId: [p.bpId]
+        });
+      }))
     });
   }
 

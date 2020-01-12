@@ -12,6 +12,7 @@ import { FormsModule } from '../forms/forms.module';
 import { PeopleEditorShellComponent } from './people-editor-shell/people-editor-shell.component';
 import { BillEditorShellComponent } from './bill-editor-shell/bill-editor-shell.component';
 import { BillItemsEditorShellComponent } from './bill-items-editor-shell/bill-items-editor-shell.component';
+import { FriendsEditorShellComponent } from './friends-editor-shell/friends-editor-shell.component';
 
 
 @NgModule({
@@ -22,7 +23,8 @@ import { BillItemsEditorShellComponent } from './bill-items-editor-shell/bill-it
     PersonEditorShellComponent,
     PeopleEditorShellComponent,
     BillEditorShellComponent,
-    BillItemsEditorShellComponent],
+    BillItemsEditorShellComponent,
+    FriendsEditorShellComponent,],
   imports: [
     SharedModule,
     BillingRoutingModule,
@@ -33,7 +35,8 @@ import { BillItemsEditorShellComponent } from './bill-items-editor-shell/bill-it
     PersonEditorShellComponent,
     PeopleEditorShellComponent,
     BillEditorShellComponent,
-    BillItemsEditorShellComponent
+    BillItemsEditorShellComponent,
+    FriendsEditorShellComponent,
   ]
 })
 export class BillingModule { }

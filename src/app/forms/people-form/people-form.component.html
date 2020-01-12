@@ -1,4 +1,16 @@
 <form *ngIf="peopleForm" [formGroup]="peopleForm">
+  <div class="mb-8">
+    <div class="mb-4">
+      <h2 class="h2">Who were you with?</h2>
+    </div>
+    <div formArrayName="participants"
+      *ngFor="let participant of peopleForm.get('participants').controls; let i = index;">
+      <label [formGroupName]="i" class="block mb-4">
+        <input type="checkbox" formControlName="selected" />
+        {{participant.get('fullname').value | titlecase}}
+      </label>
+    </div>
+  </div>
   <div formArrayName="people" *ngFor="let person of peopleForm.get('people').controls; let i = index;"
     class="mb-4 p-4 border-b last:border-b-0">
     <div [formGroupName]="i">

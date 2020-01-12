@@ -1,34 +1,37 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { decimalAmountValidator } from 'src/app/shared/validators/decimal-amount.directive';
-import { ReplaySubject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
 import { WizardService } from 'src/app/wizard/wizard.service';
+import { takeUntil } from 'rxjs/operators';
+import { ReplaySubject } from 'rxjs';
 
 @Component({
-  selector: 'app-bill-editor-shell',
-  templateUrl: './bill-editor-shell.component.html',
+  selector: 'app-friends-editor-shell',
+  templateUrl: './friends-editor-shell.component.html',
   styles: []
 })
-export class BillEditorShellComponent implements OnInit, OnDestroy {
+export class FriendsEditorShellComponent implements OnInit, OnDestroy {
   private destroyed$ = new ReplaySubject(0);
-  billForm: FormGroup;
+  friendsForm: FormGroup;
+  personForm: FormGroup;
   constructor(private fb: FormBuilder, private wizardService: WizardService) {
-    this.billForm = this.fb.group({
-      establishmentName: ['',
-        [
-          Validators.required,
-          Validators.minLength(3)
-        ]],
-      billDateYear: [2020, [Validators.required]],
-      billDateMonth: [1, [Validators.required]],
-      billDateDay: [1, [Validators.required]],
-      remarks: [''],
-      extraCharges: this.fb.array([this.fb.group({
-        id: [0],
-        description: ['', [Validators.required, Validators.minLength]],
-        rate: [0, [Validators.required, decimalAmountValidator()]]
-      })]),
+    this.friendsForm = this.fb.group({
+      participants: this.fb.array([{
+        id: 1,
+        fullname: 'lhar gil',
+        selected: true,
+        bpId: 1
+      }].map(p => {
+        return this.fb.group({
+          id: [p.id],
+          fullname: [p.fullname],
+          selected: [p.selected],
+          bpId: [p.bpId]
+        });
+      }))
+    });
+    this.personForm = this.fb.group({
+      lastname: ['', [Validators.required, Validators.minLength(3)]],
+      firstname: ['', [Validators.required, Validators.minLength(3)]]
     });
   }
 

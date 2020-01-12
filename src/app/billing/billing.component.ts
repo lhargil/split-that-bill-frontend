@@ -5,6 +5,7 @@ import { PersonEditorShellComponent } from './person-editor-shell/person-editor-
 import { PeopleEditorShellComponent } from './people-editor-shell/people-editor-shell.component';
 import { BillEditorShellComponent } from './bill-editor-shell/bill-editor-shell.component';
 import { BillItemsEditorShellComponent } from './bill-items-editor-shell/bill-items-editor-shell.component';
+import { FriendsEditorShellComponent } from './friends-editor-shell/friends-editor-shell.component';
 
 @Component({
   selector: 'app-billing',
@@ -17,16 +18,16 @@ export class BillingComponent implements OnInit {
     stepName: 'Your friends',
     isDone: false,
     isActive: true,
-    component: PeopleEditorShellComponent
+    component: FriendsEditorShellComponent
   }, {
     id: 2,
-    stepName: 'Bill form',
+    stepName: 'Bill details',
     isDone: false,
     isActive: false,
     component: BillEditorShellComponent
   }, {
     id: 3,
-    stepName: 'Bill items form',
+    stepName: 'Bill items',
     isDone: false,
     isActive: false,
     component: BillItemsEditorShellComponent
