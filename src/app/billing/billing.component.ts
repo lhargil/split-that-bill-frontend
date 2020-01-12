@@ -4,6 +4,7 @@ import { WizardStep } from '../wizard/models';
 import { PersonEditorShellComponent } from './person-editor-shell/person-editor-shell.component';
 import { PeopleEditorShellComponent } from './people-editor-shell/people-editor-shell.component';
 import { BillEditorShellComponent } from './bill-editor-shell/bill-editor-shell.component';
+import { BillItemsEditorShellComponent } from './bill-items-editor-shell/bill-items-editor-shell.component';
 
 @Component({
   selector: 'app-billing',
@@ -23,6 +24,12 @@ export class BillingComponent implements OnInit {
     isDone: false,
     isActive: false,
     component: BillEditorShellComponent
+  }, {
+    id: 3,
+    stepName: 'Bill items form',
+    isDone: false,
+    isActive: false,
+    component: BillItemsEditorShellComponent
   },
   ] as WizardStep[]);
 
