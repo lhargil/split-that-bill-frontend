@@ -1,0 +1,36 @@
+<form *ngIf="billItemsForm" [formGroup]="billItemsForm">
+  <table class="w-full">
+    <thead>
+      <tr>
+        <th class="text-gray-500">Description</th>
+        <th class="text-gray-500">To</th>
+      </tr>
+    </thead>
+    <tbody formArrayName="billItems">
+      <tr *ngFor="let billItem of billItems.controls; let i = index;" [formGroupName]="i">
+        <td>
+          <strong>1</strong> {{billItem.get('itemDescription').value}} <br>
+          <strong>Unit price:</strong> {{billItem.get('amount').value | currency: billItem.get('currency').value }}
+          <br>
+          <strong>Price with charges:</strong>
+          {{billItem.get('priceWithCharges').value | currency: billItem.get('currency').value }}
+        </td>
+        <td>
+          <div class="inline-block relative">
+            <select class="field-select w-full hover:border-gray-500 focus:outline-none focus:shadow-outline"
+              formControlName="assignee">
+              <option value="">Assign to</option>
+              <option *ngFor="let p of participants" [value]="p.person.id">
+                {{p.person.fullname | titlecase}}
+              </option>
+            </select>
+            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+              <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" /></svg>
+            </div>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</form>
