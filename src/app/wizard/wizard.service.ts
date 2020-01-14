@@ -6,9 +6,13 @@ import { BehaviorSubject, Subject } from 'rxjs';
 })
 export class WizardService {
   private nextStep = new Subject<any>();
-  nextStep$ = this.nextStep.asObservable();
+  get nextStep$() {
+    return this.nextStep.asObservable();
+  }
   private backStep = new Subject<any>();
-  backStep$ = this.backStep.asObservable();
+  get backStep$() {
+    return this.backStep.asObservable();
+  }
 
   constructor() { }
 

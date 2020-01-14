@@ -7,17 +7,31 @@
       </tr>
     </thead>
     <tbody formArrayName="billItems">
-      <tr *ngFor="let billItem of billItems.controls; let i = index;" [formGroupName]="i">
-        <td>
-          <strong>1</strong> {{billItem.get('itemDescription').value}} <br>
-          <strong>Unit price:</strong> {{billItem.get('amount').value | currency: billItem.get('currency').value }}
-          <br>
-          <strong>Price with charges:</strong>
-          {{billItem.get('priceWithCharges').value | currency: billItem.get('currency').value }}
+      <tr *ngFor="let billItem of billItems.controls; let i = index;" [formGroupName]="i"
+        class="border-b last:border-b-0">
+        <td class="py-8">
+          <div>
+            <header>
+              <h3>
+                {{billItem.get('itemDescription').value}}
+              </h3>
+            </header>
+            <p>
+              Unit price:
+              <strong>
+                {{billItem.get('amount').value | currency: billItem.get('currency').value }}
+              </strong>
+              <br>
+              Price with charges:
+              <strong>
+                {{billItem.get('priceWithCharges').value | currency: billItem.get('currency').value }}
+              </strong>
+            </p>
+          </div>
         </td>
         <td>
-          <div class="inline-block relative">
-            <select class="field-select w-full hover:border-gray-500 focus:outline-none focus:shadow-outline"
+          <div class="inline-block relative w-full">
+            <select class="field-select hover:border-gray-500 focus:outline-none focus:shadow-outline"
               formControlName="assignee">
               <option value="">Assign to</option>
               <option *ngFor="let p of participants" [value]="p.person.id">
