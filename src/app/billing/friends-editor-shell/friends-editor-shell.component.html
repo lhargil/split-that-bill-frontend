@@ -1,5 +1,9 @@
-<h2 class="mb-8">
-  Who were you with?
-</h2>
-<friends-form [friendsForm]="friendsForm" class="block mb-4 border-b"></friends-form>
-<person-form [personForm]="personForm"></person-form>
+<div *ngIf="wizardStep$ | async as wizardStep">
+  <header class="mb-8">
+    <h2>
+      {{wizardStep.stepName}}
+    </h2>
+  </header>
+  <friends-form [friendsForm]="friendsForm" class="block mb-4 border-b"></friends-form>
+  <person-form [personForm]="personForm"></person-form>
+</div>

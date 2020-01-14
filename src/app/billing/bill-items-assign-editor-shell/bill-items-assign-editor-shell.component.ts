@@ -12,6 +12,12 @@ import { ReplaySubject } from 'rxjs';
 export class BillItemsAssignEditorShellComponent implements OnInit, OnDestroy {
   private destroyed$ = new ReplaySubject(0);
   billItemsForm: FormGroup;
+  participants = [{
+    person: {
+      id: 1,
+      fullname: 'lhar gil'
+    }
+  }];
   constructor(private wizardService: WizardService, private fb: FormBuilder) {
     this.billItemsForm = this.fb.group({
       billItems: this.fb.array([this.fb.group({
@@ -31,6 +37,8 @@ export class BillItemsAssignEditorShellComponent implements OnInit, OnDestroy {
       })])
     });
   }
+
+  wizardStep$ = this.wizardService.wizardStep$;
 
   ngOnInit() {
     this.wizardService.nextStep$

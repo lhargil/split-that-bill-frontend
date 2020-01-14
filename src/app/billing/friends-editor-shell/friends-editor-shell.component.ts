@@ -1,8 +1,9 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { WizardService } from 'src/app/wizard/wizard.service';
-import { takeUntil } from 'rxjs/operators';
-import { ReplaySubject } from 'rxjs';
+import { takeUntil, tap } from 'rxjs/operators';
+import { ReplaySubject, Observable } from 'rxjs';
+import { WizardStep } from 'src/app/wizard/models';
 
 @Component({
   selector: 'app-friends-editor-shell',
@@ -13,6 +14,7 @@ export class FriendsEditorShellComponent implements OnInit, OnDestroy {
   private destroyed$ = new ReplaySubject(0);
   friendsForm: FormGroup;
   personForm: FormGroup;
+  // wizardStep$: Observable<WizardStep>;
   constructor(private fb: FormBuilder, private wizardService: WizardService) {
     this.friendsForm = this.fb.group({
       participants: this.fb.array([{
@@ -34,6 +36,7 @@ export class FriendsEditorShellComponent implements OnInit, OnDestroy {
       firstname: ['', [Validators.required, Validators.minLength(3)]]
     });
   }
+  wizardStep$ = this.wizardService.wizardStep$;
 
   ngOnInit() {
     this.wizardService.nextStep$
@@ -42,6 +45,7 @@ export class FriendsEditorShellComponent implements OnInit, OnDestroy {
       )
       .subscribe(nextData => {
         if (nextData == null) return;
+
         this.formSubmit(_ => nextData.next());
       });
     this.wizardService.backStep$

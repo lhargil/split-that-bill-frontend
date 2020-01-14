@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Subject } from 'rxjs';
+import { WizardStep } from './models';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +15,16 @@ export class WizardService {
     return this.backStep.asObservable();
   }
 
+  private wizardStep = new BehaviorSubject<WizardStep>(null);
+  get wizardStep$() {
+    return this.wizardStep.asObservable();
+  }
+
   constructor() { }
+
+  currentStep(step: WizardStep) {
+    this.wizardStep.next(step);
+  }
 
   tryGoNext(nextData: any) {
     this.nextStep.next(nextData);

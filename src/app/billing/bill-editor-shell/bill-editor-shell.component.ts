@@ -32,6 +32,8 @@ export class BillEditorShellComponent implements OnInit, OnDestroy {
     });
   }
 
+  wizardStep$ = this.wizardService.wizardStep$;
+
   ngOnInit() {
     this.wizardService.nextStep$
       .pipe(

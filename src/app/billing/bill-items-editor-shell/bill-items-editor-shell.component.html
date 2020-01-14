@@ -1,4 +1,8 @@
-<h2 class="mb-8">
-  Bill items form
-</h2>
-<bill-items-form [billItemsForm]="billItemsForm"></bill-items-form>
+<ng-container *ngIf="wizardStep$ | async as wizardStep">
+  <header>
+    <h2 class="mb-8">
+      {{wizardStep.stepName}}
+    </h2>
+  </header>
+  <bill-items-form [billItemsForm]="billItemsForm"></bill-items-form>
+</ng-container>

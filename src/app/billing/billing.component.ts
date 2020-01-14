@@ -16,25 +16,25 @@ import { BillItemsAssignEditorShellComponent } from './bill-items-assign-editor-
 export class BillingComponent implements OnInit {
   wizardSteps$ = of([{
     id: 1,
-    stepName: 'Your friends',
+    stepName: 'Who were you with?',
     isDone: false,
     isActive: true,
     component: FriendsEditorShellComponent
   }, {
     id: 2,
-    stepName: 'Bill details',
+    stepName: 'Where did you eat?',
     isDone: false,
     isActive: false,
     component: BillEditorShellComponent
   }, {
     id: 3,
-    stepName: 'Bill items',
+    stepName: 'What did you eat?',
     isDone: false,
     isActive: false,
     component: BillItemsEditorShellComponent
   }, {
     id: 4,
-    stepName: 'Bill items assignment',
+    stepName: 'Who ate what?',
     isDone: false,
     isActive: false,
     component: BillItemsAssignEditorShellComponent

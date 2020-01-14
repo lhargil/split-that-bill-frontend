@@ -15,6 +15,8 @@ export class WizardComponent implements OnInit {
   @Input() wizardSteps: WizardStep[];
   @Input() config: Config;
 
+  private wizardStep: WizardStep;
+
   currentStep = 1;
   steps: Step[] = [];
   orientations = Orientations;
@@ -35,8 +37,13 @@ export class WizardComponent implements OnInit {
   }
 
   loadComponent(step) {
-    const wizardStep = this.wizardSteps.find(ws => ws.id == step);
-    const componentFactory = this.componentFactoryResolver.resolveComponentFactory(wizardStep.component);
+    this.wizardStep = this.wizardSteps.find(ws => ws.id == step);
+
+    if (this.wizardStep == null) return;
+
+    this.wizardService.currentStep(this.wizardStep);
+
+    const componentFactory = this.componentFactoryResolver.resolveComponentFactory(this.wizardStep.component);
 
     const viewContainerRef = this.contentHost.viewContainerRef;
     viewContainerRef.clear();
