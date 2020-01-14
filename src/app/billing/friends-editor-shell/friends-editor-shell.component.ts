@@ -1,9 +1,10 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { WizardService } from 'src/app/wizard/wizard.service';
-import { takeUntil, tap } from 'rxjs/operators';
+import { takeUntil, tap, map, concatMap } from 'rxjs/operators';
 import { ReplaySubject, Observable } from 'rxjs';
 import { WizardStep } from 'src/app/wizard/models';
+import { PeopleService } from 'src/app/people/people.service';
 
 @Component({
   selector: 'app-friends-editor-shell',
@@ -14,20 +15,17 @@ export class FriendsEditorShellComponent implements OnInit, OnDestroy {
   private destroyed$ = new ReplaySubject(0);
   friendsForm: FormGroup;
   personForm: FormGroup;
-  // wizardStep$: Observable<WizardStep>;
-  constructor(private fb: FormBuilder, private wizardService: WizardService) {
+  constructor(private fb: FormBuilder, private wizardService: WizardService, private peopleService: PeopleService) {
     this.friendsForm = this.fb.group({
       participants: this.fb.array([{
         id: 1,
         fullname: 'lhar gil',
-        selected: true,
-        bpId: 1
+        selected: false
       }].map(p => {
         return this.fb.group({
           id: [p.id],
           fullname: [p.fullname],
-          selected: [p.selected],
-          bpId: [p.bpId]
+          selected: [p.selected]
         });
       }))
     });
@@ -37,8 +35,11 @@ export class FriendsEditorShellComponent implements OnInit, OnDestroy {
     });
   }
   wizardStep$ = this.wizardService.wizardStep$;
+  people$ = this.getPeopleObs();
 
   ngOnInit() {
+    this.people$
+      .subscribe();
     this.wizardService.nextStep$
       .pipe(
         takeUntil(this.destroyed$)
@@ -63,7 +64,41 @@ export class FriendsEditorShellComponent implements OnInit, OnDestroy {
     this.destroyed$.complete();
   }
 
+  getPeopleObs() {
+    return this.peopleService.getPeople()
+      .pipe(
+        takeUntil(this.destroyed$),
+        map(people => people.map(person => {
+          return this.fb.group({
+            id: [person.id],
+            fullname: [person.fullname],
+            selected: [false]
+          });
+        })),
+        tap(people => {
+          const participants = this.friendsForm.get('participants') as FormArray;
+          participants.clear();
+          people.forEach(person => participants.push(person));
+        })
+      );
+  }
+
+  addFriend($event) {
+    this.personForm.markAllAsTouched();
+    if (!this.personForm.valid) {
+      return;
+    }
+
+    const friend = { ...this.personForm.value };
+    this.peopleService.createPerson(friend)
+      .pipe(
+        takeUntil(this.destroyed$),
+        concatMap(_ => this.getPeopleObs())
+      ).subscribe();
+  }
+
   private formSubmit(callback) {
+    console.log(this.friendsForm.value);
     callback();
   }
 }

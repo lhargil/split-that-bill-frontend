@@ -5,5 +5,11 @@
     </h2>
   </header>
   <friends-form [friendsForm]="friendsForm" class="block mb-4 border-b"></friends-form>
-  <person-form [personForm]="personForm"></person-form>
+  <div>
+    <header>
+      <h2>Add a new friend</h2>
+    </header>
+    <person-form [personForm]="personForm"></person-form>
+    <button type="button" class="btn btn-primary" (click)="addFriend($event)">Add</button>
+  </div>
 </div>
