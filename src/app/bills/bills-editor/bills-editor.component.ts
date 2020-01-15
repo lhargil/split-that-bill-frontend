@@ -1,14 +1,13 @@
-import { Component, OnInit, ɵCompiler_compileModuleAndAllComponentsSync__POST_R3__ } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { FormGroup, FormBuilder, Validators, FormArray, Form } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { BillsService } from '../bills.service';
-import { BillDto, ExtraChargeDto, BillItemDto, BillParticipant, Money } from '../bills';
+import { BillDto, ExtraChargeDto, BillItemDto, Money } from '../bills';
 import { GenericValidator } from '../../shared/generic-validator';
-import { debounceTime, tap, catchError, switchMap, map } from 'rxjs/operators';
-import { EMPTY, throwError, combineLatest, of } from 'rxjs';
+import { catchError, switchMap, map } from 'rxjs/operators';
+import { EMPTY, combineLatest, of } from 'rxjs';
 import { decimalAmountValidator } from 'src/app/shared/validators/decimal-amount.directive';
 import { PeopleService } from 'src/app/people/people.service';
-import { Person } from 'src/app/people/person';
 
 @Component({
   selector: 'app-bills-editor',
@@ -18,7 +17,6 @@ import { Person } from 'src/app/people/person';
 export class BillsEditorComponent implements OnInit {
   // Use with the generic validation message class
   private validationMessages: { [key: string]: { [key: string]: string } };
-  private genericValidator: GenericValidator;
 
   currentBill: BillDto;
   people: any[];
@@ -39,18 +37,14 @@ export class BillsEditorComponent implements OnInit {
   }
 
   get billItems() {
-    return this.billForm.get('billItems') as FormArray
+    return this.billForm.get('billItems') as FormArray;
   }
 
   get establishmentName() {
     return this.billForm.get('establishmentName') as FormGroup;
   }
 
-  constructor(private activatedRoute: ActivatedRoute,
-    private fb: FormBuilder,
-    private billsService: BillsService,
-    private peopleService: PeopleService,
-    private router: Router) {
+  constructor(private activatedRoute: ActivatedRoute, private fb: FormBuilder, private billsService: BillsService, private peopleService: PeopleService, private router: Router) {
     this.validationMessages = {
       establishmentName: {
         required: 'Establishment name is required.',
@@ -58,7 +52,6 @@ export class BillsEditorComponent implements OnInit {
       }
     };
 
-    this.genericValidator = new GenericValidator(this.validationMessages);
   }
 
   currentBill$ = this.activatedRoute.paramMap
@@ -125,7 +118,7 @@ export class BillsEditorComponent implements OnInit {
   }
 
   getDatePickerList(date: Date) {
-    let datePickerListToReturn: {
+    const datePickerListToReturn: {
       years: number[],
       months: { [key: number]: string }[],
       days: number[]
@@ -137,7 +130,7 @@ export class BillsEditorComponent implements OnInit {
     }
 
     const monthsInAYear = 12;
-    for (var i = 0; i < monthsInAYear; i++) {
+    for (let i = 0; i < monthsInAYear; i++) {
       datePickerListToReturn.months.push(new Date(2019, i, 1).toLocaleString('en-US', { month: 'long' }));
       // you can also pass a local like : "en-US" instead of an empty object `{}`.
       // an empty object triggers the system's auto-detection
@@ -169,7 +162,6 @@ export class BillsEditorComponent implements OnInit {
 
   onSubmit(billForm: FormGroup) {
     if (!billForm.valid) {
-      console.log("The bill is not valid.")
       return;
     }
     const updatedBill = {
@@ -211,17 +203,17 @@ export class BillsEditorComponent implements OnInit {
     };
     if (0 == updatedBill.id) {
       this.billsService.createBill(updatedBill)
-        .subscribe(result => {
+        .subscribe(() => {
           this.redirect();
-        }, error => console.log('Unable to create a new bill'));
+        }, () => console.log('Unable to create a new bill'));
     } else {
       this.billsService.updateBill(updatedBill)
-        .subscribe(result => {
+        .subscribe(() => {
           this.redirect();
         }, catchError(error => {
           console.log(error);
           return EMPTY;
-        }))
+        }));
     }
   }
 
@@ -322,7 +314,6 @@ export class BillsEditorComponent implements OnInit {
 
   private redirect() {
     this.billForm.reset();
-    this.activatedRoute.parent
     this.router.navigate(['/bills']);
   }
 

@@ -1,8 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { BillsService } from 'src/app/bills/bills.service';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { FormGroup, FormBuilder, FormArray, FormControl, Validators } from '@angular/forms';
-import { PeopleService } from 'src/app/people/people.service';
+import { FormGroup, FormBuilder, FormArray, FormControl } from '@angular/forms';
 import { Subscription, combineLatest } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { BillingService } from '../billing.service';
@@ -13,7 +11,7 @@ import { Billing } from '../billing';
   templateUrl: './billing-payment.component.html',
   styleUrls: ['./billing-payment.component.scss']
 })
-export class BillingPaymentComponent implements OnInit {
+export class BillingPaymentComponent implements OnInit, OnDestroy {
   vm: Billing;
   participantsPayable: any;
   billingForm: FormGroup;
@@ -25,7 +23,7 @@ export class BillingPaymentComponent implements OnInit {
     private fb: FormBuilder) { }
 
   get billItems() {
-    return this.billingForm.get('billItems') as FormArray
+    return this.billingForm.get('billItems') as FormArray;
   }
 
   vm$ = this.activatedRoute.paramMap.pipe(
@@ -63,7 +61,7 @@ export class BillingPaymentComponent implements OnInit {
   }
 
   ngOnDestroy() {
-    this.sub && this.sub.unsubscribe()
+    this.sub && this.sub.unsubscribe();
   }
 
   onSubmit() {
@@ -107,7 +105,7 @@ export class BillingPaymentComponent implements OnInit {
     this.router.navigate(['/bills']);
   }
 
-  onChange($event: any, billItem: FormControl) {
+  onChange() {
     this.participantsPayable = this.participantsPayable.map(p => {
       const billItems = [...this.billItems.value.filter(item => +item.assignee == p.person.id)];
       return {
@@ -126,7 +124,7 @@ export class BillingPaymentComponent implements OnInit {
             }, 0)
           }
         }
-      }
+      };
     });
   }
 
@@ -140,7 +138,7 @@ export class BillingPaymentComponent implements OnInit {
           currency: [pb.billItem.unitPrice.currency],
           priceWithCharges: [pb.billItem.priceWithCharges.amount],
           assignee: [pb.person && pb.person.id || '']
-        })
+        });
       }))
     });
     return form;

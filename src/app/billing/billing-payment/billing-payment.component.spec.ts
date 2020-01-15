@@ -32,7 +32,6 @@ describe('BillingPaymentComponent', () => {
       ],
       imports: [
         BrowserModule,
-        FormsModule,
         RouterTestingModule,
         ReactiveFormsModule
       ]
