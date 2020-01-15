@@ -18,4 +18,6 @@ export class BillItemsFormComponent implements OnInit {
   ngOnInit() {
   }
 
+  addBillItem() { }
+  removeBillItem(index: number) { }
 }

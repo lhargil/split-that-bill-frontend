@@ -17,4 +17,7 @@ export class FriendsFormComponent implements OnInit {
   ngOnInit() {
   }
 
+  trackByFn(index, item) {
+    return item.id;
+  }
 }

@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { FormGroup, FormArray } from '@angular/forms';
 
 @Component({
   selector: 'people-form[peopleForm]',
@@ -8,6 +8,10 @@ import { FormGroup } from '@angular/forms';
 })
 export class PeopleFormComponent implements OnInit {
   @Input() peopleForm: FormGroup;
+
+  get people() {
+    return this.peopleForm.get('people') as FormArray;
+  }
   constructor() { }
 
   ngOnInit() {

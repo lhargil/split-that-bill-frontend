@@ -32,4 +32,8 @@ export class StepTrackerComponent implements OnInit {
     this.currentStep = step.id;
     step.onClick({ $event, step });
   }
+
+  trackByFn(index, item: Step) {
+    return item.id;
+  }
 }

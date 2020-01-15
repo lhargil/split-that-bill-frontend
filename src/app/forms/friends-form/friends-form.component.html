@@ -1,11 +1,13 @@
 <form *ngIf="friendsForm" [formGroup]="friendsForm">
   <div class="mb-8">
     <div formArrayName="participants"
-      *ngFor="let participant of friendsForm.get('participants').controls; let i = index; trackBy: trackById">
-      <label [formGroupName]="i" class="block mb-4">
-        <input type="checkbox" formControlName="selected" />
-        {{participant.get('fullname').value | titlecase}}
-      </label>
+      *ngFor="let participant of participants.controls; let i = index; trackBy: trackByFn">
+      <div [formGroupName]="i">
+        <label class="block mb-4">
+          <input type="checkbox" formControlName="selected" />
+          {{participant.get('fullname').value | titlecase}}
+        </label>
+      </div>
     </div>
   </div>
 </form>

@@ -37,6 +37,12 @@ export class BillFormComponent implements OnInit {
     this.datePickerList = this.getDatePickerList(new Date());
   }
 
+  yearChanged(year: number) {
+  }
+
+  monthChanged(month: number) {
+  }
+
   private getDatePickerList(date: Date) {
     const datePickerListToReturn: {
       years: number[],
