@@ -24,11 +24,6 @@ export class BillEditorShellComponent implements OnInit, OnDestroy {
       billDateMonth: [1, [Validators.required]],
       billDateDay: [1, [Validators.required]],
       remarks: [''],
-      extraCharges: this.fb.array([this.fb.group({
-        id: [0],
-        description: ['', [Validators.required, Validators.minLength]],
-        rate: [0, [Validators.required, decimalAmountValidator()]]
-      })]),
     });
   }
 

@@ -14,6 +14,7 @@ import { BillEditorShellComponent } from './bill-editor-shell/bill-editor-shell.
 import { BillItemsEditorShellComponent } from './bill-items-editor-shell/bill-items-editor-shell.component';
 import { FriendsEditorShellComponent } from './friends-editor-shell/friends-editor-shell.component';
 import { BillItemsAssignEditorShellComponent } from './bill-items-assign-editor-shell/bill-items-assign-editor-shell.component';
+import { ExtraChargesEditorShellComponent } from './extra-charges-editor-shell/extra-charges-editor-shell.component';
 
 
 @NgModule({
@@ -26,7 +27,8 @@ import { BillItemsAssignEditorShellComponent } from './bill-items-assign-editor-
     BillEditorShellComponent,
     BillItemsEditorShellComponent,
     FriendsEditorShellComponent,
-    BillItemsAssignEditorShellComponent,],
+    BillItemsAssignEditorShellComponent,
+    ExtraChargesEditorShellComponent,],
   imports: [
     SharedModule,
     BillingRoutingModule,
@@ -39,7 +41,8 @@ import { BillItemsAssignEditorShellComponent } from './bill-items-assign-editor-
     BillEditorShellComponent,
     BillItemsEditorShellComponent,
     FriendsEditorShellComponent,
-    BillItemsAssignEditorShellComponent
+    BillItemsAssignEditorShellComponent,
+    ExtraChargesEditorShellComponent,
   ]
 })
 export class BillingModule { }

@@ -98,7 +98,6 @@ export class FriendsEditorShellComponent implements OnInit, OnDestroy {
   }
 
   private formSubmit(callback) {
-    console.log(this.friendsForm.value);
     callback();
   }
 }
