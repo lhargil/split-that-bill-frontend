@@ -52,7 +52,6 @@ export class PersonEditorComponent implements OnInit {
     }
 
     const updatedPerson = { ...this.currentPerson, ...this.personForm.value };
-    console.log(JSON.stringify(updatedPerson));
     if (0 == this.currentPerson.id) {
       this.peeopleService.createPerson(updatedPerson)
         .subscribe(() => {

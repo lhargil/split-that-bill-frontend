@@ -30,7 +30,6 @@ describe('StepTrackerComponent', () => {
   });
 
   it('should create', () => {
-    console.log(component.steps);
     expect(component).toBeTruthy();
   });
 });

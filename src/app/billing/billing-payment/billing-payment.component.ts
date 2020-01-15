@@ -71,7 +71,6 @@ export class BillingPaymentComponent implements OnInit {
       console.log('The form is not valid.');
       return;
     }
-    console.log(JSON.stringify(this.billingForm.get('billItems').value));
     const billItems = this.billingForm.value.billItems as any[];
 
     const peopleBilling = this.vm.bill.participants.map(p => {

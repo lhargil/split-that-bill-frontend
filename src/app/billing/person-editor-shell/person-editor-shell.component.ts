@@ -23,7 +23,6 @@ export class PersonEditorShellComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.peopleService.getPerson(1)
       .pipe(
-        tap(console.log),
         takeUntil(this.destroyed$),
         map(person => {
           return this.personForm.patchValue({

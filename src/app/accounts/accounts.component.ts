@@ -66,7 +66,6 @@ export class AccountsComponent implements OnInit {
 
   onDelete(vm: { form: FormGroup, paymentDetailsList: PaymentDetail[], paymentDetails: FormArray }, index: number) {
     const paymentDetailsToDelete = vm.paymentDetails.value.find((_, i) => i == index);
-    console.log(paymentDetailsToDelete);
     if (paymentDetailsToDelete == null) {
       return;
     }
@@ -84,7 +83,6 @@ export class AccountsComponent implements OnInit {
       console.log('Invalid form')
       return;
     }
-    console.log(JSON.stringify(vm.form.value));
 
     const paymentDetails = vm.paymentDetails.value.map(pd => {
       return {

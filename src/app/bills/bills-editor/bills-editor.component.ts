@@ -209,11 +209,9 @@ export class BillsEditorComponent implements OnInit {
         }
       }
     };
-    console.log(JSON.stringify(updatedBill));
     if (0 == updatedBill.id) {
       this.billsService.createBill(updatedBill)
         .subscribe(result => {
-          console.log(result);
           this.redirect();
         }, error => console.log('Unable to create a new bill'));
     } else {
@@ -317,7 +315,6 @@ export class BillsEditorComponent implements OnInit {
 
   private setDaySelected() {
     const daySelected = this.billForm.get('billDateDay');
-    console.log(daySelected, JSON.stringify(this.datePickerList.days));
     if (this.datePickerList.days.indexOf(+daySelected.value) == -1) {
       daySelected.patchValue(1);
     }
