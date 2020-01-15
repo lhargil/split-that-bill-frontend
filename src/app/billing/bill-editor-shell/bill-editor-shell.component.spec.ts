@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { BillEditorShellComponent } from './bill-editor-shell.component';
+import { FormsModule } from 'src/app/forms/forms.module';
 
 describe('BillEditorShellComponent', () => {
   let component: BillEditorShellComponent;
@@ -8,9 +9,10 @@ describe('BillEditorShellComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ BillEditorShellComponent ]
+      declarations: [BillEditorShellComponent],
+      imports: [FormsModule]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

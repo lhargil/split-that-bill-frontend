@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ExtraChargesFormComponent } from './extra-charges-form.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 describe('ExtraChargesFormComponent', () => {
   let component: ExtraChargesFormComponent;
@@ -8,9 +9,10 @@ describe('ExtraChargesFormComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ExtraChargesFormComponent ]
+      declarations: [ExtraChargesFormComponent],
+      imports: [ReactiveFormsModule]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

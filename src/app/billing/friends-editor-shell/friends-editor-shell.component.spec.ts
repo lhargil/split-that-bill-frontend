@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { FriendsEditorShellComponent } from './friends-editor-shell.component';
+import { FormsModule } from 'src/app/forms/forms.module';
 
 describe('FriendsEditorShellComponent', () => {
   let component: FriendsEditorShellComponent;
@@ -8,9 +9,10 @@ describe('FriendsEditorShellComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ FriendsEditorShellComponent ]
+      declarations: [FriendsEditorShellComponent],
+      imports: [FormsModule]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

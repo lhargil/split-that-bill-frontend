@@ -1,4 +1,4 @@
-<form [formGroup]="extraChargesForm">
+<form *ngIf="extraChargesForm" [formGroup]="extraChargesForm">
   <em class="text-red-500 text-sm">
     ** Extra charges are in percentage units
   </em>

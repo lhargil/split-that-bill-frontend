@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ExtraChargesEditorShellComponent } from './extra-charges-editor-shell.component';
+import { FormsModule } from 'src/app/forms/forms.module';
 
 describe('ExtraChargesEditorShellComponent', () => {
   let component: ExtraChargesEditorShellComponent;
@@ -8,9 +9,10 @@ describe('ExtraChargesEditorShellComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ExtraChargesEditorShellComponent ]
+      declarations: [ExtraChargesEditorShellComponent],
+      imports: [FormsModule]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

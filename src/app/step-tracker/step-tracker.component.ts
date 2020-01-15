@@ -8,10 +8,10 @@ import { Step, Config, Orientations } from './models';
 })
 export class StepTrackerComponent implements OnInit {
   private _steps: Step[];
-  @Input() set steps(list: Step[]) {
-    const activeStep = list.find(item => item.isActive);
+  @Input() set steps(value: Step[]) {
+    this._steps = [...value];
+    const activeStep = this._steps.find(item => item.isActive);
     this.currentStep = activeStep && activeStep.id || 1;
-    this._steps = list;
   }
 
   get steps() {

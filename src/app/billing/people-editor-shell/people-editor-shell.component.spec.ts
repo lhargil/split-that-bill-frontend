@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { PeopleEditorShellComponent } from './people-editor-shell.component';
+import { FormsModule } from 'src/app/forms/forms.module';
 
 describe('PeopleEditorShellComponent', () => {
   let component: PeopleEditorShellComponent;
@@ -8,9 +9,10 @@ describe('PeopleEditorShellComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ PeopleEditorShellComponent ]
+      declarations: [PeopleEditorShellComponent],
+      imports: [FormsModule]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

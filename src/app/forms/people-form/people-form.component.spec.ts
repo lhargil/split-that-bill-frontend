@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { PeopleFormComponent } from './people-form.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 describe('PeopleFormComponent', () => {
   let component: PeopleFormComponent;
@@ -8,9 +9,10 @@ describe('PeopleFormComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ PeopleFormComponent ]
+      declarations: [PeopleFormComponent],
+      imports: [ReactiveFormsModule]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

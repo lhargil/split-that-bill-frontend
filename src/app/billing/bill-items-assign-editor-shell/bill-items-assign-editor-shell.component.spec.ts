@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { BillItemsAssignEditorShellComponent } from './bill-items-assign-editor-shell.component';
+import { FormsModule } from 'src/app/forms/forms.module';
 
 describe('BillItemsAssignEditorShellComponent', () => {
   let component: BillItemsAssignEditorShellComponent;
@@ -8,9 +9,10 @@ describe('BillItemsAssignEditorShellComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ BillItemsAssignEditorShellComponent ]
+      declarations: [BillItemsAssignEditorShellComponent],
+      imports: [FormsModule]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
