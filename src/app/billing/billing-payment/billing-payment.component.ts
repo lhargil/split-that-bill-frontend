@@ -105,7 +105,7 @@ export class BillingPaymentComponent implements OnInit, OnDestroy {
     this.router.navigate(['/bills']);
   }
 
-  onChange() {
+  onChange($event, billItem) {
     this.participantsPayable = this.participantsPayable.map(p => {
       const billItems = [...this.billItems.value.filter(item => +item.assignee == p.person.id)];
       return {
