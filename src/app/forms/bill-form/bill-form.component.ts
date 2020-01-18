@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { FormGroup, FormArray } from '@angular/forms';
 
 @Component({
@@ -32,7 +32,7 @@ export class BillFormComponent implements OnInit {
     days: number[]
   };
 
-  constructor() { }
+  constructor(public changeDetectorRef: ChangeDetectorRef) { }
 
   ngOnInit() {
     this.datePickerList = this.getDatePickerList(new Date());

@@ -44,7 +44,9 @@ export class FriendsEditorShellComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.billingStore.getSlice(BillingStoreStateKeys.Friends);
-    this.people$.subscribe();
+    this.people$
+      .pipe(takeUntil(this.destroyed$))
+      .subscribe();
 
 
     this.wizardService.nextStep$
@@ -77,7 +79,6 @@ export class FriendsEditorShellComponent implements OnInit, OnDestroy {
       this.peopleService.getPeople(),
       this.friends$
     ).pipe(
-      takeUntil(this.destroyed$),
       map(([people, friends]) => people.map(person => {
         const selectedFriend = friends && friends.find(f => f.id == person.id);
         return this.fb.group({

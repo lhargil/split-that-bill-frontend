@@ -1,9 +1,10 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ReplaySubject } from 'rxjs';
 import { takeUntil, tap, filter } from 'rxjs/operators';
 import { WizardService } from 'src/app/wizard/wizard.service';
 import { BillingStoreService, BillingStoreStateKeys } from '../billing-store.service';
+import { BillFormComponent } from 'src/app/forms/bill-form/bill-form.component';
 
 @Component({
   selector: 'app-bill-editor-shell',
@@ -11,6 +12,8 @@ import { BillingStoreService, BillingStoreStateKeys } from '../billing-store.ser
   styles: []
 })
 export class BillEditorShellComponent implements OnInit, OnDestroy {
+  @ViewChild('billFormComponent', { static: false }) billFormComponent: BillFormComponent;
+
   private destroyed$ = new ReplaySubject(0);
   billForm: FormGroup;
   constructor(private fb: FormBuilder, private wizardService: WizardService, private billingStore: BillingStoreService) {
@@ -75,6 +78,8 @@ export class BillEditorShellComponent implements OnInit, OnDestroy {
   }
 
   private formSubmit(callback) {
+    this.billForm.markAllAsTouched();
+    this.billFormComponent.changeDetectorRef.detectChanges();
     if (!this.billForm.valid) {
       return;
     }
