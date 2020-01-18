@@ -9,5 +9,8 @@
         </label>
       </div>
     </div>
+    <div class="field-error" *ngIf="friendsForm.invalid && (friendsForm.dirty || friendsForm.touched)">
+      You must have friends!
+    </div>
   </div>
 </form>
