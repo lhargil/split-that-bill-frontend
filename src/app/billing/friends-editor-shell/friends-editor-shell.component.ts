@@ -29,9 +29,7 @@ export class FriendsEditorShellComponent implements OnInit, OnDestroy {
   friendsForm: FormGroup;
   personForm: FormGroup;
   constructor(private fb: FormBuilder, private wizardService: WizardService, private peopleService: PeopleService, private billingStore: BillingStoreService) {
-    this.friendsForm = this.fb.group({
-      participants: this.fb.array([])
-    });
+    this.friendsForm = this.createForm([]);
     this.personForm = this.fb.group({
       lastname: ['', [Validators.required, Validators.minLength(3)]],
       firstname: ['', [Validators.required, Validators.minLength(3)]]
@@ -86,6 +84,7 @@ export class FriendsEditorShellComponent implements OnInit, OnDestroy {
         });
       })),
       tap(people => {
+        this.friendsForm = this.createForm([]);
         const participants = this.friendsForm.get('participants') as FormArray;
         people.forEach(person => participants.push(person));
         this.friendsForm.setValidators(friendsWithYouValidator(1));
@@ -107,6 +106,12 @@ export class FriendsEditorShellComponent implements OnInit, OnDestroy {
       ).subscribe();
   }
 
+  private createForm(friends: []) {
+    return this.fb.group({
+      participants: this.fb.array(friends)
+    });
+  }
+
   private formSubmit(callback) {
     this.friendsForm.markAllAsTouched();
     if (!this.friendsForm.valid) {
@@ -116,6 +121,7 @@ export class FriendsEditorShellComponent implements OnInit, OnDestroy {
     const friends = this.friendsForm.get('participants').value.filter(item => item.selected);
 
     this.billingStore.updateSlice(BillingStoreStateKeys.Friends, [...friends]);
+
     callback();
   }
 }
