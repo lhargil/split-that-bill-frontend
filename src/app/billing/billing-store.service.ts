@@ -52,8 +52,8 @@ export class BillingStoreService {
   }
 
   updateSlice(slice: BillingStoreStateKeys, data: any) {
-    const updatedState = { ...this.billingState, ...{ [slice]: data } };
-    this.storeSubject.next(updatedState);
+    this.billingState = { ...this.billingState, ...{ [slice]: data } };
+    this.storeSubject.next(this.billingState);
   }
 
   private create() {
