@@ -59,7 +59,11 @@ export class BillingStoreService {
   private create() {
     return {
       friends: [],
-      bill: {},
+      bill: {
+        establishmentName: '',
+        billDate: new Date().toString(),
+        remarks: ''
+      },
       extraCharges: [],
       billItems: [],
       personBillItems: []

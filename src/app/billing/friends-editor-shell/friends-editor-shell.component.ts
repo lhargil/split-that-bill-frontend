@@ -40,9 +40,9 @@ export class FriendsEditorShellComponent implements OnInit, OnDestroy {
   people$ = this.getPeopleObs();
 
   ngOnInit() {
+    this.billingStore.getSlice(BillingStoreStateKeys.Friends);
     this.people$.subscribe();
 
-    this.billingStore.getSlice(BillingStoreStateKeys.Friends);
 
     this.wizardService.nextStep$
       .pipe(

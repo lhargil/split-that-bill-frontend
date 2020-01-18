@@ -1,10 +1,11 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core';
 import { FormGroup, FormArray } from '@angular/forms';
 
 @Component({
   selector: 'bill-form[billForm]',
   templateUrl: './bill-form.component.html',
-  styleUrls: ['./bill-form.component.scss']
+  styleUrls: ['./bill-form.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BillFormComponent implements OnInit {
   @Input() billForm: FormGroup;
@@ -38,9 +39,20 @@ export class BillFormComponent implements OnInit {
   }
 
   yearChanged(year: number) {
+    this.datePickerList = { ...this.datePickerList, ...{ days: this.getUpdatedDays(year, this.billForm.get('billDateMonth').value) } };
+    this.setDaySelected();
   }
 
   monthChanged(month: number) {
+    this.datePickerList = { ...this.datePickerList, ...{ days: this.getUpdatedDays(this.billForm.get('billDateYear').value, month) } };
+    this.setDaySelected();
+  }
+
+  private setDaySelected() {
+    const daySelected = this.billForm.get('billDateDay');
+    if (this.datePickerList.days.indexOf(+daySelected.value) == -1) {
+      daySelected.patchValue(1);
+    }
   }
 
   private getDatePickerList(date: Date) {
