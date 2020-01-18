@@ -39,11 +39,9 @@ export class FriendsEditorShellComponent implements OnInit, OnDestroy {
     });
   }
   wizardStep$ = this.wizardService.wizardStep$;
-  friends$ = this.billingStore.storeSlice$;
   people$ = this.getPeopleObs();
 
   ngOnInit() {
-    this.billingStore.getSlice(BillingStoreStateKeys.Friends);
     this.people$
       .pipe(takeUntil(this.destroyed$))
       .subscribe();
@@ -77,7 +75,7 @@ export class FriendsEditorShellComponent implements OnInit, OnDestroy {
   getPeopleObs() {
     return combineLatest(
       this.peopleService.getPeople(),
-      this.friends$
+      this.billingStore.getStoreSlice$(BillingStoreStateKeys.Friends)
     ).pipe(
       map(([people, friends]) => people.map(person => {
         const selectedFriend = friends && friends.find(f => f.id == person.id);

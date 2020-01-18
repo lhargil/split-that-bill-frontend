@@ -25,11 +25,9 @@ export class BillEditorShellComponent implements OnInit, OnDestroy {
   }
 
   wizardStep$ = this.wizardService.wizardStep$;
-  bill$ = this.billingStore.storeSlice$;
 
   ngOnInit() {
-    this.billingStore.getSlice(BillingStoreStateKeys.Bill);
-    this.bill$
+    this.billingStore.getStoreSlice$(BillingStoreStateKeys.Bill)
       .pipe(
         takeUntil(this.destroyed$),
         filter(bill => !!bill),
