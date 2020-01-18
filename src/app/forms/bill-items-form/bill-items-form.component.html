@@ -10,8 +10,9 @@
     </button>
   </div>
   <div class="overflow-auto" style="height:325px;">
-    <div formArrayName="billItems" *ngFor="let billItem of billItems.controls; let i = index;">
-      <div class="mb-8" [formGroupName]="i">
+    <div class="border-b last:border-b-0" formArrayName="billItems"
+      *ngFor="let billItem of billItems.controls; let i = index;">
+      <div class="my-8" [formGroupName]="i">
         <div class="flex flex-col md:flex-row items-start md:items-center mb-4">
           <div class="mr-4">
             1
@@ -36,7 +37,7 @@
         </div>
         <div
           *ngIf="billItem.get('description').invalid && (billItem.get('description').dirty || billItem.get('description').touched)"
-          class="field-error mx-2">
+          class="field-error ml-6">
           <div *ngIf="billItem.get('description').errors.required">
             Description {{i + 1}} is required.
           </div>
@@ -44,7 +45,7 @@
             Description {{i + 1}} must be at least 3 characters long.
           </div>
         </div>
-        <div class="field-error"
+        <div class="field-error ml-6"
           *ngIf="billItem.get('amount').invalid && (billItem.get('amount').dirty || billItem.get('amount').touched)">
           <div *ngIf="billItem.get('amount').errors.required">
             Amount {{i + 1}} is required.
