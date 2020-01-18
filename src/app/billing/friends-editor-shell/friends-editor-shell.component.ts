@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormArray, ValidatorFn, AbstractControl } from '@angular/forms';
 import { WizardService } from 'src/app/wizard/wizard.service';
 import { takeUntil, tap, map, concatMap, startWith } from 'rxjs/operators';
@@ -6,6 +6,7 @@ import { ReplaySubject, combineLatest, of } from 'rxjs';
 import { WizardStep } from 'src/app/wizard/models';
 import { PeopleService } from 'src/app/people/people.service';
 import { BillingStoreService, BillingStoreStateKeys } from '../billing-store.service';
+import { FriendsFormComponent } from 'src/app/forms/friends-form/friends-form.component';
 
 export function friendsWithYouValidator(minimum: number): ValidatorFn {
   return (control: AbstractControl): { [key: string]: any } | null => {
@@ -25,6 +26,8 @@ export function friendsWithYouValidator(minimum: number): ValidatorFn {
   styles: []
 })
 export class FriendsEditorShellComponent implements OnInit, OnDestroy {
+  @ViewChild('friendsFormComponent', { static: false }) friendsFormComponent: FriendsFormComponent;
+
   private destroyed$ = new ReplaySubject(0);
   friendsForm: FormGroup;
   personForm: FormGroup;
@@ -76,11 +79,11 @@ export class FriendsEditorShellComponent implements OnInit, OnDestroy {
     ).pipe(
       takeUntil(this.destroyed$),
       map(([people, friends]) => people.map(person => {
-        const selectedFriend = friends.find(f => f.id == person.id);
+        const selectedFriend = friends && friends.find(f => f.id == person.id);
         return this.fb.group({
           id: [person.id],
           fullname: [person.fullname],
-          selected: [selectedFriend && selectedFriend.selected]
+          selected: [selectedFriend && selectedFriend.selected || false]
         });
       })),
       tap(people => {
@@ -114,6 +117,7 @@ export class FriendsEditorShellComponent implements OnInit, OnDestroy {
 
   private formSubmit(callback) {
     this.friendsForm.markAllAsTouched();
+    this.friendsFormComponent.changeDetectorRef.detectChanges();
     if (!this.friendsForm.valid) {
       return;
     }

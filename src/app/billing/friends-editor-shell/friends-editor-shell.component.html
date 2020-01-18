@@ -4,7 +4,8 @@
       {{wizardStep.stepName}}
     </h2>
   </header>
-  <friends-form *ngIf="friendsForm" [friendsForm]="friendsForm" class="block mb-4 border-b"></friends-form>
+  <friends-form #friendsFormComponent *ngIf="friendsForm" [friendsForm]="friendsForm" class="block mb-4 border-b">
+  </friends-form>
   <div>
     <header>
       <h2>Add a new friend</h2>

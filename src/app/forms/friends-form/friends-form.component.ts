@@ -1,5 +1,6 @@
-import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectionStrategy, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { FormGroup, FormArray } from '@angular/forms';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'friends-form[friendsForm]',
@@ -13,7 +14,7 @@ export class FriendsFormComponent implements OnInit {
   get participants() {
     return this.friendsForm.get('participants') as FormArray;
   }
-  constructor() { }
+  constructor(public changeDetectorRef: ChangeDetectorRef) { }
 
   ngOnInit() {
   }
