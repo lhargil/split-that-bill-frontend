@@ -1,9 +1,11 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { decimalAmountValidator } from 'src/app/shared/validators/decimal-amount.directive';
 import { ReplaySubject } from 'rxjs';
 import { WizardService } from 'src/app/wizard/wizard.service';
-import { takeUntil } from 'rxjs/operators';
+import { takeUntil, tap } from 'rxjs/operators';
+import { BillItemsFormComponent } from 'src/app/forms/bill-items-form/bill-items-form.component';
+import { BillingStoreService, BillingStoreStateKeys } from '../billing-store.service';
 
 @Component({
   selector: 'app-bill-items-editor-shell',
@@ -11,22 +13,36 @@ import { takeUntil } from 'rxjs/operators';
   styles: []
 })
 export class BillItemsEditorShellComponent implements OnInit, OnDestroy {
+  @ViewChild('billItemsFormComponent', { static: false }) billItemsFormComponent: BillItemsFormComponent;
+
   private destroyed$ = new ReplaySubject(0);
+  private defaultBillItems = [{
+    description: '',
+    amount: 0,
+    discount: ''
+  }];
+
   billItemsForm: FormGroup;
-  constructor(private fb: FormBuilder, private wizardService: WizardService) {
-    this.billItemsForm = this.fb.group({
-      billItems: this.fb.array([this.fb.group({
-        id: [0],
-        description: ['', [Validators.required, Validators.minLength]],
-        amount: [Number(0).toFixed(2), [Validators.required, decimalAmountValidator()]],
-        discount: [null, [decimalAmountValidator(true)]]
-      })]),
-    });
+
+  get billItems() {
+    return this.billItemsForm.get('billItems') as FormArray;
+  }
+
+  constructor(private fb: FormBuilder, private wizardService: WizardService, private billingStore: BillingStoreService) {
+    this.billItemsForm = this.createForm(this.defaultBillItems);
   }
 
   wizardStep$ = this.wizardService.wizardStep$;
 
   ngOnInit() {
+    this.billingStore.getStoreSlice$(BillingStoreStateKeys.BillItems)
+      .pipe(takeUntil(this.destroyed$),
+        tap(billItems => {
+          this.billItemsForm = this.createForm(billItems && billItems.length <= 0 ? this.defaultBillItems : billItems);
+        })
+      )
+      .subscribe();
+
     this.wizardService.nextStep$
       .pipe(takeUntil(this.destroyed$))
       .subscribe(nextData => {
@@ -48,7 +64,43 @@ export class BillItemsEditorShellComponent implements OnInit, OnDestroy {
     this.destroyed$.complete();
   }
 
+  addBillItem() {
+    this.billItems.push(this.fb.group({
+      description: ['', [Validators.required, Validators.minLength]],
+      amount: [Number(0).toFixed(2), [Validators.required, decimalAmountValidator()]],
+      discount: ['', [decimalAmountValidator(true)]]
+    }));
+  }
+
+  removeBillItem(index: number) {
+    this.billItems.removeAt(index);
+
+    if (this.billItems.length <= 0) {
+      this.addBillItem();
+    }
+  }
+
+  private createForm(items) {
+    return this.fb.group({
+      billItems: this.fb.array(items.map(item => {
+        return this.fb.group({
+          description: [item.description, [Validators.required, Validators.minLength]],
+          amount: [Number(item.amount).toFixed(2), [Validators.required, decimalAmountValidator()]],
+          discount: [item.discount, [decimalAmountValidator(true)]]
+        });
+      })),
+    });
+  }
+
   private formSubmit(callback) {
+    this.billItemsForm.markAllAsTouched();
+    this.billItemsFormComponent.changeDetectorRef.detectChanges();
+    if (!this.billItemsForm.valid) {
+      return;
+    }
+
+    const updatedBillItems = [...this.billItemsForm.get('billItems').value];
+    this.billingStore.updateSlice(BillingStoreStateKeys.BillItems, updatedBillItems);
     callback();
   }
 }

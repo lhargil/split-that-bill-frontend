@@ -28,7 +28,7 @@ export class BillingComponent implements OnInit {
     isActive: false,
     component: BillEditorShellComponent
   }, {
-    id: 4,
+    id: 1,
     stepName: 'What did you eat?',
     isDone: false,
     isActive: false,
@@ -40,7 +40,7 @@ export class BillingComponent implements OnInit {
     isActive: false,
     component: BillItemsAssignEditorShellComponent
   }, {
-    id: 1,
+    id: 4,
     stepName: 'Any extra charges?',
     isDone: false,
     isActive: false,

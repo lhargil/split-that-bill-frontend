@@ -1,23 +1,32 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectorRef, ChangeDetectionStrategy, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormArray, FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'bill-items-form[billItemsForm]',
   templateUrl: './bill-items-form.component.html',
-  styleUrls: ['./bill-items-form.component.scss']
+  styleUrls: ['./bill-items-form.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BillItemsFormComponent implements OnInit {
   @Input() billItemsForm: FormGroup;
+  @Output() addBillItem: EventEmitter<void>;
+  @Output() removeBillItem: EventEmitter<number>;
 
   get billItems() {
     return this.billItemsForm.get('billItems') as FormArray;
   }
-  constructor() {
+  constructor(public changeDetectorRef: ChangeDetectorRef) {
+    this.addBillItem = new EventEmitter();
+    this.removeBillItem = new EventEmitter();
   }
 
   ngOnInit() {
   }
 
-  addBillItem() { }
-  removeBillItem(index: number) { }
+  add() {
+    this.addBillItem.emit();
+  }
+  remove(index: number) {
+    this.removeBillItem.emit(index);
+  }
 }

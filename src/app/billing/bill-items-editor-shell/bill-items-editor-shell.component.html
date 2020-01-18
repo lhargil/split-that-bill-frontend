@@ -4,5 +4,6 @@
       {{wizardStep.stepName}}
     </h2>
   </header>
-  <bill-items-form [billItemsForm]="billItemsForm"></bill-items-form>
+  <bill-items-form #billItemsFormComponent [billItemsForm]="billItemsForm" (addBillItem)="addBillItem()"
+    (removeBillItem)="removeBillItem($event)"></bill-items-form>
 </ng-container>
