@@ -47,6 +47,22 @@ export class BillingStoreService {
     );
   }
 
+  getStoreSlice$(slice: BillingStoreStateKeys) {
+    this.sliceOfStateSubject.next(slice);
+    return combineLatest(
+      this.store$,
+      this.slice$
+    ).pipe(
+      map(([store, storeSlice]) => {
+        if (!storeSlice) {
+          return null;
+        } else {
+          return store[storeSlice];
+        }
+      })
+    );
+  }
+
   getSlice(slice: BillingStoreStateKeys) {
     return this.sliceOfStateSubject.next(slice);
   }

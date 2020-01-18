@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ChangeDetectionStrategy, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectionStrategy, Output, EventEmitter, ChangeDetectorRef } from '@angular/core';
 import { FormGroup, FormArray } from '@angular/forms';
 
 @Component({
@@ -15,7 +15,8 @@ export class ExtraChargesFormComponent implements OnInit {
   get extraCharges() {
     return this.extraChargesForm.get('extraCharges') as FormArray;
   }
-  constructor() {
+
+  constructor(public changeDetectorRef: ChangeDetectorRef) {
     this.addExtraCharge = new EventEmitter<number>();
     this.removeExtraCharge = new EventEmitter<number>();
   }

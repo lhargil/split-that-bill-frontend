@@ -4,6 +4,6 @@
       {{wizardStep.stepName}}
     </h2>
   </header>
-  <extra-charges-form [extraChargesForm]="extraChargesForm" (addExtraCharge)="addExtraCharge($event)"
-    (removeExtraCharge)="removeExtraCharge($event)"></extra-charges-form>
+  <extra-charges-form #extraChargesFormComponent [extraChargesForm]="extraChargesForm"
+    (addExtraCharge)="addExtraCharge($event)" (removeExtraCharge)="removeExtraCharge($event)"></extra-charges-form>
 </ng-container>

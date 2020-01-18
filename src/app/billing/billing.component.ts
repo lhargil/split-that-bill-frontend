@@ -16,13 +16,13 @@ import { ExtraChargesEditorShellComponent } from './extra-charges-editor-shell/e
 })
 export class BillingComponent implements OnInit {
   wizardSteps$ = of([{
-    id: 1,
+    id: 2,
     stepName: 'Who were you with?',
     isDone: false,
     isActive: true,
     component: FriendsEditorShellComponent
   }, {
-    id: 2,
+    id: 3,
     stepName: 'Where did you eat?',
     isDone: false,
     isActive: false,
@@ -40,7 +40,7 @@ export class BillingComponent implements OnInit {
     isActive: false,
     component: BillItemsAssignEditorShellComponent
   }, {
-    id: 3,
+    id: 1,
     stepName: 'Any extra charges?',
     isDone: false,
     isActive: false,

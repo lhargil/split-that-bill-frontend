@@ -1,9 +1,11 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { WizardService } from 'src/app/wizard/wizard.service';
 import { decimalAmountValidator } from 'src/app/shared/validators/decimal-amount.directive';
 import { ReplaySubject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { takeUntil, map, tap } from 'rxjs/operators';
+import { ExtraChargesFormComponent } from 'src/app/forms/extra-charges-form/extra-charges-form.component';
+import { BillingStoreService, BillingStoreStateKeys } from '../billing-store.service';
 
 @Component({
   selector: 'app-extra-charges-editor-shell',
@@ -11,6 +13,8 @@ import { takeUntil } from 'rxjs/operators';
   styles: []
 })
 export class ExtraChargesEditorShellComponent implements OnInit, OnDestroy {
+  @ViewChild('extraChargesFormComponent', { static: false }) extraChargesFormComponent: ExtraChargesFormComponent;
+
   private destroyed$ = new ReplaySubject(0);
 
   extraChargesForm: FormGroup;
@@ -19,26 +23,27 @@ export class ExtraChargesEditorShellComponent implements OnInit, OnDestroy {
     return this.extraChargesForm.get('extraCharges') as FormArray;
   }
 
-  constructor(private wizardService: WizardService, private fb: FormBuilder) {
-    this.extraChargesForm = this.fb.group({
-      extraCharges: this.fb.array([this.fb.group({
-        id: [0],
-        description: ['', [Validators.required, Validators.minLength]],
-        rate: [0, [Validators.required, decimalAmountValidator()]]
-      })]),
-    });
+  constructor(private wizardService: WizardService, private fb: FormBuilder, private billingStore: BillingStoreService) {
+    this.extraChargesForm = this.createForm([]);
   }
 
   wizardStep$ = this.wizardService.wizardStep$;
 
   ngOnInit() {
+    this.billingStore.getStoreSlice$(BillingStoreStateKeys.ExtraCharges).pipe(
+      takeUntil(this.destroyed$),
+      tap(extraCharges => {
+        this.extraChargesForm = this.createForm(extraCharges || []);
+      })
+    ).subscribe();
+
     this.wizardService.nextStep$
       .pipe(takeUntil(this.destroyed$))
       .subscribe(nextData => {
         if (nextData == null) {
           return;
         }
-        this.formSubmit(nextData.next());
+        this.formSubmit(_ => nextData.next());
       });
 
     this.wizardService.backStep$
@@ -47,7 +52,7 @@ export class ExtraChargesEditorShellComponent implements OnInit, OnDestroy {
         if (backData == null) {
           return;
         }
-        this.formSubmit(backData.back());
+        this.formSubmit(_ => backData.back());
       });
   }
 
@@ -66,19 +71,30 @@ export class ExtraChargesEditorShellComponent implements OnInit, OnDestroy {
 
   removeExtraCharge(index: number) {
     this.extraCharges.removeAt(index);
+  }
 
-    const extraChargesIsEmpty = this.extraCharges.length <= 0;
-    if (extraChargesIsEmpty) {
-      this.addExtraCharge(0);
-    }
+  private createForm(charges) {
+    return this.fb.group({
+      extraCharges: this.fb.array(charges.map(ec => {
+        return this.fb.group({
+          description: [ec.description, [Validators.required, Validators.minLength]],
+          rate: [ec.rate, [Validators.required, decimalAmountValidator()]]
+        });
+      })),
+    });
   }
 
   private formSubmit(callback) {
+    this.extraChargesForm.markAllAsTouched();
+    this.extraChargesFormComponent.changeDetectorRef.detectChanges();
     if (!this.extraChargesForm.valid) {
       return;
     }
 
-    console.log(console.table(this.extraChargesForm.value));
+    const charges = [...this.extraChargesForm.get('extraCharges').value];
+
+    this.billingStore.updateSlice(BillingStoreStateKeys.ExtraCharges, charges);
+
     callback();
   }
 
