@@ -1,0 +1,48 @@
+<header class="mb-8">
+  <p>
+    {{receipt.billInfo.remarks}}
+  </p>
+  <h2 class="text-2xl">
+    {{receipt.billInfo.placeName}}
+  </h2>
+  <em>
+    {{receipt.billInfo.date}}
+  </em>
+</header>
+<div class="content">
+  <table class="w-full">
+    <thead>
+      <tr>
+        <th class="text-gray-500">Description</th>
+        <th class="text-gray-500">Payable by</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let billItem of receipt.personBillItems; let i = index;" class="border-b last:border-b-0">
+        <td class="py-8">
+          <div>
+            <header>
+              <h3>
+                {{billItem.description}}
+              </h3>
+            </header>
+            <p>
+              Unit price:
+              <strong>
+                {{billItem.price.amount | currency: billItem.price.currency }}
+              </strong>
+              <br>
+              Price with charges:
+              <strong>
+                {{billItem.priceWithCharges.amount | currency: billItem.priceWithCharges.currency }}
+              </strong>
+            </p>
+          </div>
+        </td>
+        <td class="text-center">
+          {{ billItem.assignedTo?.fullname | titlecase}}
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

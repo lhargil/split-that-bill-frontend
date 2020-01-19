@@ -30,7 +30,13 @@ export class WizardComponent implements OnInit {
         name: wizardStep.stepName,
         isActive: wizardStep.isActive,
         isDone: wizardStep.isDone,
-        onClick: (eventData) => this.onNext(eventData)
+        onClick: (eventData) => {
+          if (eventData.step.id <= this.currentStep) {
+            this.onBack(eventData.$event);
+          } else if (eventData.step.id > this.currentStep) {
+            this.onNext(eventData.$event);
+          }
+        }
       } as Step;
     });
     this.loadComponent(this.currentStep);

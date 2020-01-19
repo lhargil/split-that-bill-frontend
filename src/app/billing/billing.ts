@@ -10,3 +10,11 @@ export interface PeopleBilling {
   billItem: BillItemDto;
   person: Person;
 }
+
+export interface BillingData {
+  friends: any[];
+  bill: any;
+  extraCharges: any[];
+  billItems: any[];
+  personBillItems: any[];
+}

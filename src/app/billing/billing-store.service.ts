@@ -1,26 +1,15 @@
 import { Injectable } from '@angular/core';
 import { Subject, BehaviorSubject, combineLatest, of } from 'rxjs';
 import { map, tap, startWith } from 'rxjs/operators';
+import { BillingData } from './billing';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BillingStoreService {
-  private billingState: {
-    friends: any[],
-    bill: any,
-    extraCharges: any[],
-    billItems: any[],
-    personBillItems: any[]
-  };
+  private billingState: BillingData;
 
-  private storeSubject = new BehaviorSubject<{
-    friends: any[],
-    bill: any,
-    extraCharges: any[],
-    billItems: any[],
-    personBillItems: any[]
-  }>(this.create());
+  private storeSubject = new BehaviorSubject<BillingData>(this.create());
 
   private sliceOfStateSubject = new BehaviorSubject<BillingStoreStateKeys | null>(null);
   private slice$ = this.sliceOfStateSubject.asObservable();

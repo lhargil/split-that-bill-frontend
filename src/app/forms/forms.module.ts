@@ -8,14 +8,15 @@ import { BillItemsFormComponent } from './bill-items-form/bill-items-form.compon
 import { FriendsFormComponent } from './friends-form/friends-form.component';
 import { BillItemsAssignFormComponent } from './bill-items-assign-form/bill-items-assign-form.component';
 import { ExtraChargesFormComponent } from './extra-charges-form/extra-charges-form.component';
+import { ReceiptFormComponent } from './receipt-form/receipt-form.component';
 
 
 
 @NgModule({
-  declarations: [PersonFormComponent, PeopleFormComponent, BillFormComponent, BillItemsFormComponent, FriendsFormComponent, BillItemsAssignFormComponent, ExtraChargesFormComponent],
+  declarations: [PersonFormComponent, PeopleFormComponent, BillFormComponent, BillItemsFormComponent, FriendsFormComponent, BillItemsAssignFormComponent, ExtraChargesFormComponent, ReceiptFormComponent],
   imports: [
     SharedModule
   ],
-  exports: [PersonFormComponent, PeopleFormComponent, BillFormComponent, BillItemsFormComponent, FriendsFormComponent, BillItemsAssignFormComponent, ExtraChargesFormComponent]
+  exports: [PersonFormComponent, PeopleFormComponent, BillFormComponent, BillItemsFormComponent, FriendsFormComponent, BillItemsAssignFormComponent, ExtraChargesFormComponent, ReceiptFormComponent]
 })
 export class FormsModule { }
