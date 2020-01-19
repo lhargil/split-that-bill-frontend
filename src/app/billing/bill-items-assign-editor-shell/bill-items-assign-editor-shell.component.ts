@@ -55,7 +55,6 @@ export class BillItemsAssignEditorShellComponent implements OnInit, OnDestroy {
     this.billingStore.store$
       .pipe(
         takeUntil(this.destroyed$),
-        tap(console.log),
         map(store => {
           const priceWithCharges = store.extraCharges.reduce((acc, curr) => {
             return acc + (Number(curr.rate) / 100);
@@ -128,7 +127,6 @@ export class BillItemsAssignEditorShellComponent implements OnInit, OnDestroy {
     }
 
     const updatedPersonBillItems = [...this.vm.billItemsForm.get('billItems').value.map(bi => {
-      console.log(bi);
       return {
         itemId: bi.itemId,
         assignee: bi.assignee
