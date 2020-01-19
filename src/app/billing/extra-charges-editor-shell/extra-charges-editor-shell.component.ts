@@ -99,7 +99,7 @@ export class ExtraChargesEditorShellComponent implements OnInit, OnDestroy {
     return this.fb.group({
       id: [extraCharge.id],
       description: [extraCharge.description, [Validators.required, Validators.minLength]],
-      rate: [extraCharge.rate, [Validators.required, decimalAmountValidator()]]
+      rate: [Number(extraCharge.rate).toFixed(2), [Validators.required, Validators.min(0.01), decimalAmountValidator()]]
     });
   }
 }

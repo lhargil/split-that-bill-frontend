@@ -50,6 +50,9 @@
           <div *ngIf="billItem.get('amount').errors.required">
             Amount {{i + 1}} is required.
           </div>
+          <div *ngIf="billItem.get('amount').errors.min">
+            Amount {{i + 1}} must be greater than 0.
+          </div>
           <div *ngIf="billItem.get('amount').errors.notDecimal">
             Amount {{i + 1}} must be in decimal format.
           </div>

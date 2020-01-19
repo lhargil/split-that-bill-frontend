@@ -13,13 +13,13 @@
   <table class="w-full">
     <thead>
       <tr>
-        <th class="text-gray-500">Description</th>
+        <th class="text-gray-500 text-left">Description</th>
         <th class="text-gray-500">Payable by</th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let billItem of receipt.personBillItems; let i = index;" class="border-b last:border-b-0">
-        <td class="py-8">
+        <td class="py-8 w-2/3">
           <div>
             <header>
               <h3>
@@ -39,10 +39,22 @@
             </p>
           </div>
         </td>
-        <td class="text-center">
+        <td class="text-center w-1/3">
           {{ billItem.assignedTo?.fullname | titlecase}}
         </td>
       </tr>
     </tbody>
+    <tfoot>
+      <tr>
+        <td colspan="2">
+          Bill total: <strong>{{receipt.billInfo.total.amount | currency: receipt.billInfo.total.currency}}</strong>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          Bill extra charge rates: <strong>{{receipt.billInfo.totalChargeRates | percent }}</strong>
+        </td>
+      </tr>
+    </tfoot>
   </table>
 </div>

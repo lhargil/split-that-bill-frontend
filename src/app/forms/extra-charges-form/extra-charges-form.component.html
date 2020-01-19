@@ -17,10 +17,12 @@
           <div class="mr-4">{{i + 1}}</div>
           <div class="flex flex-col items-start justify-center my-2 xs:items-center xs:flex-row">
             <input class="field-input-text focus:outline-none focus:shadow-outline my-2 mr-2" type="text"
+              [ngClass]="{'border border-red-500 focus:shadow-none': extraCharge.get('description').invalid && (extraCharge.get('description').dirty || extraCharge.get('description').touched)}"
               formControlName="description" placeholder="Description" />
             <div class="relative w-24">
-              <input class="field-input-text focus:outline-none focus:shadow-outline" type="text" formControlName="rate"
-                placeholder="Rate" />
+              <input class="field-input-text focus:outline-none focus:shadow-outline"
+                [ngClass]="{'border border-red-500 focus:shadow-none': extraCharge.get('rate').invalid && (extraCharge.get('rate').dirty || extraCharge.get('rate').touched)}"
+                type="text" formControlName="rate" placeholder="Rate" />
               <span class="absolute abs-v-middle right-0 pr-4">%</span>
             </div>
           </div>
@@ -43,6 +45,9 @@
           *ngIf="extraCharge.get('rate').invalid && (extraCharge.get('rate').dirty || extraCharge.get('rate').touched)">
           <div *ngIf="extraCharge.get('rate').errors.required">
             Rate {{i + 1}} is required.
+          </div>
+          <div *ngIf="extraCharge.get('rate').errors.min">
+            Rate {{i + 1}} must be greater than 0.
           </div>
           <div *ngIf="extraCharge.get('rate').errors.notDecimal">
             Rate {{i + 1}} must be in decimal format.

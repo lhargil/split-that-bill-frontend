@@ -17,7 +17,7 @@ class Receipt {
         year: this.billingData.bill.billDateYear
       }),
       total: this.getTotal(),
-      totalCharges: this.getTotalChargeRates()
+      totalChargeRates: this.getTotalChargeRates()
     };
   }
 
@@ -40,7 +40,7 @@ class Receipt {
 
   private getTotal() {
     return Receipt.createMoney(this.billingData.billItems.reduce((acc, curr) => {
-      return acc + curr.amount;
+      return acc + Number(curr.amount);
     }, 0));
   }
 

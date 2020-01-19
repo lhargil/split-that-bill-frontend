@@ -30,9 +30,12 @@ export class BillEditorShellComponent implements OnInit, OnDestroy {
     this.billingStore.getStoreSlice$(BillingStoreStateKeys.Bill)
       .pipe(
         takeUntil(this.destroyed$),
-        filter(bill => !!bill),
         tap(bill => {
-          this.billForm = this.createForm(bill);
+          this.billForm = this.createForm(bill || {
+            establishmentName: '',
+            billDate: new Date().toString(),
+            remarks: ''
+          });
         })
       )
       .subscribe();
@@ -42,7 +45,7 @@ export class BillEditorShellComponent implements OnInit, OnDestroy {
         takeUntil(this.destroyed$)
       )
       .subscribe(nextData => {
-        if (nextData == null) return;
+        if (nextData == null) { return; }
         this.formSubmit(_ => nextData.next());
       });
     this.wizardService.backStep$
@@ -50,7 +53,7 @@ export class BillEditorShellComponent implements OnInit, OnDestroy {
         takeUntil(this.destroyed$),
       )
       .subscribe(backData => {
-        if (backData == null) return;
+        if (backData == null) { return; }
         this.formSubmit(_ => backData.back());
       });
   }

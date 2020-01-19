@@ -81,6 +81,8 @@ export class FriendsEditorShellComponent implements OnInit, OnDestroy {
         const selectedFriend = friends && friends.find(f => f.id == person.id);
         return this.fb.group({
           id: [person.id],
+          firstname: [person.firstname],
+          lastname: [person.lastname],
           fullname: [person.fullname],
           selected: [selectedFriend && selectedFriend.selected || false]
         });

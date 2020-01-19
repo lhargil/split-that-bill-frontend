@@ -75,17 +75,41 @@ export class BillingStoreService {
   }
 
   private create() {
-    return {
-      friends: [],
+    this.billingState = {
+      friends: [{
+        id: 1,
+        firstname: 'Lhar',
+        lastname: 'Gil',
+        fullname: 'Lhar Gil',
+        selected: true
+      }],
       bill: {
-        establishmentName: '',
+        establishmentName: 'Nandos\'s Avenue K',
         billDate: new Date().toString(),
-        remarks: ''
+        remarks: 'Random dinner'
       },
-      extraCharges: [],
-      billItems: [],
-      personBillItems: []
+      extraCharges: [{
+        id: 1,
+        rate: 6,
+        description: 'SST'
+      }],
+      billItems: [{
+        id: 1,
+        description: '1/4 Chicken',
+        amount: 18.50,
+        discount: null
+      }, {
+        id: 2,
+        description: 'Iced lemon tea',
+        amount: 5.50,
+        discount: null
+      }],
+      personBillItems: [{
+        itemId: 1,
+        assignee: 1
+      }]
     };
+    return this.billingState;
   }
 }
 

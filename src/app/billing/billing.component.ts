@@ -48,7 +48,7 @@ export class BillingComponent implements OnInit {
     component: ExtraChargesEditorShellComponent
   }, {
     id: 6,
-    stepName: 'Done',
+    stepName: 'Summary',
     isDone: false,
     isActive: false,
     component: ReceiptShellComponent

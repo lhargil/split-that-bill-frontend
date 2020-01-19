@@ -47,7 +47,7 @@ export class BillItemsEditorShellComponent implements OnInit, OnDestroy {
     this.wizardService.nextStep$
       .pipe(takeUntil(this.destroyed$))
       .subscribe(nextData => {
-        if (nextData == null) return;
+        if (nextData == null) { return; }
 
         this.formSubmit(_ => nextData.next());
       });
@@ -55,7 +55,7 @@ export class BillItemsEditorShellComponent implements OnInit, OnDestroy {
     this.wizardService.backStep$
       .pipe(takeUntil(this.destroyed$))
       .subscribe(backData => {
-        if (backData == null) return;
+        if (backData == null) { return; }
         this.formSubmit(_ => backData.back());
       });
   }
@@ -66,11 +66,11 @@ export class BillItemsEditorShellComponent implements OnInit, OnDestroy {
   }
 
   addBillItem() {
-    this.billItems.push(this.fb.group({
-      id: [0],
-      description: ['', [Validators.required, Validators.minLength]],
-      amount: [Number(0).toFixed(2), [Validators.required, decimalAmountValidator()]],
-      discount: ['', [decimalAmountValidator(true)]]
+    this.billItems.push(this.buildBillItem({
+      id: 0,
+      description: '',
+      amount: 0,
+      discount: null
     }));
   }
 
@@ -85,13 +85,17 @@ export class BillItemsEditorShellComponent implements OnInit, OnDestroy {
   private createForm(items) {
     return this.fb.group({
       billItems: this.fb.array(items.map(item => {
-        return this.fb.group({
-          id: [item.id],
-          description: [item.description, [Validators.required, Validators.minLength]],
-          amount: [Number(item.amount).toFixed(2), [Validators.required, decimalAmountValidator()]],
-          discount: [item.discount, [decimalAmountValidator(true)]]
-        });
+        return this.buildBillItem(item);
       })),
+    });
+  }
+
+  private buildBillItem(item) {
+    return this.fb.group({
+      id: [item.id],
+      description: [item.description, [Validators.required, Validators.minLength]],
+      amount: [Number(item.amount).toFixed(2), [Validators.required, Validators.min(0.01), decimalAmountValidator()]],
+      discount: [item.discount, [decimalAmountValidator(true)]]
     });
   }
 
