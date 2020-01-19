@@ -65,7 +65,7 @@ export class ExtraChargesEditorShellComponent implements OnInit, OnDestroy {
     this.extraCharges.push(this.buildExtraCharge({
       id: index,
       description: '',
-      amount: 0
+      rate: 0
     }));
   }
 
@@ -76,10 +76,7 @@ export class ExtraChargesEditorShellComponent implements OnInit, OnDestroy {
   private createForm(charges) {
     return this.fb.group({
       extraCharges: this.fb.array(charges.map(ec => {
-        return this.fb.group({
-          description: [ec.description, [Validators.required, Validators.minLength]],
-          rate: [ec.rate, [Validators.required, decimalAmountValidator()]]
-        });
+        return this.buildExtraCharge(ec);
       })),
     });
   }
@@ -98,11 +95,11 @@ export class ExtraChargesEditorShellComponent implements OnInit, OnDestroy {
     callback();
   }
 
-  private buildExtraCharge(extraCharge: { id: number, description: string, amount: number }) {
+  private buildExtraCharge(extraCharge: { id: number, description: string, rate: number }) {
     return this.fb.group({
       id: [extraCharge.id],
       description: [extraCharge.description, [Validators.required, Validators.minLength]],
-      rate: [extraCharge.amount, [Validators.required, decimalAmountValidator()]]
+      rate: [extraCharge.rate, [Validators.required, decimalAmountValidator()]]
     });
   }
 }

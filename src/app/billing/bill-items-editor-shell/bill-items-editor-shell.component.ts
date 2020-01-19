@@ -17,6 +17,7 @@ export class BillItemsEditorShellComponent implements OnInit, OnDestroy {
 
   private destroyed$ = new ReplaySubject(0);
   private defaultBillItems = [{
+    id: 0,
     description: '',
     amount: 0,
     discount: ''
@@ -37,7 +38,6 @@ export class BillItemsEditorShellComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.billingStore.getStoreSlice$(BillingStoreStateKeys.BillItems)
       .pipe(takeUntil(this.destroyed$),
-        tap(console.log),
         tap(billItems => {
           this.billItemsForm = this.createForm(billItems && billItems.length > 0 ? billItems : this.defaultBillItems);
         })
@@ -67,6 +67,7 @@ export class BillItemsEditorShellComponent implements OnInit, OnDestroy {
 
   addBillItem() {
     this.billItems.push(this.fb.group({
+      id: [0],
       description: ['', [Validators.required, Validators.minLength]],
       amount: [Number(0).toFixed(2), [Validators.required, decimalAmountValidator()]],
       discount: ['', [decimalAmountValidator(true)]]
@@ -85,6 +86,7 @@ export class BillItemsEditorShellComponent implements OnInit, OnDestroy {
     return this.fb.group({
       billItems: this.fb.array(items.map(item => {
         return this.fb.group({
+          id: [item.id],
           description: [item.description, [Validators.required, Validators.minLength]],
           amount: [Number(item.amount).toFixed(2), [Validators.required, decimalAmountValidator()]],
           discount: [item.discount, [decimalAmountValidator(true)]]

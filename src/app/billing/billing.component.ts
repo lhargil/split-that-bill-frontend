@@ -22,25 +22,25 @@ export class BillingComponent implements OnInit {
     isActive: true,
     component: FriendsEditorShellComponent
   }, {
-    id: 4,
+    id: 2,
     stepName: 'Where did you eat?',
     isDone: false,
     isActive: false,
     component: BillEditorShellComponent
   }, {
-    id: 2,
+    id: 4,
     stepName: 'What did you eat?',
     isDone: false,
     isActive: false,
     component: BillItemsEditorShellComponent
   }, {
-    id: 3,
+    id: 5,
     stepName: 'Who ate what?',
     isDone: false,
     isActive: false,
     component: BillItemsAssignEditorShellComponent
   }, {
-    id: 5,
+    id: 3,
     stepName: 'Any extra charges?',
     isDone: false,
     isActive: false,

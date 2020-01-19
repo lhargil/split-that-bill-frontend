@@ -52,33 +52,29 @@ export class BillItemsAssignEditorShellComponent implements OnInit, OnDestroy {
   wizardStep$ = this.wizardService.wizardStep$;
 
   ngOnInit() {
-    this.billingStore.getStoreSlices$([BillingStoreStateKeys.BillItems, BillingStoreStateKeys.Friends, BillingStoreStateKeys.PersonBillItems])
-      .pipe(tap(console.log),
-        map(billItemsAndFriends => {
-          this.vm.participants = billItemsAndFriends.friends || [{
-            id: 1,
-            firstname: 'lhar',
-            lastname: 'gil'
-          }];
-          const personBillItems = billItemsAndFriends.billItems.map(bi => {
-            const assignee = billItemsAndFriends.personBillItems &&
-              billItemsAndFriends.personBillItems.find(pbi => pbi.itemId == bi.id);
+    this.billingStore.store$
+      .pipe(
+        takeUntil(this.destroyed$),
+        tap(console.log),
+        map(store => {
+          const priceWithCharges = store.extraCharges.reduce((acc, curr) => {
+            return acc + (Number(curr.rate) / 100);
+          }, 0);
+          const personBillItems = store.billItems.map(bi => {
+            const assignee = store.personBillItems &&
+              store.personBillItems.find(pbi => pbi.itemId == bi.id);
             return {
               itemId: bi.id,
               itemDescription: bi.description,
               amount: bi.amount,
               currency: 'MYR',
-              priceWithCharges: bi.priceWithCharges || 0,
+              priceWithCharges: Number(bi.amount) + (bi.amount * priceWithCharges),
               assignee: (assignee && assignee.assignee || 0) || 0,
             };
           });
 
           return {
-            participants: billItemsAndFriends.friends || [{
-              id: 1,
-              firstname: 'lhar',
-              lastname: 'gil'
-            }],
+            participants: store.friends || [],
             personBillItems
           };
         }),
@@ -132,13 +128,15 @@ export class BillItemsAssignEditorShellComponent implements OnInit, OnDestroy {
     }
 
     const updatedPersonBillItems = [...this.vm.billItemsForm.get('billItems').value.map(bi => {
+      console.log(bi);
       return {
-        itemId: bi.id,
+        itemId: bi.itemId,
         assignee: bi.assignee
       };
     })];
-    console.log(this.vm.billItemsForm.value);
+
     this.billingStore.updateSlice(BillingStoreStateKeys.PersonBillItems, updatedPersonBillItems);
+
     callback();
   }
 }
