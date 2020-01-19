@@ -47,6 +47,19 @@ export class BillingStoreService {
     );
   }
 
+  getStoreSlices$(slices: BillingStoreStateKeys[]) {
+    return this.store$
+      .pipe(
+        map(store => {
+          let storeSlice = {};
+          slices.forEach(slice => {
+            storeSlice = { ...storeSlice, ...{ [slice]: store[slice] } };
+          });
+          return storeSlice;
+        })
+      );
+  }
+
   getStoreSlice$(slice: BillingStoreStateKeys) {
     this.sliceOfStateSubject.next(slice);
     return combineLatest(

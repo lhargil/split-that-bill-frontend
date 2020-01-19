@@ -37,8 +37,9 @@ export class BillItemsEditorShellComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.billingStore.getStoreSlice$(BillingStoreStateKeys.BillItems)
       .pipe(takeUntil(this.destroyed$),
+        tap(console.log),
         tap(billItems => {
-          this.billItemsForm = this.createForm(billItems && billItems.length <= 0 ? this.defaultBillItems : billItems);
+          this.billItemsForm = this.createForm(billItems && billItems.length > 0 ? billItems : this.defaultBillItems);
         })
       )
       .subscribe();
