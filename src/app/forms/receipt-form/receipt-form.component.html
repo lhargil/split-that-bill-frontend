@@ -32,7 +32,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let billItem of receipt.personBillItems; let i = index;">
+      <tr *ngFor="let billItem of receipt.billItems; let i = index;">
         <td class="py-4 w-2/3">
           <div>
             <header>
@@ -61,7 +61,12 @@
     <tfoot>
       <tr>
         <td colspan="2">
-
+          <ul>
+            <li *ngFor="let personBill of receipt.personBillItems;">
+              {{personBill.person.fullname | titlecase }} pays
+              <strong>{{personBill.total}}</strong>
+            </li>
+          </ul>
         </td>
       </tr>
     </tfoot>

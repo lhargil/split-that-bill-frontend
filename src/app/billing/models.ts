@@ -22,15 +22,29 @@ export
     };
   }
 
-  get personBillItems() {
+  get billItems() {
     return this.billingData.billItems.map(bi => {
       const assignee = this.billingData.personBillItems.find(pbi => pbi.itemId == bi.id);
       return {
         ...bi,
         price: Receipt.createMoney(bi.amount),
         priceWithCharges: Receipt.createMoney(Number(bi.amount) + (bi.amount * this.getTotalChargeRates())),
-        assignedTo: this.billingData.friends.find(f => f.id == Number(assignee.assignee)) != null ?
+        assignedTo: this.billingData.friends.find(f => f.id == Number(assignee && assignee.assignee || null)) != null ?
           this.billingData.friends.find(f => f.id == Number(assignee.assignee)) : null
+      };
+    });
+  }
+
+  get personBillItems() {
+    return this.billingData.personBillItems.map(pbi => {
+      const person = this.billingData.friends.find(f => f.id == Number(pbi.assignee));
+      const billItems = this.billingData.billItems.filter(f => f.id == pbi.itemId);
+
+      return {
+        person,
+        total: billItems.reduce((acc, curr) => {
+          return acc + (Number(curr.amount) + Number(curr.amount) * this.getTotalChargeRates());
+        }, 0)
       };
     });
   }

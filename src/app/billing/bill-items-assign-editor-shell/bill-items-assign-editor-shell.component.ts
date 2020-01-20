@@ -126,12 +126,14 @@ export class BillItemsAssignEditorShellComponent implements OnInit, OnDestroy {
       return;
     }
 
-    const updatedPersonBillItems = [...this.vm.billItemsForm.get('billItems').value.map(bi => {
-      return {
-        itemId: bi.itemId,
-        assignee: bi.assignee
-      };
-    })];
+    const updatedPersonBillItems = [...this.vm.billItemsForm.get('billItems').value
+      .filter(bi => this.vm.participants.some(p => p.id == Number(bi.assignee)))
+      .map(bi => {
+        return {
+          itemId: bi.itemId,
+          assignee: bi.assignee
+        };
+      })];
 
     this.billingStore.updateSlice(BillingStoreStateKeys.PersonBillItems, updatedPersonBillItems);
 
