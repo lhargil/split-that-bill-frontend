@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core';
 import { BillingData } from 'src/app/billing/billing';
-import { Receipt } from './models';
+import { Receipt } from 'src/app/billing/models';
 
 @Component({
   selector: 'receipt-form[receiptData]',
