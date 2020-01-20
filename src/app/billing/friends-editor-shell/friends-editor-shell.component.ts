@@ -31,19 +31,21 @@ export class FriendsEditorShellComponent implements OnInit, OnDestroy {
   private destroyed$ = new ReplaySubject(0);
   friendsForm: FormGroup;
   personForm: FormGroup;
+  hidePersonForm: boolean;
+
   constructor(private fb: FormBuilder, private wizardService: WizardService, private peopleService: PeopleService, private billingStore: BillingStoreService) {
     this.friendsForm = this.createForm([]);
     this.personForm = this.fb.group({
       lastname: ['', [Validators.required, Validators.minLength(3)]],
       firstname: ['', [Validators.required, Validators.minLength(3)]]
     });
+    this.hidePersonForm = true;
   }
   wizardStep$ = this.wizardService.wizardStep$;
   people$ = this.getPeopleObs();
 
   ngOnInit() {
     this.people$
-      .pipe(takeUntil(this.destroyed$))
       .subscribe();
 
 
@@ -77,6 +79,7 @@ export class FriendsEditorShellComponent implements OnInit, OnDestroy {
       this.peopleService.getPeople(),
       this.billingStore.getStoreSlice$(BillingStoreStateKeys.Friends)
     ).pipe(
+      takeUntil(this.destroyed$),
       map(([people, friends]) => people.map(person => {
         const selectedFriend = friends && friends.find(f => f.id == person.id);
         return this.fb.group({
@@ -106,8 +109,20 @@ export class FriendsEditorShellComponent implements OnInit, OnDestroy {
     this.peopleService.createPerson(friend)
       .pipe(
         takeUntil(this.destroyed$),
-        concatMap(_ => this.getPeopleObs())
+        concatMap(_ => this.people$ = this.getPeopleObs()),
+        tap(_ => {
+          this.closeAddPersonForm();
+          this.personForm.reset();
+        })
       ).subscribe();
+  }
+
+  closeAddPersonForm() {
+    this.hidePersonForm = true;
+  }
+
+  openAddPersonForm() {
+    this.hidePersonForm = false;
   }
 
   private createForm(friends: []) {

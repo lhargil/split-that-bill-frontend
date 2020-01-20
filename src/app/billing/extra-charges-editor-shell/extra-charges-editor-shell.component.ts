@@ -61,9 +61,9 @@ export class ExtraChargesEditorShellComponent implements OnInit, OnDestroy {
     this.destroyed$.complete();
   }
 
-  addExtraCharge(index: number) {
+  addExtraCharge() {
     this.extraCharges.push(this.buildExtraCharge({
-      id: index,
+      id: 0,
       description: '',
       rate: 0
     }));

@@ -13,7 +13,7 @@ export class BillItemsFormComponent implements OnInit {
   @Output() removeBillItem: EventEmitter<number>;
 
   get billItems() {
-    return this.billItemsForm.get('billItems') as FormArray;
+    return (this.billItemsForm.get('billItems') as FormArray);
   }
   constructor(public changeDetectorRef: ChangeDetectorRef) {
     this.addBillItem = new EventEmitter();

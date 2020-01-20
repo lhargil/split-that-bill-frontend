@@ -1,16 +1,32 @@
-<div *ngIf="wizardStep$ | async as wizardStep">
-  <header class="mb-8">
+<div *ngIf="wizardStep$ | async as wizardStep" class="relative">
+  <header class="mb-8 flex items-center justify-between">
     <h2>
       {{wizardStep.stepName}}
     </h2>
+    <button class="btn btn-primary inline-flex items-center justify-center" type="button" (click)="openAddPersonForm()">
+      <svg class="fill-current h-4 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+        <path d="M11 9V5H9v4H5v2h4v4h2v-4h4V9h-4zm-1 11a10 10 0 1 1 0-20 10 10 0 0 1 0 20z" /></svg>
+      Add new
+    </button>
   </header>
-  <friends-form #friendsFormComponent *ngIf="friendsForm" [friendsForm]="friendsForm" class="block mb-4 border-b">
+  <friends-form #friendsFormComponent *ngIf="friendsForm" [friendsForm]="friendsForm" class="block mb-4">
   </friends-form>
-  <div>
-    <header>
+  <div class="absolute top-0 inset-x-0 bg-white" [ngClass]="{'hidden': hidePersonForm}">
+    <header class="mb-8 flex items-center justify-between w-full">
       <h2>Add a new friend</h2>
+      <button class="btn btn-outline inline-flex items-center justify-center" type="button"
+        (click)="closeAddPersonForm()">
+        <svg class="fill-current h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+          <path
+            d="M10 8.586L2.929 1.515 1.515 2.929 8.586 10l-7.071 7.071 1.414 1.414L10 11.414l7.071 7.071 1.414-1.414L11.414 10l7.071-7.071-1.414-1.414L10 8.586z" />
+        </svg>
+      </button>
     </header>
     <person-form [personForm]="personForm"></person-form>
-    <button type="button" class="btn btn-primary" (click)="addFriend($event)">Add</button>
+    <button class="btn btn-primary inline-flex items-center justify-center" (click)="addFriend($event)" type="button">
+      <svg class="fill-current h-4 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+        <path d="M0 2C0 .9.9 0 2 0h14l4 4v14a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm5 0v6h10V2H5zm6 1h3v4h-3V3z" /></svg>
+      Save
+    </button>
   </div>
 </div>

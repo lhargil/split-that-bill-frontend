@@ -1,15 +1,20 @@
 <form *ngIf="billItemsForm" [formGroup]="billItemsForm" class="relative pt-16">
-  <div class="mb-4 flex items-center justify-between absolute inset-x-0 top-0 bg-white w-full">
-    <em class="text-red-500 text-sm">
-      * Discounts are in unit price units
-    </em>
+  <div class="mb-4 absolute inset-x-0 top-0 bg-white w-full flex items-center justify-between">
+    <div>
+      <p class="mb-4">
+        Items added: {{billItems.length}}
+      </p>
+      <em class="text-red-500 text-sm">
+        * Discounts are in unit price units
+      </em>
+    </div>
     <button class="btn btn-primary inline-flex items-center justify-center" type="button" (click)="add()">
       <svg class="fill-current h-4 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
         <path d="M11 9V5H9v4H5v2h4v4h2v-4h4V9h-4zm-1 11a10 10 0 1 1 0-20 10 10 0 0 1 0 20z" /></svg>
       Add new
     </button>
   </div>
-  <div class="overflow-auto" style="height:325px;">
+  <div class="overflow-auto" style="height:428px;">
     <div class="border-b last:border-b-0" formArrayName="billItems"
       *ngFor="let billItem of billItems.controls; let i = index;">
       <div class="my-8" [formGroupName]="i">
