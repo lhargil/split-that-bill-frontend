@@ -10,7 +10,7 @@ import { FormGroup, FormArray, FormBuilder } from '@angular/forms';
 export class BillItemsFormComponent implements OnInit {
   @Input() billItemsForm: FormGroup;
   @Output() addBillItem: EventEmitter<void>;
-  @Output() removeBillItem: EventEmitter<number>;
+  @Output() removeBillItem: EventEmitter<any>;
 
   get billItems() {
     return (this.billItemsForm.get('billItems') as FormArray);
@@ -26,7 +26,7 @@ export class BillItemsFormComponent implements OnInit {
   add() {
     this.addBillItem.emit();
   }
-  remove(index: number) {
-    this.removeBillItem.emit(index);
+  remove(index: number, id: number) {
+    this.removeBillItem.emit({ index, id });
   }
 }

@@ -6,6 +6,8 @@ import { WizardService } from 'src/app/wizard/wizard.service';
 import { takeUntil, tap } from 'rxjs/operators';
 import { BillItemsFormComponent } from 'src/app/forms/bill-items-form/bill-items-form.component';
 import { BillingStoreService, BillingStoreStateKeys } from '../billing-store.service';
+import { BillItemsManager } from '../models/bill-items-manager';
+import { BillItem } from '../models';
 
 @Component({
   selector: 'app-bill-items-editor-shell',
@@ -16,21 +18,20 @@ export class BillItemsEditorShellComponent implements OnInit, OnDestroy {
   @ViewChild('billItemsFormComponent', { static: false }) billItemsFormComponent: BillItemsFormComponent;
 
   private destroyed$ = new ReplaySubject(0);
-  private defaultBillItems = [{
-    id: 0,
-    description: '',
-    amount: 0,
-    discount: ''
-  }];
-
-  billItemsForm: FormGroup;
+  private billItemsManager: BillItemsManager;
+  private billItemsList: BillItem[];
 
   get billItems() {
-    return this.billItemsForm.get('billItems') as FormArray;
+    return this.billItemsManager.billItems;
+  }
+
+  get billItemsForm() {
+    return this.billItemsManager.billItemsForm;
   }
 
   constructor(private fb: FormBuilder, private wizardService: WizardService, private billingStore: BillingStoreService) {
-    this.billItemsForm = this.createForm(this.defaultBillItems);
+    this.billItemsList = [];
+    this.billItemsManager = new BillItemsManager(fb, this.billItemsList);
   }
 
   wizardStep$ = this.wizardService.wizardStep$;
@@ -39,7 +40,9 @@ export class BillItemsEditorShellComponent implements OnInit, OnDestroy {
     this.billingStore.getStoreSlice$(BillingStoreStateKeys.BillItems)
       .pipe(takeUntil(this.destroyed$),
         tap(billItems => {
-          this.billItemsForm = this.createForm(billItems && billItems.length > 0 ? billItems : this.defaultBillItems);
+          this.billItemsList.splice(0);
+          billItems.forEach(item => this.billItemsList.push(item));
+          this.billItemsManager.createForm();
         })
       )
       .subscribe();
@@ -49,14 +52,14 @@ export class BillItemsEditorShellComponent implements OnInit, OnDestroy {
       .subscribe(nextData => {
         if (nextData == null) { return; }
 
-        this.formSubmit(_ => nextData.next());
+        this.formSubmit(() => nextData.next());
       });
 
     this.wizardService.backStep$
       .pipe(takeUntil(this.destroyed$))
       .subscribe(backData => {
         if (backData == null) { return; }
-        this.formSubmit(_ => backData.back());
+        this.formSubmit(() => backData.back());
       });
   }
 
@@ -66,44 +69,23 @@ export class BillItemsEditorShellComponent implements OnInit, OnDestroy {
   }
 
   addBillItem() {
-    this.billItems.push(this.buildBillItem({
-      id: 0,
-      description: '',
-      amount: 0,
-      discount: null
-    }));
+    this.billItemsManager.addBillItem(this.billItemsManager.createBillItem());
   }
 
-  removeBillItem(index: number) {
-    this.billItems.removeAt(index);
+  removeBillItem(data: { index: number, id: number }) {
+    this.billItemsManager.removeBillItem(data.index);
   }
 
-  private createForm(items) {
-    return this.fb.group({
-      billItems: this.fb.array(items.map(item => {
-        return this.buildBillItem(item);
-      })),
-    });
-  }
-
-  private buildBillItem(item) {
-    return this.fb.group({
-      id: [item.id],
-      description: [item.description, [Validators.required, Validators.minLength]],
-      amount: [Number(item.amount).toFixed(2), [Validators.required, Validators.min(0.01), decimalAmountValidator()]],
-      discount: [item.discount, [decimalAmountValidator(true)]]
-    });
-  }
-
-  private formSubmit(callback) {
+  private formSubmit(onFormSubmitted: () => void) {
     this.billItemsForm.markAllAsTouched();
     this.billItemsFormComponent.changeDetectorRef.detectChanges();
+
     if (!this.billItemsForm.valid) {
       return;
     }
 
-    const updatedBillItems = [...this.billItemsForm.get('billItems').value];
+    const updatedBillItems = [...this.billItems.value];
     this.billingStore.updateSlice(BillingStoreStateKeys.BillItems, updatedBillItems);
-    callback();
+    onFormSubmitted();
   }
 }

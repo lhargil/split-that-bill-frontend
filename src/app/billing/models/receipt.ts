@@ -1,12 +1,12 @@
 import { BillingData } from 'src/app/billing/billing';
-
-export
-  class Receipt {
+export class Receipt {
   static createMoney(amount: number) {
     return { amount, currency: 'MYR' };
   }
-  constructor(private billingData: BillingData) { }
-
+  static create(billingData: BillingData) {
+    return new Receipt(billingData);
+  }
+  private constructor(private billingData: BillingData) { }
   get billInfo() {
     return {
       placeName: this.billingData.bill.establishmentName,
@@ -21,7 +21,6 @@ export
       totalChargeRates: this.getTotalChargeRates()
     };
   }
-
   get billItems() {
     return this.billingData.billItems.map(bi => {
       const assignee = this.billingData.personBillItems.find(pbi => pbi.itemId == bi.id);
@@ -34,12 +33,10 @@ export
       };
     });
   }
-
   get personBillItems() {
     return this.billingData.personBillItems.map(pbi => {
       const person = this.billingData.friends.find(f => f.id == Number(pbi.assignee));
       const billItems = this.billingData.billItems.filter(f => f.id == pbi.itemId);
-
       return {
         person,
         total: billItems.reduce((acc, curr) => {
@@ -48,21 +45,21 @@ export
       };
     });
   }
-
-  private createDate(date: { day: number, month: number, year: number }) {
+  private createDate(date: {
+    day: number;
+    month: number;
+    year: number;
+  }) {
     return new Date(date.year, date.month, date.day).toDateString();
   }
-
   private getTotal() {
     return Receipt.createMoney(this.billingData.billItems.reduce((acc, curr) => {
       return acc + Number(curr.amount);
     }, 0));
   }
-
   private getTotalWithCharges() {
     return this.getTotal().amount + (this.getTotal().amount * this.getTotalChargeRates());
   }
-
   private getTotalChargeRates() {
     return this.billingData.extraCharges.reduce((acc, curr) => {
       return acc + Number(curr.rate);

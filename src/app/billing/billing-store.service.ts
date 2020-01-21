@@ -89,23 +89,23 @@ export class BillingStoreService {
         remarks: 'Random dinner'
       },
       extraCharges: [{
-        id: 1,
+        id: -1,
         rate: 6,
         description: 'SST'
       }],
       billItems: [{
-        id: 1,
+        id: -1,
         description: '1/4 Chicken',
         amount: 18.50,
         discount: null
       }, {
-        id: 2,
+        id: -2,
         description: 'Iced lemon tea',
         amount: 5.50,
         discount: null
       }],
       personBillItems: [{
-        itemId: 1,
+        itemId: -1,
         assignee: 1
       }]
     };
