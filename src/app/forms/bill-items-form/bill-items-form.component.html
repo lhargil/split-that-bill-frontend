@@ -1,72 +1,73 @@
-<form *ngIf="billItemsForm" [formGroup]="billItemsForm" class="relative pt-16">
+<form *ngIf="billItemsForm" [formGroup]="billItemsForm" class="relative pt-12">
   <div class="mb-4 absolute inset-x-0 top-0 bg-white w-full flex items-center justify-between">
-    <div>
-      <p class="mb-4">
-        Items added: {{billItems.length}}
-      </p>
-      <em class="text-red-500 text-sm">
-        * Discounts are in unit price units
-      </em>
-    </div>
+    <em class="text-red-500 text-sm">
+      * Discounts are in unit price units
+    </em>
     <button class="btn btn-primary inline-flex items-center justify-center" type="button" (click)="add()">
       <svg class="fill-current h-4 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
         <path d="M11 9V5H9v4H5v2h4v4h2v-4h4V9h-4zm-1 11a10 10 0 1 1 0-20 10 10 0 0 1 0 20z" /></svg>
       Add new
     </button>
   </div>
-  <div class="overflow-auto" style="height:428px;">
-    <div class="border-b last:border-b-0" formArrayName="billItems"
-      *ngFor="let billItem of billItems.controls; let i = index;">
-      <div class="my-8" [formGroupName]="i">
-        <div class="flex flex-col md:flex-row items-start md:items-center mb-4">
-          <div class="mr-4">
-            1
+  <div *ngIf="billItems.length <= 0; then noBillItems; else withBillItems"></div>
+  <ng-template #withBillItems>
+    <div class="overflow-auto" style="height:428px;">
+      <div class="border-b last:border-b-0" formArrayName="billItems"
+        *ngFor="let billItem of billItems.controls; let i = index;">
+        <div class="my-8" [formGroupName]="i">
+          <div class="flex flex-col md:flex-row items-start md:items-center mb-4">
+            <div class="mr-4">
+              1
+            </div>
+            <input class="field-input-text focus:outline-none focus:shadow-outline"
+              [ngClass]="{'border border-red-500 focus:shadow-none': billItems.controls[i].get('description').invalid && (billItems.controls[i].get('description').dirty || billItems.controls[i].get('description').touched)}"
+              type="text" formControlName="description" placeholder="Description" />
           </div>
-          <input class="field-input-text focus:outline-none focus:shadow-outline"
-            [ngClass]="{'border border-red-500 focus:shadow-none': billItems.controls[i].get('description').invalid && (billItems.controls[i].get('description').dirty || billItems.controls[i].get('description').touched)}"
-            type="text" formControlName="description" placeholder="Description" />
-        </div>
-        <div class="flex items-start justify-start ml-6">
-          <input class="field-input-text w-1/3 focus:outline-none focus:shadow-outline mr-2"
-            [ngClass]="{'border border-red-500 focus:shadow-none': billItems.controls[i].get('amount').invalid && (billItems.controls[i].get('amount').dirty || billItems.controls[i].get('amount').touched)}"
-            type="text" formControlName="amount" placeholder="Amount" />
-          <input class="field-input-text w-1/3 focus:outline-none focus:shadow-outline mr-2"
-            [ngClass]="{'border border-red-500 focus:shadow-none': billItems.controls[i].get('discount').invalid && (billItems.controls[i].get('discount').dirty || billItems.controls[i].get('discount').touched)}"
-            type="text" formControlName="discount" placeholder="Discount" />
-          <button
-            class="text-red-700 font-bold py-2 px-4 rounded inline-flex items-center justify-center hover:bg-red-500 hover:text-white"
-            type="button" (click)="remove(i)">
-            <svg class="fill-current h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-              <path d="M6 2l2-2h4l2 2h4v2H2V2h4zM3 6h14l-1 14H4L3 6zm5 2v10h1V8H8zm3 0v10h1V8h-1z" /></svg>
-          </button>
-        </div>
-        <div
-          *ngIf="billItem.get('description').invalid && (billItem.get('description').dirty || billItem.get('description').touched)"
-          class="field-error ml-6">
-          <div *ngIf="billItem.get('description').errors.required">
-            Description {{i + 1}} is required.
+          <div class="flex items-start justify-start ml-6">
+            <input class="field-input-text w-1/3 focus:outline-none focus:shadow-outline mr-2"
+              [ngClass]="{'border border-red-500 focus:shadow-none': billItems.controls[i].get('amount').invalid && (billItems.controls[i].get('amount').dirty || billItems.controls[i].get('amount').touched)}"
+              type="text" formControlName="amount" placeholder="Amount" />
+            <input class="field-input-text w-1/3 focus:outline-none focus:shadow-outline mr-2"
+              [ngClass]="{'border border-red-500 focus:shadow-none': billItems.controls[i].get('discount').invalid && (billItems.controls[i].get('discount').dirty || billItems.controls[i].get('discount').touched)}"
+              type="text" formControlName="discount" placeholder="Discount" />
+            <button
+              class="text-red-700 font-bold py-2 px-4 rounded inline-flex items-center justify-center hover:bg-red-500 hover:text-white"
+              type="button" (click)="remove(i)">
+              <svg class="fill-current h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                <path d="M6 2l2-2h4l2 2h4v2H2V2h4zM3 6h14l-1 14H4L3 6zm5 2v10h1V8H8zm3 0v10h1V8h-1z" /></svg>
+            </button>
           </div>
-          <div *ngIf="billItem.get('description').errors.minlength">
-            Description {{i + 1}} must be at least 3 characters long.
+          <div
+            *ngIf="billItem.get('description').invalid && (billItem.get('description').dirty || billItem.get('description').touched)"
+            class="field-error ml-6">
+            <div *ngIf="billItem.get('description').errors.required">
+              Description {{i + 1}} is required.
+            </div>
+            <div *ngIf="billItem.get('description').errors.minlength">
+              Description {{i + 1}} must be at least 3 characters long.
+            </div>
           </div>
-        </div>
-        <div class="field-error ml-6"
-          *ngIf="billItem.get('amount').invalid && (billItem.get('amount').dirty || billItem.get('amount').touched)">
-          <div *ngIf="billItem.get('amount').errors.required">
-            Amount {{i + 1}} is required.
+          <div class="field-error ml-6"
+            *ngIf="billItem.get('amount').invalid && (billItem.get('amount').dirty || billItem.get('amount').touched)">
+            <div *ngIf="billItem.get('amount').errors.required">
+              Amount {{i + 1}} is required.
+            </div>
+            <div *ngIf="billItem.get('amount').errors.min">
+              Amount {{i + 1}} must be greater than 0.
+            </div>
+            <div *ngIf="billItem.get('amount').errors.notDecimal">
+              Amount {{i + 1}} must be in decimal format.
+            </div>
           </div>
-          <div *ngIf="billItem.get('amount').errors.min">
-            Amount {{i + 1}} must be greater than 0.
+          <div class="field-error"
+            *ngIf="billItem.get('discount').invalid && (billItem.get('discount').dirty || billItem.get('discount').touched)">
+            Discount {{i + 1}} must be in decimal format.
           </div>
-          <div *ngIf="billItem.get('amount').errors.notDecimal">
-            Amount {{i + 1}} must be in decimal format.
-          </div>
-        </div>
-        <div class="field-error"
-          *ngIf="billItem.get('discount').invalid && (billItem.get('discount').dirty || billItem.get('discount').touched)">
-          Discount {{i + 1}} must be in decimal format.
         </div>
       </div>
     </div>
-  </div>
+  </ng-template>
+  <ng-template #noBillItems>
+    <p>No bill items added.</p>
+  </ng-template>
 </form>

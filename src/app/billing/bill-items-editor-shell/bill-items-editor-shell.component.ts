@@ -76,10 +76,6 @@ export class BillItemsEditorShellComponent implements OnInit, OnDestroy {
 
   removeBillItem(index: number) {
     this.billItems.removeAt(index);
-
-    if (this.billItems.length <= 0) {
-      this.addBillItem();
-    }
   }
 
   private createForm(items) {
