@@ -5,3 +5,8 @@ export interface BillItem {
   discount?: number;
 }
 
+export interface ExtraCharge {
+  id: number;
+  amount: number;
+  description: string;
+}

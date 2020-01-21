@@ -21,8 +21,8 @@
               formControlName="description" placeholder="Description" />
             <div class="relative w-24">
               <input class="field-input-text focus:outline-none focus:shadow-outline"
-                [ngClass]="{'border border-red-500 focus:shadow-none': extraCharge.get('rate').invalid && (extraCharge.get('rate').dirty || extraCharge.get('rate').touched)}"
-                type="text" formControlName="rate" placeholder="Rate" />
+                [ngClass]="{'border border-red-500 focus:shadow-none': extraCharge.get('amount').invalid && (extraCharge.get('amount').dirty || extraCharge.get('amount').touched)}"
+                type="text" formControlName="amount" placeholder="Amount" />
               <span class="absolute abs-v-middle right-0 pr-4">%</span>
             </div>
           </div>
@@ -42,15 +42,15 @@
           </div>
         </div>
         <div class="field-error pl-8"
-          *ngIf="extraCharge.get('rate').invalid && (extraCharge.get('rate').dirty || extraCharge.get('rate').touched)">
-          <div *ngIf="extraCharge.get('rate').errors.required">
-            Rate {{i + 1}} is required.
+          *ngIf="extraCharge.get('amount').invalid && (extraCharge.get('amount').dirty || extraCharge.get('amount').touched)">
+          <div *ngIf="extraCharge.get('amount').errors.required">
+            Amount {{i + 1}} is required.
           </div>
-          <div *ngIf="extraCharge.get('rate').errors.min">
-            Rate {{i + 1}} must be greater than 0.
+          <div *ngIf="extraCharge.get('amount').errors.min">
+            Amount {{i + 1}} must be greater than 0.
           </div>
-          <div *ngIf="extraCharge.get('rate').errors.notDecimal">
-            Rate {{i + 1}} must be in decimal format.
+          <div *ngIf="extraCharge.get('amount').errors.notDecimal">
+            Amount {{i + 1}} must be in decimal format.
           </div>
         </div>
       </div>

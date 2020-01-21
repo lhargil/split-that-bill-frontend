@@ -40,8 +40,7 @@ export class BillItemsEditorShellComponent implements OnInit, OnDestroy {
     this.billingStore.getStoreSlice$(BillingStoreStateKeys.BillItems)
       .pipe(takeUntil(this.destroyed$),
         tap(billItems => {
-          this.billItemsList.splice(0);
-          billItems.forEach(item => this.billItemsList.push(item));
+          this.billItemsManager.populateList(billItems || []);
           this.billItemsManager.createForm();
         })
       )
@@ -69,7 +68,7 @@ export class BillItemsEditorShellComponent implements OnInit, OnDestroy {
   }
 
   addBillItem() {
-    this.billItemsManager.addBillItem(this.billItemsManager.createBillItem());
+    this.billItemsManager.addBillItem();
   }
 
   removeBillItem(data: { index: number, id: number }) {

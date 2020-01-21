@@ -90,7 +90,7 @@ export class BillingStoreService {
       },
       extraCharges: [{
         id: -1,
-        rate: 6,
+        amount: 6,
         description: 'SST'
       }],
       billItems: [{

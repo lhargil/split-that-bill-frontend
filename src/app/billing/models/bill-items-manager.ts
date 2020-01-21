@@ -33,21 +33,27 @@ export class BillItemsManager {
     });
   }
 
-  createBillItem() {
+
+  addBillItem() {
+    this.billItems.push(this.buildBillItem(this.createBillItem()));
+  }
+
+  removeBillItem(index: number) {
+    this.billItems.removeAt(index);
+  }
+
+  populateList(list: BillItem[]) {
+    this.billItemsList.splice(0);
+    list.forEach(item => this.billItemsList.push(item));
+  }
+
+  private createBillItem() {
     const id = this.getNewId();
     return {
       id,
       description: '',
       amount: 0
     } as BillItem;
-  }
-
-  addBillItem(billItem: BillItem) {
-    this.billItems.push(this.buildBillItem(billItem));
-  }
-
-  removeBillItem(index: number) {
-    this.billItems.removeAt(index);
   }
 
   private buildBillItem(item) {

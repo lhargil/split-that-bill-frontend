@@ -6,6 +6,8 @@ import { ReplaySubject } from 'rxjs';
 import { takeUntil, map, tap } from 'rxjs/operators';
 import { ExtraChargesFormComponent } from 'src/app/forms/extra-charges-form/extra-charges-form.component';
 import { BillingStoreService, BillingStoreStateKeys } from '../billing-store.service';
+import { ExtraChargesManager } from '../models/extra-charges-manager';
+import { ExtraCharge } from '../models';
 
 @Component({
   selector: 'app-extra-charges-editor-shell',
@@ -16,15 +18,21 @@ export class ExtraChargesEditorShellComponent implements OnInit, OnDestroy {
   @ViewChild('extraChargesFormComponent', { static: false }) extraChargesFormComponent: ExtraChargesFormComponent;
 
   private destroyed$ = new ReplaySubject(0);
+  private extraChargesManager: ExtraChargesManager;
+  private extraChargesList: ExtraCharge[];
 
-  extraChargesForm: FormGroup;
+  get extraChargesForm() {
+    return this.extraChargesManager.extraChargesForm;
+  }
 
   get extraCharges() {
     return this.extraChargesForm.get('extraCharges') as FormArray;
   }
 
   constructor(private wizardService: WizardService, private fb: FormBuilder, private billingStore: BillingStoreService) {
-    this.extraChargesForm = this.createForm([]);
+    this.extraChargesList = [];
+    this.extraChargesManager = new ExtraChargesManager(fb, this.extraChargesList);
+    this.extraChargesManager.createForm();
   }
 
   wizardStep$ = this.wizardService.wizardStep$;
@@ -33,7 +41,8 @@ export class ExtraChargesEditorShellComponent implements OnInit, OnDestroy {
     this.billingStore.getStoreSlice$(BillingStoreStateKeys.ExtraCharges).pipe(
       takeUntil(this.destroyed$),
       tap(extraCharges => {
-        this.extraChargesForm = this.createForm(extraCharges || []);
+        this.extraChargesManager.populateList(extraCharges || []);
+        this.extraChargesManager.createForm();
       })
     ).subscribe();
 
@@ -62,23 +71,11 @@ export class ExtraChargesEditorShellComponent implements OnInit, OnDestroy {
   }
 
   addExtraCharge() {
-    this.extraCharges.push(this.buildExtraCharge({
-      id: 0,
-      description: '',
-      rate: 0
-    }));
+    this.extraChargesManager.addExtraCharge();
   }
 
   removeExtraCharge(index: number) {
-    this.extraCharges.removeAt(index);
-  }
-
-  private createForm(charges) {
-    return this.fb.group({
-      extraCharges: this.fb.array(charges.map(ec => {
-        return this.buildExtraCharge(ec);
-      })),
-    });
+    this.extraChargesManager.removeExtraCharge(index);
   }
 
   private formSubmit(callback) {
@@ -88,18 +85,10 @@ export class ExtraChargesEditorShellComponent implements OnInit, OnDestroy {
       return;
     }
 
-    const charges = [...this.extraChargesForm.get('extraCharges').value];
+    const updatedExtraCharges = [...this.extraCharges.value];
 
-    this.billingStore.updateSlice(BillingStoreStateKeys.ExtraCharges, charges);
+    this.billingStore.updateSlice(BillingStoreStateKeys.ExtraCharges, updatedExtraCharges);
 
     callback();
-  }
-
-  private buildExtraCharge(extraCharge: { id: number, description: string, rate: number }) {
-    return this.fb.group({
-      id: [extraCharge.id],
-      description: [extraCharge.description, [Validators.required, Validators.minLength]],
-      rate: [Number(extraCharge.rate).toFixed(2), [Validators.required, Validators.min(0.01), decimalAmountValidator()]]
-    });
   }
 }
