@@ -54,7 +54,6 @@ export class BillItemsAssignEditorShellComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.billingStore.store$
       .pipe(
-        tap(console.log),
         takeUntil(this.destroyed$),
         map(store => {
           const priceWithCharges = store.extraCharges.reduce((acc, curr) => {
