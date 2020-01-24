@@ -20,6 +20,7 @@ export class WizardComponent implements OnInit {
   currentStep = 1;
   steps: Step[] = [];
   orientations = Orientations;
+  hideNav = true;
 
   constructor(private componentFactoryResolver: ComponentFactoryResolver, private wizardService: WizardService) { }
 
@@ -69,6 +70,10 @@ export class WizardComponent implements OnInit {
       $event,
       next: (nextData) => this.nextCallback(nextData)
     });
+  }
+
+  toggleNav($event) {
+
   }
 
   private nextCallback(nextData) {
