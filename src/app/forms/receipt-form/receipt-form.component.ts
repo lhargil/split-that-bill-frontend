@@ -21,4 +21,7 @@ export class ReceiptFormComponent implements OnInit {
   ngOnInit() {
   }
 
+  trackByFn(index, personBillItem) {
+    return personBillItem.key;
+  }
 }

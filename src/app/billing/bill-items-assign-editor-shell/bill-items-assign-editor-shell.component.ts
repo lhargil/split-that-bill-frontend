@@ -54,6 +54,7 @@ export class BillItemsAssignEditorShellComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.billingStore.store$
       .pipe(
+        tap(console.log),
         takeUntil(this.destroyed$),
         map(store => {
           const priceWithCharges = store.extraCharges.reduce((acc, curr) => {
@@ -127,14 +128,13 @@ export class BillItemsAssignEditorShellComponent implements OnInit, OnDestroy {
     }
 
     const updatedPersonBillItems = [...this.vm.billItemsForm.get('billItems').value
-      .filter(bi => this.vm.participants.some(p => p.id == Number(bi.assignee)))
       .map(bi => {
         return {
           itemId: bi.itemId,
           assignee: bi.assignee
         };
       })];
-
+    console.log(updatedPersonBillItems);
     this.billingStore.updateSlice(BillingStoreStateKeys.PersonBillItems, updatedPersonBillItems);
 
     callback();
