@@ -1,4 +1,4 @@
-<form *ngIf="billItemsForm" [formGroup]="billItemsForm" class="relative pt-12">
+<form *ngIf="billItemsForm" [formGroup]="billItemsForm" class="relative pt-12 pb-16">
   <div class="mb-4 absolute inset-x-0 top-0 bg-white w-full flex items-center justify-between">
     <em class="text-red-500 text-sm">
       * Discounts are in unit price units
@@ -11,23 +11,20 @@
   </div>
   <div *ngIf="billItems.length <= 0; then noBillItems; else withBillItems"></div>
   <ng-template #withBillItems>
-    <div class="overflow-auto" style="height:428px;">
+    <div>
       <div class="border-b last:border-b-0" formArrayName="billItems"
         *ngFor="let billItem of billItems.controls; let i = index;">
         <div class="my-8" [formGroupName]="i">
           <div class="flex flex-col md:flex-row items-start md:items-center mb-4">
-            <div class="mr-4">
-              1
-            </div>
             <input class="field-input-text focus:outline-none focus:shadow-outline"
               [ngClass]="{'border border-red-500 focus:shadow-none': billItems.controls[i].get('description').invalid && (billItems.controls[i].get('description').dirty || billItems.controls[i].get('description').touched)}"
               type="text" formControlName="description" placeholder="Description" />
           </div>
-          <div class="flex items-start justify-start ml-6">
+          <div class="flex items-center justify-start">
             <input class="field-input-text w-1/3 focus:outline-none focus:shadow-outline mr-2"
               [ngClass]="{'border border-red-500 focus:shadow-none': billItems.controls[i].get('amount').invalid && (billItems.controls[i].get('amount').dirty || billItems.controls[i].get('amount').touched)}"
               type="text" formControlName="amount" placeholder="Amount" />
-            <input class="field-input-text w-1/3 focus:outline-none focus:shadow-outline mr-2"
+            <input class="field-input-text w-32 focus:outline-none focus:shadow-outline"
               [ngClass]="{'border border-red-500 focus:shadow-none': billItems.controls[i].get('discount').invalid && (billItems.controls[i].get('discount').dirty || billItems.controls[i].get('discount').touched)}"
               type="text" formControlName="discount" placeholder="Discount" />
             <button

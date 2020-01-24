@@ -1,5 +1,5 @@
-<div class="container">
-  <div class="flex items-center border-b-2 mb-8 p-4 lg:px-0">
+<div class="container p-0">
+  <div class="flex items-center border-b-2 mb-8 p-4 max-w-xl mx-auto">
     <h1 class="h1 mr-4">My bills</h1>
   </div>
   <wizard *ngIf="wizardSteps$ | async as wizardSteps" [wizardSteps]="wizardSteps"></wizard>

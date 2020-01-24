@@ -25,7 +25,7 @@
     {{receipt.billInfo.remarks}}
   </p>
 </header>
-<div class="content">
+<div class="pb-16">
   <ul>
     <li *ngFor="let personBillItem of receipt.personBillItems; trackBy: trackByFn;"
       class="flex items-start justify-center py-8 border-b last:border-b-0">
@@ -37,7 +37,7 @@
           <li *ngFor="let billItem of personBillItem.value" class="pb-4">
             <div>
               <header>
-                <h4 class="text-lg font-bold">{{ billItem.description }}</h4>
+                <h3>{{ billItem.description }}</h3>
               </header>
               <p>
                 Unit price: <strong>{{billItem.price.amount | currency: billItem.price.currency}}</strong>

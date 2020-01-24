@@ -1,9 +1,12 @@
-<step-tracker class="block mb-8" [steps]="steps" [config]="{orientation: orientations.horizontal}"></step-tracker>
-<div class="mx-auto rounded shadow-md bg-white max-w-xl">
+<div class="max-w-xl mx-auto overflow-auto relative mb-4" style="height: 250px;">
+  <step-tracker class="block absolute abs-v-middle" style="width: 1200px; " [steps]="steps"
+    [config]="{orientation: orientations.horizontal}"></step-tracker>
+</div>
+<div class="mx-auto rounded shadow-md bg-white max-w-xl relative">
   <div class="p-4 pb-8 overflow-auto" style="height: 600px;">
     <ng-template content-host></ng-template>
   </div>
-  <div class="text-right border-t p-4">
+  <div class="text-right border-t p-4 fixed bottom-0 inset-x-0 bg-white sm:relative">
     <button *ngIf="currentStep > 1" type="button" class="btn btn-outline inline-flex items-center justify-center"
       (click)="onBack($event)">
       <svg class="fill-current h-4 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">

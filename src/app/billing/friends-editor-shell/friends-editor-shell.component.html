@@ -1,5 +1,5 @@
-<div *ngIf="wizardStep$ | async as wizardStep" class="relative">
-  <header class="mb-8 flex items-center justify-between">
+<div *ngIf="wizardStep$ | async as wizardStep" class="relative h-full">
+  <header class="mb-8 flex items-start justify-between">
     <h2>
       {{wizardStep.stepName}}
     </h2>
@@ -11,11 +11,10 @@
   </header>
   <friends-form #friendsFormComponent *ngIf="friendsForm" [friendsForm]="friendsForm" class="block mb-4">
   </friends-form>
-  <div class="absolute top-0 inset-x-0 bg-white" [ngClass]="{'hidden': hidePersonForm}">
+  <div class="absolute inset-0 bg-white" [ngClass]="{'hidden': hidePersonForm}">
     <header class="mb-8 flex items-center justify-between w-full">
       <h2>Add a new friend</h2>
-      <button class="btn btn-outline inline-flex items-center justify-center" type="button"
-        (click)="closeAddPersonForm()">
+      <button class="btn inline-flex items-center justify-center" type="button" (click)="closeAddPersonForm()">
         <svg class="fill-current h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
           <path
             d="M10 8.586L2.929 1.515 1.515 2.929 8.586 10l-7.071 7.071 1.414 1.414L10 11.414l7.071 7.071 1.414-1.414L11.414 10l7.071-7.071-1.414-1.414L10 8.586z" />
