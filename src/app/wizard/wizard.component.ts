@@ -97,17 +97,16 @@ export class WizardComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
-    console.log('submitting');
-
     const updatedBill = {
       ...this.store.bill,
-      // ...{
-      //   billDate: new Date(Date.UTC(billForm.get('billDateYear').value,
-      //     billForm.get('billDateMonth').value - 1,
-      //     billForm.get('billDateDay').value))
-      // },
       ...{
-        billItems: [...this.store.billItems]
+        billItems: [...this.store.billItems.map(item => {
+          const person = this.store.personBillItems.find(pbi => pbi.itemId == item.id);
+          return {
+            billItem: { ...item },
+            personId: person.assignee
+          };
+        })]
       },
       ...{
         extraCharges: this.store.extraCharges.map(ec => {
@@ -128,27 +127,7 @@ export class WizardComponent implements OnInit, OnDestroy {
           };
         })
       }
-      // ...{
-      //   billItems: this.billItems.value.map(item => {
-      //     return {
-      //       id: item.id,
-      //       description: item.description,
-      //       amount: item.amount,
-      //       discount: Number(item.discount) > 0 ? Number(item.discount) : null
-      //     };
-      //   }),
-      //   ...{
-      //     extraCharges: this.extraCharges.value.map(ec => {
-      //       return {
-      //         id: ec.id,
-      //         description: ec.description,
-      //         rate: Number(ec.rate) / 100
-      //       };
-      //     })
-      //   },
-      // }
     };
-    console.log('updated Bill: ', updatedBill);
     this.billService.createBill(updatedBill)
       .subscribe();
   }
