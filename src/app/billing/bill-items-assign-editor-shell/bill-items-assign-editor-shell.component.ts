@@ -133,7 +133,6 @@ export class BillItemsAssignEditorShellComponent implements OnInit, OnDestroy {
           assignee: bi.assignee
         };
       })];
-    console.log(updatedPersonBillItems);
     this.billingStore.updateSlice(BillingStoreStateKeys.PersonBillItems, updatedPersonBillItems);
 
     callback();

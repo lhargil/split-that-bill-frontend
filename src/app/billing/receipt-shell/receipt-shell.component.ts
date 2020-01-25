@@ -20,7 +20,6 @@ export class ReceiptShellComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.billingStore.store$
       .pipe(
-        tap(console.log),
         tap(store => this.receipt = store),
         takeUntil(this.destroyed$)
       )
