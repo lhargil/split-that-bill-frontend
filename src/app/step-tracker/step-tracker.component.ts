@@ -1,10 +1,11 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core';
 import { Step, Config, Orientations } from './models';
 
 @Component({
   selector: 'step-tracker[steps][config]',
   templateUrl: './step-tracker.component.html',
-  styleUrls: ['./step-tracker.component.scss']
+  styleUrls: ['./step-tracker.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class StepTrackerComponent implements OnInit {
   private _steps: Step[];
@@ -29,7 +30,6 @@ export class StepTrackerComponent implements OnInit {
 
   goto($event, step: Step) {
     $event.preventDefault();
-    this.currentStep = step.id;
     step.onClick({ $event, step });
   }
 

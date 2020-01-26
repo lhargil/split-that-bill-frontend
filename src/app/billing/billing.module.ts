@@ -16,6 +16,7 @@ import { FriendsEditorShellComponent } from './friends-editor-shell/friends-edit
 import { BillItemsAssignEditorShellComponent } from './bill-items-assign-editor-shell/bill-items-assign-editor-shell.component';
 import { ExtraChargesEditorShellComponent } from './extra-charges-editor-shell/extra-charges-editor-shell.component';
 import { ReceiptShellComponent } from './receipt-shell/receipt-shell.component';
+import { StepTrackerModule } from '../step-tracker/step-tracker.module';
 
 
 @NgModule({
@@ -35,7 +36,8 @@ import { ReceiptShellComponent } from './receipt-shell/receipt-shell.component';
     SharedModule,
     BillingRoutingModule,
     WizardModule,
-    FormsModule
+    FormsModule,
+    StepTrackerModule
   ],
   entryComponents: [
     PersonEditorShellComponent,

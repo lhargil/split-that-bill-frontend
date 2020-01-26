@@ -1,38 +1,23 @@
-<div class="relative">
-  <div
-    class="pl-6 pt-0 max-w-xl bg-white rounded shadow-md fixed top-0 right-0 left-0 z-0 sm:right-auto sm:absolute sm:left-0">
-    <button class="btn inline-flex items-center justify-center absolute left-0" type="button" click="toggleNav($event)"
-      style="left: -15%; background-color: #fff;">
-      <svg class="fill-current h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-        <path
-          d="M10 8.586L2.929 1.515 1.515 2.929 8.586 10l-7.071 7.071 1.414 1.414L10 11.414l7.071 7.071 1.414-1.414L11.414 10l7.071-7.071-1.414-1.414L10 8.586z" />
+<div class="mx-auto rounded shadow-md bg-white relative max-w-xl">
+  <div class="p-4 pb-8 overflow-auto" style="height: 600px;">
+    <ng-template content-host></ng-template>
+  </div>
+  <footer class="text-right border-t p-4 fixed bottom-0 inset-x-0 bg-white sm:relative">
+    <button *ngIf="currentStep > 1" type="button" class="btn btn-outline inline-flex items-center justify-center"
+      (click)="onBack($event)">
+      <svg class="fill-current h-4 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+        <polygon
+          points="3.828 9 9.899 2.929 8.485 1.515 0 10 .707 10.707 8.485 18.485 9.899 17.071 3.828 11 20 11 20 9 3.828 9" />
       </svg>
+      Back
     </button>
-    <step-tracker class="inline-block" [steps]="steps" [config]="{orientation: orientations.vertical}">
-    </step-tracker>
-  </div>
-  <div class="mx-auto rounded shadow-md bg-white relative max-w-xl">
-    <div class="p-4 pb-8 overflow-auto" style="height: 600px;">
-      <ng-template content-host></ng-template>
-    </div>
-    <div class="text-right border-t p-4 fixed bottom-0 inset-x-0 bg-white sm:relative">
-      <button *ngIf="currentStep > 1" type="button" class="btn btn-outline inline-flex items-center justify-center"
-        (click)="onBack($event)">
-        <svg class="fill-current h-4 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-          <polygon
-            points="3.828 9 9.899 2.929 8.485 1.515 0 10 .707 10.707 8.485 18.485 9.899 17.071 3.828 11 20 11 20 9 3.828 9" />
-        </svg>
-        Back
-      </button>
-      <button type="button" class="btn btn-primary ml-4 inline-flex items-center justify-center"
-        (click)="onNext($event)">
-        <svg class="fill-current h-4 mr-2  inline-flex items-center justify-center" xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 20 20">
-          <polygon
-            points="16.172 9 10.101 2.929 11.515 1.515 20 10 19.293 10.707 11.515 18.485 10.101 17.071 16.172 11 0 11 0 9" />
-        </svg>
-        Next
-      </button>
-    </div>
-  </div>
+    <button type="button" class="btn btn-primary ml-4 inline-flex items-center justify-center" (click)="onNext($event)">
+      <svg class="fill-current h-4 mr-2  inline-flex items-center justify-center" xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 20 20">
+        <polygon
+          points="16.172 9 10.101 2.929 11.515 1.515 20 10 19.293 10.707 11.515 18.485 10.101 17.071 16.172 11 0 11 0 9" />
+      </svg>
+      Next
+    </button>
+  </footer>
 </div>

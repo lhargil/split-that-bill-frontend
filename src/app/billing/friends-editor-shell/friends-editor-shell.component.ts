@@ -41,7 +41,7 @@ export class FriendsEditorShellComponent implements OnInit, OnDestroy {
     });
     this.hidePersonForm = true;
   }
-  wizardStep$ = this.wizardService.wizardStep$;
+  wizardStep$ = this.wizardService.wizardStep$.pipe(tap(console.log));
   people$ = this.getPeopleObs();
 
   ngOnInit() {
