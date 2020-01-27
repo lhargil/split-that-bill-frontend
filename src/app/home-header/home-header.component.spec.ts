@@ -1,32 +1,32 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { HeaderComponent } from './header.component';
-import { NavComponent } from './nav/nav.component';
-import { FloatieNavComponent } from './floatie-nav/floatie-nav.component';
-import { MenuComponent } from './menu/menu.component';
+import { HomeHeaderComponent } from './home-header.component';
+import { NavComponent } from '../fixed-nav/nav.component';
+import { MenuComponent } from '../menu/menu.component';
 import { RouterTestingModule } from '@angular/router/testing';
+import { FloatieNavModule } from '../floatie-nav/floatie-nav.module';
 
 describe('HeaderComponent', () => {
-  let component: HeaderComponent;
-  let fixture: ComponentFixture<HeaderComponent>;
+  let component: HomeHeaderComponent;
+  let fixture: ComponentFixture<HomeHeaderComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
-        HeaderComponent,
+        HomeHeaderComponent,
         NavComponent,
-        FloatieNavComponent,
         MenuComponent
       ],
       imports: [
-        RouterTestingModule
+        RouterTestingModule,
+        FloatieNavModule
       ]
     })
       .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(HeaderComponent);
+    fixture = TestBed.createComponent(HomeHeaderComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

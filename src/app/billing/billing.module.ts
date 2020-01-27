@@ -17,6 +17,7 @@ import { BillItemsAssignEditorShellComponent } from './bill-items-assign-editor-
 import { ExtraChargesEditorShellComponent } from './extra-charges-editor-shell/extra-charges-editor-shell.component';
 import { ReceiptShellComponent } from './receipt-shell/receipt-shell.component';
 import { StepTrackerModule } from '../step-tracker/step-tracker.module';
+import { PageHeaderModule } from '../page-header/page-header.module';
 
 
 @NgModule({
@@ -37,7 +38,8 @@ import { StepTrackerModule } from '../step-tracker/step-tracker.module';
     BillingRoutingModule,
     WizardModule,
     FormsModule,
-    StepTrackerModule
+    StepTrackerModule,
+    PageHeaderModule
   ],
   entryComponents: [
     PersonEditorShellComponent,

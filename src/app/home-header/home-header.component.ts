@@ -4,11 +4,11 @@ import { takeUntil, map, filter, tap } from 'rxjs/operators';
 import { Router, NavigationEnd, NavigationStart, Event as NavigationEvent } from '@angular/router';
 
 @Component({
-  selector: 'app-header',
-  templateUrl: './header.component.html',
-  styleUrls: ['./header.component.scss']
+  selector: 'app-home-header',
+  templateUrl: './home-header.component.html',
+  styleUrls: ['./home-header.component.scss']
 })
-export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
+export class HomeHeaderComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('header', { static: false }) header: ElementRef;
   menuIsVisible: boolean;
   private destroyed$ = new ReplaySubject(0);
