@@ -58,8 +58,7 @@ export class ReceiptComponent implements OnInit, OnDestroy {
             };
           })
         };
-      }),
-      tap(console.log)
+      })
     );
 
   ngOnInit() {

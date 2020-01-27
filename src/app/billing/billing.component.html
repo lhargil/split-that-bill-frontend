@@ -1,18 +1,16 @@
 <app-page-header></app-page-header>
-<div class="container p-0">
-  <div class="flex items-center border-b-2 mb-8 p-4 max-w-xl mx-auto">
-    <h1 class="h1 mr-4">My bills</h1>
+<div class="h-8"></div>
+<div>
+  <div class="flex items-center justify-between border-b-2 mb-8 pl-4 max-w-xl mx-auto">
+    <h1>Let's split 'em</h1>
+    <button type="button" class="btn">
+      <svg class="fill-current h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+        <path d="M1 4h2v2H1V4zm4 0h14v2H5V4zM1 9h2v2H1V9zm4 0h14v2H5V9zm-4 5h2v2H1v-2zm4 0h14v2H5v-2z" /></svg>
+    </button>
   </div>
   <div class="relative">
     <div
-      class="pl-6 pt-0 max-w-xl bg-white rounded shadow-md fixed top-0 right-0 left-0 z-0 sm:right-auto sm:absolute sm:left-0">
-      <button class="btn inline-flex items-center justify-center absolute left-0" type="button"
-        click="toggleNav($event)">
-        <svg class="fill-current h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-          <path
-            d="M10 8.586L2.929 1.515 1.515 2.929 8.586 10l-7.071 7.071 1.414 1.414L10 11.414l7.071 7.071 1.414-1.414L11.414 10l7.071-7.071-1.414-1.414L10 8.586z" />
-        </svg>
-      </button>
+      class="pl-6 pt-0 max-w-xl bg-white rounded shadow-md fixed z-10 top-0 right-0 left-0 md:left-auto md:absolute md:right-0">
       <step-tracker class="inline-block" [steps]="steps" [config]="{orientation: orientations.vertical}">
       </step-tracker>
     </div>
