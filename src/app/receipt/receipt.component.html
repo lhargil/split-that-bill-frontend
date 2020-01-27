@@ -1,24 +1,26 @@
 <app-page-header></app-page-header>
 <div class="h-8"></div>
 <div class="max-w-xl mx-auto">
-  <header class="mb-8">
-    <h1>
-      Split 'em, you did!
-    </h1>
-    <p>
-      Now here's a receipt that you can share with your friends.
-    </p>
-  </header>
-  <div class="bg-white p-4 rounded shadow-md">
-    <receipt-form *ngIf="receipt$ | async as receipt" [receiptData]="receipt"></receipt-form>
-  </div>
-  <footer class="text-right border-t p-4 bg-white">
-    <button type="button" class="btn btn-primary inline-flex items-center justify-center">
-      <svg class="fill-current h-4 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-        <path
-          d="M4 10c0-1.1.9-2 2-2h8c1.1 0 2 .9 2 2v8c0 1.1-.9 2-2 2H6c-1.1 0-2-.9-2-2v-8zm2 0v8h8v-8h-2V8H8v2H6zm3-6.17V16h2V3.83l3.07 3.07 1.42-1.41L10 0l-.7.7-4.8 4.8 1.42 1.4L9 3.84z" />
-      </svg>
-      Share
-    </button>
-  </footer>
+  <ng-container *ngIf="receipt$ | async as receipt">
+    <header class="mb-8">
+      <h1>
+        Split 'em, you did!
+      </h1>
+      <p>
+        Now here's a receipt that you can share with your friends.
+      </p>
+    </header>
+    <div class="bg-white p-4 rounded shadow-md">
+      <receipt-form [receiptData]="receipt"></receipt-form>
+    </div>
+    <footer class="text-right border-t p-4 bg-white">
+      <button type="button" class="btn btn-primary inline-flex items-center justify-center">
+        <svg class="fill-current h-4 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+          <path
+            d="M4 10c0-1.1.9-2 2-2h8c1.1 0 2 .9 2 2v8c0 1.1-.9 2-2 2H6c-1.1 0-2-.9-2-2v-8zm2 0v8h8v-8h-2V8H8v2H6zm3-6.17V16h2V3.83l3.07 3.07 1.42-1.41L10 0l-.7.7-4.8 4.8 1.42 1.4L9 3.84z" />
+        </svg>
+        Share
+      </button>
+    </footer>
+  </ng-container>
 </div>

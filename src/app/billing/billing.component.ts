@@ -91,6 +91,8 @@ export class BillingComponent implements OnInit {
         }
       } as Step;
     });
+    this.billingStore.initializeStore();
+
     this.billingStore.store$
       .pipe(
         takeUntil(this.destroyed$)

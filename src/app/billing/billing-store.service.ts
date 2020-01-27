@@ -9,7 +9,7 @@ import { BillingData } from './billing';
 export class BillingStoreService {
   private billingState: BillingData;
 
-  private storeSubject = new BehaviorSubject<BillingData>(this.create());
+  private storeSubject = new BehaviorSubject<BillingData>(null);
 
   private sliceOfStateSubject = new BehaviorSubject<BillingStoreStateKeys | null>(null);
   private slice$ = this.sliceOfStateSubject.asObservable();
@@ -74,42 +74,23 @@ export class BillingStoreService {
     this.storeSubject.next(this.billingState);
   }
 
+  initializeStore() {
+    this.billingState = this.create();
+    this.storeSubject.next(this.billingState);
+  }
+
   private create() {
-    this.billingState = {
-      friends: [{
-        id: 1,
-        firstname: 'Lhar',
-        lastname: 'Gil',
-        fullname: 'Lhar Gil',
-        selected: true
-      }],
+    return {
+      friends: [],
       bill: {
-        establishmentName: 'Nandos\'s Avenue K',
+        establishmentName: '',
         billDate: new Date().toString(),
-        remarks: 'Random dinner'
+        remarks: ''
       },
-      extraCharges: [{
-        id: -1,
-        amount: 6,
-        description: 'SST'
-      }],
-      billItems: [{
-        id: -1,
-        description: '1/4 Chicken',
-        amount: 18.50,
-        discount: null
-      }, {
-        id: -2,
-        description: 'Iced lemon tea',
-        amount: 5.50,
-        discount: null
-      }],
-      personBillItems: [{
-        itemId: -1,
-        assignee: 1
-      }]
+      extraCharges: [],
+      billItems: [],
+      personBillItems: []
     };
-    return this.billingState;
   }
 }
 
