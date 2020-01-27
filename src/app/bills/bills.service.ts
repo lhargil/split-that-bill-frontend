@@ -3,7 +3,7 @@ import { environment } from 'src/environments/environment';
 import { Observable, throwError } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BillDto } from './bills';
-import { catchError } from 'rxjs/operators';
+import { catchError, tap, map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -22,8 +22,9 @@ export class BillsService {
 
   createBill(bill: BillDto) {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    return this.httpClient.post<BillDto>(this.billsApi, bill, { headers })
+    return this.httpClient.post<BillDto>(this.billsApi, bill, { headers, observe: 'response' })
       .pipe(
+        map(response => response.body),
         catchError(error => throwError(error))
       );
   }

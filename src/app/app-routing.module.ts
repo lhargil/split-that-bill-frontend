@@ -33,11 +33,15 @@ const routes: Routes = [
     // canActivate: [AuthGuard]
   },
   {
+    path: 'receipt',
+    loadChildren: () => import('./receipt/receipt.module').then(m => m.ReceiptModule)
+  },
+  {
     path: '',
     redirectTo: '/home',
     pathMatch: 'full'
   },
-  { path: '**', component: PageNotFoundComponent }
+  { path: '**', component: PageNotFoundComponent },
 ];
 
 @NgModule({

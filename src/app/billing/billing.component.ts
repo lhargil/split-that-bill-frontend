@@ -11,9 +11,10 @@ import { ExtraChargesEditorShellComponent } from './extra-charges-editor-shell/e
 import { ReceiptShellComponent } from './receipt-shell/receipt-shell.component';
 import { BillingStoreService } from './billing-store.service';
 import { BillsService } from '../bills/bills.service';
-import { takeUntil } from 'rxjs/operators';
+import { takeUntil, tap } from 'rxjs/operators';
 import { WizardService } from '../wizard/wizard.service';
 import { Step, Orientations } from '../step-tracker/models';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-billing',
@@ -76,7 +77,7 @@ export class BillingComponent implements OnInit {
   private destroyed$ = new Subject();
   private store: any;
 
-  constructor(private billingStore: BillingStoreService, private billService: BillsService, private wizardService: WizardService) { }
+  constructor(private billingStore: BillingStoreService, private billService: BillsService, private wizardService: WizardService, private router: Router) { }
 
   ngOnInit() {
     this.steps = this.wizardSteps.map((wizardStep, i) => {
@@ -151,7 +152,10 @@ export class BillingComponent implements OnInit {
       }
     };
     this.billService.createBill(updatedBill)
-      .subscribe();
+      .pipe(takeUntil(this.destroyed$))
+      .subscribe(createdBill => {
+        this.router.navigate(['/receipt', createdBill.id]);
+      });
   }
 
   private nextCallback(nextData) {

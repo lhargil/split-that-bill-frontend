@@ -12,9 +12,9 @@ export class Receipt {
       placeName: this.billingData.bill.establishmentName,
       remarks: this.billingData.bill.remarks,
       date: this.createDate({
-        day: this.billingData.bill.billDateDay,
-        month: this.billingData.bill.billDateMonth,
-        year: this.billingData.bill.billDateYear
+        day: this.billingData.bill.billDate.getDate(),
+        month: this.billingData.bill.billDate.getMonth(),
+        year: this.billingData.bill.billDate.getFullYear()
       }),
       total: this.getTotal(),
       totalWithCharges: Receipt.createMoney(this.getTotalWithCharges()),
