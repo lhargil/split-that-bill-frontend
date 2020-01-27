@@ -7,13 +7,15 @@ import { BillsListComponent } from './bills-list/bills-list.component';
 import { BillsViewComponent } from './bills-view/bills-view.component';
 import { BillsEditorComponent } from './bills-editor/bills-editor.component';
 import { SharedModule } from '../shared/shared.module';
+import { PageHeaderModule } from '../page-header/page-header.module';
 
 
 @NgModule({
   declarations: [BillsComponent, BillsListComponent, BillsViewComponent, BillsEditorComponent],
   imports: [
     SharedModule,
-    BillsRoutingModule
+    BillsRoutingModule,
+    PageHeaderModule
   ]
 })
 export class BillsModule { }

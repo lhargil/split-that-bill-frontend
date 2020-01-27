@@ -1,10 +1,8 @@
-<div class="container inner">
-  <div class="flex items-center border-b-2 mb-8 p-4 lg:px-0">
-    <h1 class="h1 mr-4">My bills</h1>
-    <a [routerLink]="[0, 'edit']"
-      class="inline-block bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded">Add
-      new</a>
-  </div>
+<div class="h-8"></div>
+<div class="max-w-xl mx-auto">
+  <header class="mb-4 lg:px-0">
+    <h1>My bills</h1>
+  </header>
   <div class="rounded shadow-md bg-white" *ngIf="bills$ | async as bills">
     <ul>
       <li *ngFor="let bill of bills" class="border-t first:border-t-0">
@@ -17,36 +15,19 @@
             {{ bill.billDate }}
           </p>
           <div class="mb-8">
-            <h1 class="text-gray-900 font-bold text-xl">
+            <h3 class="text-gray-900 font-bold">
               {{ bill.establishmentName | titlecase }}
-            </h1>
+            </h3>
             <p class="text-gray-600">
               {{bill.billTotal | currency: 'MYR'}}
             </p>
           </div>
           <div class="toolbar flex items-center justify-start">
-            <a [routerLink]="['/bills', bill.id, 'edit']"
-              class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded inline-flex items-center mr-2">
-              <svg class="fill-current h-4 inline-block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                <path d="M12.3 3.7l4 4L4 20H0v-4L12.3 3.7zm1.4-1.4L16 0l4 4-2.3 2.3-4-4z" />
-              </svg>
-              <span class="hidden md:inline md:ml-2">Edit</span>
-            </a>
-            <a [routerLink]="['/bills', bill.id, 'receipt']"
-              class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded inline-flex items-center mr-2">
+            <a [routerLink]="['/receipt', bill.id]" class="btn btn-outline inline-flex items-center mr-2">
               <svg class="fill-current h-4 inline-block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
                 <path d="M1 4h2v2H1V4zm4 0h14v2H5V4zM1 9h2v2H1V9zm4 0h14v2H5V9zm-4 5h2v2H1v-2zm4 0h14v2H5v-2z" />
               </svg>
               <span class="hidden md:inline md:ml-2">Receipt</span>
-            </a>
-            <a [routerLink]="['/billing', bill.id, 'pay']"
-              class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded inline-flex items-center">
-              <svg class="fill-current h-4 inline-block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                <path d="M0 10V2l2-2h8l10 10-10 10L0 10zm4.5-4a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z" />
-              </svg>
-              <span class="hidden md:inline md:ml-2">
-                Assign
-              </span>
             </a>
           </div>
         </div>
