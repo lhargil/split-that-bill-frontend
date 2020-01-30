@@ -155,8 +155,7 @@ export class BillingComponent implements OnInit {
     this.billService.createBill(updatedBill)
       .pipe(takeUntil(this.destroyed$))
       .subscribe(createdBill => {
-        console.log(createdBill);
-        // this.router.navigate(['/receipt', createdBill.externalId]);
+        this.router.navigate(['/receipt', createdBill.externalId]);
       });
   }
 

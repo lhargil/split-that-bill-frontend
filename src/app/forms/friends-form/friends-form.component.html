@@ -1,16 +1,27 @@
 <form *ngIf="friendsForm" [formGroup]="friendsForm">
-  <div class="mb-8">
-    <div formArrayName="participants"
-      *ngFor="let participant of participants.controls; let i = index; trackBy: trackByFn">
-      <div [formGroupName]="i">
-        <label class="block mb-4">
-          <input type="checkbox" formControlName="selected" />
-          {{participant.get('fullname').value | titlecase}}
-        </label>
+  <div *ngIf="participants.length <= 0; then noFriends; else showFriends;"></div>
+  <ng-template #showFriends>
+    <div class="mb-8">
+      <div formArrayName="participants"
+        *ngFor="let participant of participants.controls; let i = index; trackBy: trackByFn">
+        <div [formGroupName]="i">
+          <label class="block mb-4">
+            <input type="checkbox" formControlName="selected" />
+            {{participant.get('fullname').value | titlecase}}
+          </label>
+        </div>
+      </div>
+      <div class="field-error" *ngIf="friendsForm.invalid && (friendsForm.dirty || friendsForm.touched)">
+        You must select at least one friend.
       </div>
     </div>
-    <div class="field-error" *ngIf="friendsForm.invalid && (friendsForm.dirty || friendsForm.touched)">
-      You must select at least one friend.
+  </ng-template>
+  <ng-template #noFriends>
+    <div class="py-4">
+      <img class="block mb-8" src="../../../assets/images/friends-having-fun.svg" alt="Friends">
+      <p class="text-center">
+        You have not added your friends yet.
+      </p>
     </div>
-  </div>
+  </ng-template>
 </form>

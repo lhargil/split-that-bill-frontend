@@ -6,6 +6,6 @@ export function hasBillItemsValidator(minimum: number): ValidatorFn {
     if (billItems.length >= minimum) {
       return null;
     }
-    return { noBillItems: { value: `You must enter at least ${minimum} bill items.` } };
+    return { noBillItems: { value: true } };
   };
 }

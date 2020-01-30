@@ -36,7 +36,7 @@
           </div>
           <div
             *ngIf="billItem.get('description').invalid && (billItem.get('description').dirty || billItem.get('description').touched)"
-            class="field-error ml-6">
+            class="field-error">
             <div *ngIf="billItem.get('description').errors.required">
               Description {{i + 1}} is required.
             </div>
@@ -44,7 +44,7 @@
               Description {{i + 1}} must be at least 3 characters long.
             </div>
           </div>
-          <div class="field-error ml-6"
+          <div class="field-error"
             *ngIf="billItem.get('amount').invalid && (billItem.get('amount').dirty || billItem.get('amount').touched)">
             <div *ngIf="billItem.get('amount').errors.required">
               Amount {{i + 1}} is required.
@@ -66,9 +66,9 @@
   </ng-template>
   <ng-template #noBillItems>
     <div class="h-8"></div>
-    <p>No bill items added.</p>
+    <div class="py-4 text-center">
+      <img class="block mb-8" src="../../../assets/images/no-bill-items.svg" alt="No bill items">
+      Start entering bill items now.
+    </div>
   </ng-template>
-  <div class="field-error" *ngIf="billItemsForm.invalid && (billItemsForm.dirty || billItemsForm.touched)">
-    You must have at least one bill item.
-  </div>
 </form>
