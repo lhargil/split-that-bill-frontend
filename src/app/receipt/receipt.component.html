@@ -10,16 +10,19 @@
         Now here's a receipt that you can share with your friends.
       </p>
     </header>
-    <div class="bg-white p-4 rounded shadow-md">
-      <receipt-form [receiptData]="receipt"></receipt-form>
+    <div class="bg-white rounded-tl rounded-tr relative overflow-hidden">
+      <div *ngIf="copiedUrl" class="p-4 mb-4 bg-teal-200 absolute top-0 inset-x-0">
+        Url has been copied.
+      </div>
+      <receipt-form class="block p-4" [receiptData]="receipt"></receipt-form>
     </div>
-    <footer class="text-right border-t p-4 bg-white">
-      <button type="button" class="btn btn-primary inline-flex items-center justify-center">
+    <footer class="text-right border-t p-4 bg-white rounded-bl rounded-br">
+      <button type="button" class="btn btn-primary inline-flex items-center justify-center" (click)="onShare()">
         <svg class="fill-current h-4 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
           <path
             d="M4 10c0-1.1.9-2 2-2h8c1.1 0 2 .9 2 2v8c0 1.1-.9 2-2 2H6c-1.1 0-2-.9-2-2v-8zm2 0v8h8v-8h-2V8H8v2H6zm3-6.17V16h2V3.83l3.07 3.07 1.42-1.41L10 0l-.7.7-4.8 4.8 1.42 1.4L9 3.84z" />
         </svg>
-        Share
+        Copy url
       </button>
     </footer>
   </ng-container>

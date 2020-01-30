@@ -12,12 +12,14 @@ import { BillingService } from '../billing/billing.service';
 })
 export class ReceiptComponent implements OnInit, OnDestroy {
   private destroyed$ = new Subject();
+
+  copiedUrl: string;
+
   constructor(private activatedRoute: ActivatedRoute,
     private billsService: BillsService, private billingService: BillingService) { }
 
   receipt$ = this.activatedRoute.params
     .pipe(
-      tap(console.log),
       switchMap(params =>
         this.billsService.getBillByGuid(params.id)
       ),
@@ -70,5 +72,28 @@ export class ReceiptComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.destroyed$.next();
     this.destroyed$.complete();
+  }
+
+  onShare() {
+    this.copiedUrl = window.location.href;
+    this.copyMessage(this.copiedUrl);
+
+    setTimeout(() => {
+      this.copiedUrl = '';
+    }, 1000);
+  }
+
+  private copyMessage(val: string) {
+    const selBox = document.createElement('textarea');
+    selBox.style.position = 'fixed';
+    selBox.style.left = '0';
+    selBox.style.top = '0';
+    selBox.style.opacity = '0';
+    selBox.value = val;
+    document.body.appendChild(selBox);
+    selBox.focus();
+    selBox.select();
+    document.execCommand('copy');
+    document.body.removeChild(selBox);
   }
 }
