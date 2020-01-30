@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { takeUntil, switchMap, map, combineAll, tap } from 'rxjs/operators';
-import { Subject, merge, zip } from 'rxjs';
+import { takeUntil, switchMap, map, combineAll, tap, concatMap } from 'rxjs/operators';
+import { Subject, merge, zip, of } from 'rxjs';
 import { BillsService } from '../bills/bills.service';
 import { BillingService } from '../billing/billing.service';
 
@@ -17,11 +17,14 @@ export class ReceiptComponent implements OnInit, OnDestroy {
 
   receipt$ = this.activatedRoute.params
     .pipe(
-      switchMap(params => {
-        const id = +params.id;
+      tap(console.log),
+      switchMap(params =>
+        this.billsService.getBillByGuid(params.id)
+      ),
+      concatMap(bill => {
         return zip(
-          this.billsService.getBill(id),
-          this.billingService.getBillings(id)
+          of(bill),
+          this.billingService.getBillings(bill.id),
         );
       }),
       map(([bill, billing]) => {

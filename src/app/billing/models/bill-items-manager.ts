@@ -1,7 +1,8 @@
 import { BillItem } from './interfaces';
 import { IdGenerator } from 'src/app/shared/utilities';
 import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
-import { decimalAmountValidator } from 'src/app/shared/validators/decimal-amount.directive';
+import { decimalAmountValidator } from 'src/app/shared/validators/decimal-amount.validator';
+import { hasBillItemsValidator } from 'src/app/shared/validators';
 
 export class BillItemsManager {
   private _billItemsForm: FormGroup;
@@ -30,7 +31,7 @@ export class BillItemsManager {
       billItems: this.formBuilder.array(this.billItemsList.map(item => {
         return this.buildBillItem(item);
       })),
-    });
+    }, { validators: hasBillItemsValidator(1) });
   }
 
 

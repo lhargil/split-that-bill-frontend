@@ -4,7 +4,8 @@ import { tap, takeUntil } from 'rxjs/operators';
 import { LoaderService } from './shared/loader/loader.service';
 import { ReplaySubject } from 'rxjs';
 import { AuthService } from './core/auth/auth.service';
-import { environment } from 'src/environments/environment';
+import { AppService } from './app.service';
+import { BillsService } from './bills/bills.service';
 
 @Component({
   selector: 'app-root',
@@ -15,7 +16,7 @@ export class AppComponent implements OnInit, OnDestroy {
   private destroyed$ = new ReplaySubject(0);
   title = 'splitthatbill';
 
-  constructor(private router: Router, private loaderService: LoaderService, public authService: AuthService) { }
+  constructor(private router: Router, private loaderService: LoaderService, public authService: AuthService, private appService: AppService) { }
 
   ngOnInit() {
     this.router.events
@@ -29,6 +30,9 @@ export class AppComponent implements OnInit, OnDestroy {
           }
         })
       ).subscribe();
+    this.appService.getStarted$
+      .pipe(takeUntil(this.destroyed$))
+      .subscribe(_ => this.router.navigate(['/billing']));
   }
 
   ngOnDestroy() {

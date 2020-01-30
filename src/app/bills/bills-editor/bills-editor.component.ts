@@ -3,11 +3,10 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { BillsService } from '../bills.service';
 import { BillDto, ExtraChargeDto, BillItemDto, Money } from '../bills';
-import { GenericValidator } from '../../shared/generic-validator';
 import { catchError, switchMap, map } from 'rxjs/operators';
 import { EMPTY, combineLatest, of } from 'rxjs';
-import { decimalAmountValidator } from 'src/app/shared/validators/decimal-amount.directive';
 import { PeopleService } from 'src/app/people/people.service';
+import { decimalAmountValidator } from 'src/app/shared/validators';
 
 @Component({
   selector: 'app-bills-editor',

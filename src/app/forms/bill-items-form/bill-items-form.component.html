@@ -65,6 +65,10 @@
     </div>
   </ng-template>
   <ng-template #noBillItems>
+    <div class="h-8"></div>
     <p>No bill items added.</p>
   </ng-template>
+  <div class="field-error" *ngIf="billItemsForm.invalid && (billItemsForm.dirty || billItemsForm.touched)">
+    You must have at least one bill item.
+  </div>
 </form>

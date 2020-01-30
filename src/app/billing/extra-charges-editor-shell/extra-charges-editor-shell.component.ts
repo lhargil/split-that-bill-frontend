@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { WizardService } from 'src/app/wizard/wizard.service';
-import { decimalAmountValidator } from 'src/app/shared/validators/decimal-amount.directive';
+import { decimalAmountValidator } from 'src/app/shared/validators/decimal-amount.validator';
 import { ReplaySubject } from 'rxjs';
 import { takeUntil, map, tap } from 'rxjs/operators';
 import { ExtraChargesFormComponent } from 'src/app/forms/extra-charges-form/extra-charges-form.component';

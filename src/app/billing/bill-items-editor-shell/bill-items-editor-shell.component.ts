@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
-import { decimalAmountValidator } from 'src/app/shared/validators/decimal-amount.directive';
+import { FormGroup, FormBuilder, Validators, FormArray, ValidatorFn, AbstractControl } from '@angular/forms';
+import { decimalAmountValidator } from 'src/app/shared/validators/decimal-amount.validator';
 import { ReplaySubject } from 'rxjs';
 import { WizardService } from 'src/app/wizard/wizard.service';
 import { takeUntil, tap } from 'rxjs/operators';

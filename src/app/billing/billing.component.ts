@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { of, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 import { WizardStep } from '../wizard/models';
-import { PersonEditorShellComponent } from './person-editor-shell/person-editor-shell.component';
-import { PeopleEditorShellComponent } from './people-editor-shell/people-editor-shell.component';
 import { BillEditorShellComponent } from './bill-editor-shell/bill-editor-shell.component';
 import { BillItemsEditorShellComponent } from './bill-items-editor-shell/bill-items-editor-shell.component';
 import { FriendsEditorShellComponent } from './friends-editor-shell/friends-editor-shell.component';
@@ -11,7 +9,7 @@ import { ExtraChargesEditorShellComponent } from './extra-charges-editor-shell/e
 import { ReceiptShellComponent } from './receipt-shell/receipt-shell.component';
 import { BillingStoreService } from './billing-store.service';
 import { BillsService } from '../bills/bills.service';
-import { takeUntil, tap } from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 import { WizardService } from '../wizard/wizard.service';
 import { Step, Orientations } from '../step-tracker/models';
 import { Router } from '@angular/router';
@@ -77,7 +75,8 @@ export class BillingComponent implements OnInit {
   private destroyed$ = new Subject();
   private store: any;
 
-  constructor(private billingStore: BillingStoreService, private billService: BillsService, private wizardService: WizardService, private router: Router) { }
+  constructor(private billingStore: BillingStoreService, private billService: BillsService, private wizardService: WizardService, private router: Router) {
+  }
 
   ngOnInit() {
     this.steps = this.wizardSteps.map((wizardStep, i) => {
@@ -86,7 +85,7 @@ export class BillingComponent implements OnInit {
         name: wizardStep.stepName,
         isActive: wizardStep.isActive,
         isDone: wizardStep.isDone,
-        onClick: (eventData) => {
+        onClick: () => {
           console.log('step nav clicked');
         }
       } as Step;
@@ -104,7 +103,7 @@ export class BillingComponent implements OnInit {
   onClickBack($event) {
     this.wizardService.tryGoBack({
       $event,
-      back: (backData) => this.backCallback(backData)
+      back: (backData) => this.backCallback()
     });
   }
 
@@ -115,7 +114,7 @@ export class BillingComponent implements OnInit {
         if (this.currentStep == this.steps.length) {
           this.onSubmit();
         } else {
-          this.nextCallback(nextData);
+          this.nextCallback();
         }
       }
     });
@@ -156,17 +155,18 @@ export class BillingComponent implements OnInit {
     this.billService.createBill(updatedBill)
       .pipe(takeUntil(this.destroyed$))
       .subscribe(createdBill => {
-        this.router.navigate(['/receipt', createdBill.id]);
+        console.log(createdBill);
+        // this.router.navigate(['/receipt', createdBill.externalId]);
       });
   }
 
-  private nextCallback(nextData) {
+  private nextCallback() {
     const updatedStep = this.getCurrentStep(1);
     this.currentStep = updatedStep;
     this.steps = this.updateSteps(this.currentStep);
   }
 
-  private backCallback(backData) {
+  private backCallback() {
     const updatedStep = this.getCurrentStep(-1);
     this.currentStep = updatedStep;
     this.steps = this.updateSteps(this.currentStep);

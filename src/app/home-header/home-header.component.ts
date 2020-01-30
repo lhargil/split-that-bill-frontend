@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild, ElementRef, Renderer2, AfterViewInit, OnD
 import { merge, fromEvent, ReplaySubject } from 'rxjs';
 import { takeUntil, map, filter, tap } from 'rxjs/operators';
 import { Router, NavigationEnd, NavigationStart, Event as NavigationEvent } from '@angular/router';
+import { AppService } from '../app.service';
 
 @Component({
   selector: 'app-home-header',
@@ -21,7 +22,7 @@ export class HomeHeaderComponent implements OnInit, OnDestroy, AfterViewInit {
   );
   isHome = true;
 
-  constructor(private renderer2: Renderer2, private router: Router) {
+  constructor(private renderer2: Renderer2, private router: Router, private appService: AppService) {
     this.menuIsVisible = false;
     this.router.events
       .pipe(
@@ -52,6 +53,10 @@ export class HomeHeaderComponent implements OnInit, OnDestroy, AfterViewInit {
   ngOnDestroy() {
     this.destroyed$.next(true);
     this.destroyed$.complete();
+  }
+
+  onGetStarted() {
+    this.appService.getStarted();
   }
 
   onScroll() {

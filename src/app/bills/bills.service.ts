@@ -12,6 +12,10 @@ export class BillsService {
   private billsApi = `${environment.baseUrl}/api/bills`
   constructor(private httpClient: HttpClient) { }
 
+  getBillByGuid(guid: string) {
+    return this.httpClient.get<BillDto>(`${this.billsApi}/${guid}`);
+  }
+
   getBills(): Observable<BillDto[]> {
     return this.httpClient.get<BillDto[]>(this.billsApi);
   }

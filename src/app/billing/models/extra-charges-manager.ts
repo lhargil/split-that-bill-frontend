@@ -1,6 +1,6 @@
 import { ExtraCharge } from './interfaces';
 import { FormBuilder, FormArray, FormGroup, Validators } from '@angular/forms';
-import { decimalAmountValidator } from 'src/app/shared/validators/decimal-amount.directive';
+import { decimalAmountValidator } from 'src/app/shared/validators/decimal-amount.validator';
 import { IdGenerator } from 'src/app/shared/utilities';
 
 export class ExtraChargesManager {

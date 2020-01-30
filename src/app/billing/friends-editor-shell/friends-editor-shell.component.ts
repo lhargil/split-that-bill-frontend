@@ -1,24 +1,12 @@
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, FormArray, ValidatorFn, AbstractControl } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { WizardService } from 'src/app/wizard/wizard.service';
-import { takeUntil, tap, map, concatMap, startWith } from 'rxjs/operators';
-import { ReplaySubject, combineLatest, of } from 'rxjs';
-import { WizardStep } from 'src/app/wizard/models';
+import { takeUntil, tap, map, concatMap } from 'rxjs/operators';
+import { ReplaySubject, combineLatest } from 'rxjs';
 import { PeopleService } from 'src/app/people/people.service';
 import { BillingStoreService, BillingStoreStateKeys } from '../billing-store.service';
 import { FriendsFormComponent } from 'src/app/forms/friends-form/friends-form.component';
-
-export function friendsWithYouValidator(minimum: number): ValidatorFn {
-  return (control: AbstractControl): { [key: string]: any } | null => {
-    const friends = control.get('participants').value;
-    const friendsSelected = friends.filter(item => item.selected);
-    if (friendsSelected.length >= minimum) {
-      return null;
-    }
-    return { 'noFriends': { value: 'You have no friends!' } };
-  };
-}
-
+import { hasSelectedFriendValidator } from 'src/app/shared/validators';
 
 @Component({
   selector: 'app-friends-editor-shell',
@@ -33,7 +21,8 @@ export class FriendsEditorShellComponent implements OnInit, OnDestroy {
   personForm: FormGroup;
   hidePersonForm: boolean;
 
-  constructor(private fb: FormBuilder, private wizardService: WizardService, private peopleService: PeopleService, private billingStore: BillingStoreService) {
+  constructor(private fb: FormBuilder, private wizardService: WizardService,
+    private peopleService: PeopleService, private billingStore: BillingStoreService) {
     this.friendsForm = this.createForm([]);
     this.personForm = this.fb.group({
       lastname: ['', [Validators.required, Validators.minLength(3)]],
@@ -54,7 +43,7 @@ export class FriendsEditorShellComponent implements OnInit, OnDestroy {
         takeUntil(this.destroyed$)
       )
       .subscribe(nextData => {
-        if (nextData == null) return;
+        if (nextData == null) { return; }
 
         this.formSubmit(_ => nextData.next());
       });
@@ -64,7 +53,7 @@ export class FriendsEditorShellComponent implements OnInit, OnDestroy {
         takeUntil(this.destroyed$),
       )
       .subscribe(backData => {
-        if (backData == null) return;
+        if (backData == null) { return; }
         this.formSubmit(_ => backData.back());
       });
   }
@@ -94,12 +83,12 @@ export class FriendsEditorShellComponent implements OnInit, OnDestroy {
         this.friendsForm = this.createForm([]);
         const participants = this.friendsForm.get('participants') as FormArray;
         people.forEach(person => participants.push(person));
-        this.friendsForm.setValidators(friendsWithYouValidator(1));
+        this.friendsForm.setValidators(hasSelectedFriendValidator(1));
       })
     );
   }
 
-  addFriend($event) {
+  addFriend() {
     this.personForm.markAllAsTouched();
     if (!this.personForm.valid) {
       return;

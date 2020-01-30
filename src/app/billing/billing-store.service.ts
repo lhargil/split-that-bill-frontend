@@ -88,7 +88,11 @@ export class BillingStoreService {
         remarks: ''
       },
       extraCharges: [],
-      billItems: [],
+      billItems: [{
+        id: -1,
+        amount: 0,
+        description: ''
+      }],
       personBillItems: []
     };
   }

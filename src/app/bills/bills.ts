@@ -5,6 +5,7 @@ export interface BillDto {
   establishmentName: string;
   billDate: string;
   remarks: string;
+  externalId: string;
   billItems: BillItemDto[];
   extraCharges: ExtraChargeDto[];
   participants: BillParticipant[];
