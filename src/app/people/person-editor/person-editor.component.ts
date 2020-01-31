@@ -35,7 +35,8 @@ export class PersonEditorComponent implements OnInit {
           id: 0,
           lastname: '',
           firstname: '',
-          totalPayable: 0
+          totalPayable: 0,
+          externalId: ''
         };
         this.personForm = this.fb.group({
           lastname: [this.currentPerson.lastname, [Validators.required, Validators.minLength(3)]],

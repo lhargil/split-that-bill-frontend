@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Subject } from 'rxjs';
+import { Subject, from, of, zip } from 'rxjs';
 import { WizardStep } from '../wizard/models';
 import { BillEditorShellComponent } from './bill-editor-shell/bill-editor-shell.component';
 import { BillItemsEditorShellComponent } from './bill-items-editor-shell/bill-items-editor-shell.component';
@@ -9,10 +9,12 @@ import { ExtraChargesEditorShellComponent } from './extra-charges-editor-shell/e
 import { ReceiptShellComponent } from './receipt-shell/receipt-shell.component';
 import { BillingStoreService } from './billing-store.service';
 import { BillsService } from '../bills/bills.service';
-import { takeUntil } from 'rxjs/operators';
+import { takeUntil, concatMap, mergeMap, tap, map, toArray } from 'rxjs/operators';
 import { WizardService } from '../wizard/wizard.service';
 import { Step, Orientations } from '../step-tracker/models';
 import { Router } from '@angular/router';
+import { PeopleService } from '../people/people.service';
+import { Person } from '../people/person';
 
 @Component({
   selector: 'app-billing',
@@ -75,7 +77,7 @@ export class BillingComponent implements OnInit {
   private destroyed$ = new Subject();
   private store: any;
 
-  constructor(private billingStore: BillingStoreService, private billService: BillsService, private wizardService: WizardService, private router: Router) {
+  constructor(private billingStore: BillingStoreService, private billService: BillsService, private wizardService: WizardService, private router: Router, private peopleService: PeopleService) {
   }
 
   ngOnInit() {
@@ -121,42 +123,68 @@ export class BillingComponent implements OnInit {
   }
 
   private onSubmit() {
-    const updatedBill = {
-      ...this.store.bill,
-      ...{
-        billItems: [...this.store.billItems.map(item => {
-          const person = this.store.personBillItems.find(pbi => pbi.itemId == item.id);
+    from(this.store.friends.filter(f => f.selected))
+      .pipe(
+        mergeMap((person: Person) => {
+          return zip(
+            of(person),
+            this.peopleService.createPerson(person)
+          )
+            .pipe(map(([p, createdPerson]) => {
+              return {
+                person: p,
+                createdPerson
+              };
+            }));
+        }),
+        toArray(),
+        map(personMap => {
           return {
-            billItem: { ...item },
-            personId: person.assignee
+            personBillItems: this.store.personBillItems.map(pbi => {
+              return {
+                itemId: pbi.itemId,
+                assignee: personMap.find(pm => pm.person.id == pbi.assignee).createdPerson.id
+              };
+            }),
+            participants: this.store.friends.map(f => {
+              return {
+                id: 0,
+                person: {
+                  id: personMap.find(pm => pm.person.id == f.id).createdPerson.id
+                }
+              };
+            })
           };
-        })]
-      },
-      ...{
-        extraCharges: this.store.extraCharges.map(ec => {
-          return {
-            id: ec.id,
-            description: ec.description,
-            rate: Number(ec.amount) / 100
-          };
-        })
-      },
-      ...{
-        participants: this.store.friends.filter(p => p.selected).map(p => {
-          return {
-            id: 0,
-            person: {
-              id: p.id
+        }),
+        concatMap((friendMaps) => {
+          const updatedBill = {
+            ...this.store.bill,
+            ...{
+              billItems: [...this.store.billItems.map(item => {
+                const person = friendMaps.personBillItems.find(pbi => pbi.itemId == item.id);
+                return {
+                  billItem: { ...item },
+                  personId: person.assignee
+                };
+              })]
+            },
+            ...{
+              extraCharges: this.store.extraCharges.map(ec => {
+                return {
+                  id: ec.id,
+                  description: ec.description,
+                  rate: Number(ec.amount) / 100
+                };
+              })
+            },
+            ...{
+              participants: friendMaps.participants
             }
           };
+
+          return this.billService.createBill(updatedBill);
         })
-      }
-    };
-    this.billService.createBill(updatedBill)
-      .pipe(takeUntil(this.destroyed$))
-      .subscribe(createdBill => {
-        this.router.navigate(['/receipt', createdBill.externalId]);
-      });
+      ).subscribe(createdBill => this.router.navigate(['/receipt', createdBill.externalId]));
   }
 
   private nextCallback() {

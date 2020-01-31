@@ -7,6 +7,7 @@ import { PeopleService } from 'src/app/people/people.service';
 import { BillingStoreService, BillingStoreStateKeys } from '../billing-store.service';
 import { FriendsFormComponent } from 'src/app/forms/friends-form/friends-form.component';
 import { hasSelectedFriendValidator } from 'src/app/shared/validators';
+import { IdGenerator } from 'src/app/shared/utilities';
 
 @Component({
   selector: 'app-friends-editor-shell',
@@ -31,12 +32,30 @@ export class FriendsEditorShellComponent implements OnInit, OnDestroy {
     this.hidePersonForm = true;
   }
   wizardStep$ = this.wizardService.wizardStep$;
-  people$ = this.getPeopleObs();
+  friendsFromStore = [];
 
   ngOnInit() {
-    this.people$
+    this.billingStore.getStoreSlice$(BillingStoreStateKeys.Friends)
+      .pipe(
+        takeUntil(this.destroyed$),
+        tap(friends => this.friendsFromStore = friends),
+        map(friends => friends.map(friend => {
+          return this.fb.group({
+            id: [friend.id],
+            firstname: [friend.firstname],
+            lastname: [friend.lastname],
+            fullname: [`${friend.firstname} ${friend.lastname}`],
+            selected: [friend.selected]
+          });
+        })),
+        tap(people => {
+          this.friendsForm = this.createForm([]);
+          const participants = this.friendsForm.get('participants') as FormArray;
+          people.forEach(person => participants.push(person));
+          this.friendsForm.setValidators(hasSelectedFriendValidator(1));
+        }),
+      )
       .subscribe();
-
 
     this.wizardService.nextStep$
       .pipe(
@@ -63,47 +82,22 @@ export class FriendsEditorShellComponent implements OnInit, OnDestroy {
     this.destroyed$.complete();
   }
 
-  getPeopleObs() {
-    return combineLatest(
-      this.peopleService.getPeople(),
-      this.billingStore.getStoreSlice$(BillingStoreStateKeys.Friends)
-    ).pipe(
-      takeUntil(this.destroyed$),
-      map(([people, friends]) => people.map(person => {
-        const selectedFriend = friends && friends.find(f => f.id == person.id);
-        return this.fb.group({
-          id: [person.id],
-          firstname: [person.firstname],
-          lastname: [person.lastname],
-          fullname: [person.fullname],
-          selected: [selectedFriend && selectedFriend.selected || false]
-        });
-      })),
-      tap(people => {
-        this.friendsForm = this.createForm([]);
-        const participants = this.friendsForm.get('participants') as FormArray;
-        people.forEach(person => participants.push(person));
-        this.friendsForm.setValidators(hasSelectedFriendValidator(1));
-      })
-    );
-  }
-
   addFriend() {
     this.personForm.markAllAsTouched();
     if (!this.personForm.valid) {
       return;
     }
 
-    const friend = { ...this.personForm.value };
-    this.peopleService.createPerson(friend)
-      .pipe(
-        takeUntil(this.destroyed$),
-        concatMap(_ => this.people$ = this.getPeopleObs()),
-        tap(_ => {
-          this.closeAddPersonForm();
-          this.personForm.reset();
-        })
-      ).subscribe();
+    const friend = {
+      ...this.personForm.value, ...{
+        id: IdGenerator.generate(-1, -100)
+      }
+    };
+
+    const updatedStore = [...this.friendsFromStore, friend];
+    console.log(updatedStore);
+    this.billingStore.updateSlice(BillingStoreStateKeys.Friends, updatedStore);
+    this.personForm.reset();
   }
 
   closeAddPersonForm() {
@@ -123,11 +117,11 @@ export class FriendsEditorShellComponent implements OnInit, OnDestroy {
   private formSubmit(callback) {
     this.friendsForm.markAllAsTouched();
     this.friendsFormComponent.changeDetectorRef.detectChanges();
-    if (!this.friendsForm.valid) {
+    if (this.friendsForm.invalid) {
       return;
     }
 
-    const friends = this.friendsForm.get('participants').value.filter(item => item.selected);
+    const friends = this.friendsForm.get('participants').value;
 
     this.billingStore.updateSlice(BillingStoreStateKeys.Friends, [...friends]);
 

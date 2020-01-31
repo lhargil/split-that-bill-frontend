@@ -18,7 +18,7 @@ export class BillItemsAssignEditorShellComponent implements OnInit, OnDestroy {
   vm: {
     billItemsForm: FormGroup;
     participants: {
-      id: number;
+      externalId: string;
       firstname: string;
       lastname: string;
     }[];
@@ -26,26 +26,8 @@ export class BillItemsAssignEditorShellComponent implements OnInit, OnDestroy {
 
   constructor(private wizardService: WizardService, private fb: FormBuilder, private billingStore: BillingStoreService) {
     this.vm = {
-      billItemsForm: this.createForm([{
-        itemId: 0,
-        itemDescription: 'Nasi Lemak',
-        amount: 10,
-        currency: 'MYR',
-        priceWithCharges: 12,
-        assignee: 0
-      }, {
-        itemId: 0,
-        itemDescription: 'Juice',
-        amount: 25,
-        currency: 'MYR',
-        priceWithCharges: 30,
-        assignee: 0
-      }]),
-      participants: [{
-        id: 1,
-        firstname: 'lhar',
-        lastname: 'gil'
-      }]
+      billItemsForm: this.createForm([]),
+      participants: []
     };
   }
 
@@ -87,14 +69,14 @@ export class BillItemsAssignEditorShellComponent implements OnInit, OnDestroy {
     this.wizardService.nextStep$
       .pipe(takeUntil(this.destroyed$))
       .subscribe(nextData => {
-        if (nextData == null) return;
+        if (nextData == null) { return; }
         this.formSubmit(_ => nextData.next());
       });
 
     this.wizardService.backStep$
       .pipe(takeUntil(this.destroyed$))
       .subscribe(backData => {
-        if (backData == null) return;
+        if (backData == null) { return; }
         this.formSubmit(_ => backData.back());
       });
   }

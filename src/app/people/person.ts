@@ -6,6 +6,7 @@ export interface Person {
   lastname: string;
   fullname?: string;
   totalPayable: number;
+  externalId: string;
 }
 
 export interface PersonBillItems {
