@@ -54,7 +54,7 @@ export class BillingComponent implements OnInit {
     component: ExtraChargesEditorShellComponent
   }, {
     id: 6,
-    stepName: 'Summary',
+    stepName: 'Review the split',
     isDone: false,
     isActive: false,
     component: ReceiptShellComponent
@@ -139,18 +139,21 @@ export class BillingComponent implements OnInit {
         }),
         toArray(),
         map(personMap => {
+          console.log(personMap);
           return {
             personBillItems: this.store.personBillItems.map(pbi => {
+              const person = personMap.find(pm => pm.person.id == pbi.assignee);
               return {
                 itemId: pbi.itemId,
-                assignee: personMap.find(pm => pm.person.id == pbi.assignee).createdPerson.id
+                assignee: person && person.createdPerson.id || 0
               };
             }),
             participants: this.store.friends.map(f => {
+              const person = personMap.find(pm => pm.person.id == f.id);
               return {
                 id: 0,
                 person: {
-                  id: personMap.find(pm => pm.person.id == f.id).createdPerson.id
+                  id: person && person.createdPerson.id || 0
                 }
               };
             })

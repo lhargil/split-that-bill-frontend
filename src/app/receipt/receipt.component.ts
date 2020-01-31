@@ -80,7 +80,7 @@ export class ReceiptComponent implements OnInit, OnDestroy {
 
     setTimeout(() => {
       this.copiedUrl = '';
-    }, 1000);
+    }, 2000);
   }
 
   private copyMessage(val: string) {

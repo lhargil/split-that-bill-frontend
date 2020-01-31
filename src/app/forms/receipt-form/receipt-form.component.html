@@ -1,4 +1,4 @@
-<header class="pb-4 border-b">
+<header class="pb-4 border-gray-800 border-b-2">
   <div class="mb-4 flex items-start justify-center">
     <div class="flex-1">
       <h2 class="text-2xl">
@@ -28,7 +28,7 @@
 <div class="pb-16">
   <ul>
     <li *ngFor="let personBillItem of receipt.personBillItems; trackBy: trackByFn;"
-      class="flex items-start justify-center py-8 border-b last:border-b-0">
+      class="flex items-start justify-center py-8 border-b-2 border-dotted last:border-b-0">
       <div class="flex-1">
         {{personBillItem.key.fullname | titlecase}}
       </div>

@@ -55,7 +55,7 @@ export class BillItemsAssignEditorShellComponent implements OnInit, OnDestroy {
           });
 
           return {
-            participants: store.friends || [],
+            participants: store.friends.filter(f => f.selected) || [],
             personBillItems
           };
         }),

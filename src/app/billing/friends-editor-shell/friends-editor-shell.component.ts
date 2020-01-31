@@ -91,11 +91,12 @@ export class FriendsEditorShellComponent implements OnInit, OnDestroy {
     const friend = {
       ...this.personForm.value, ...{
         id: IdGenerator.generate(-1, -100)
+      }, ...{
+        selected: true
       }
     };
 
     const updatedStore = [...this.friendsFromStore, friend];
-    console.log(updatedStore);
     this.billingStore.updateSlice(BillingStoreStateKeys.Friends, updatedStore);
     this.personForm.reset();
   }

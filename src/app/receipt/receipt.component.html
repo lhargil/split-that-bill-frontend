@@ -10,11 +10,17 @@
         Now here's a receipt that you can share with your friends.
       </p>
     </header>
-    <div class="bg-white rounded-tl rounded-tr relative overflow-hidden">
-      <div *ngIf="copiedUrl" class="p-4 mb-4 bg-teal-200 absolute top-0 inset-x-0">
-        Url has been copied.
+    <div class="bg-white rounded-tl rounded-tr relative">
+      <div *ngIf="copiedUrl" class="p-4 mb-4 rounded-tl rounded-tr bg-teal-200 absolute top-0 inset-x-0">
+        <p>
+          The url to this receipt has been copied to your clipboard.
+        </p>
       </div>
-      <receipt-form class="block p-4" [receiptData]="receipt"></receipt-form>
+      <div class="overflow-auto" style="height: 600px;">
+        <div class="h-10"></div>
+        <receipt-form class="block p-4" [receiptData]="receipt"></receipt-form>
+
+      </div>
     </div>
     <footer class="text-right border-t p-4 bg-white rounded-bl rounded-br">
       <button type="button" class="btn btn-primary inline-flex items-center justify-center" (click)="onShare()">
