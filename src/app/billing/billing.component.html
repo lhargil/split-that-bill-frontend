@@ -1,20 +1,13 @@
 <app-page-header></app-page-header>
 <div class="h-8"></div>
-<div>
-  <div class="flex items-center justify-between border-b-2 mb-8 pl-4 max-w-xl mx-auto">
-    <h1>Let's split 'em</h1>
-    <button type="button" class="btn">
-      <svg class="fill-current h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-        <path d="M1 4h2v2H1V4zm4 0h14v2H5V4zM1 9h2v2H1V9zm4 0h14v2H5V9zm-4 5h2v2H1v-2zm4 0h14v2H5v-2z" /></svg>
-    </button>
+<div class="mx-auto max-w-xl overflow-hidden relative" style="height: 128px;">
+  <div #parent class="w-full h-full relative">
+    <div #target class="relative mx-auto" style="width: 133.33px; height: 90px;"></div>
+    <step-tracker class="inline-block absolute" [ngStyle]="{'left.px': leftPosition }"
+      style="width: 800px; margin-top: 16px; top: 50%; transform: translateY(-50%);" [steps]="steps"
+      [config]="{orientation: orientations.horizontal}">
+    </step-tracker>
   </div>
-  <div class="relative">
-    <div
-      class="pl-6 pt-0 max-w-xl bg-white rounded shadow-md fixed z-10 top-0 right-0 left-0 md:left-auto md:absolute md:right-0">
-      <step-tracker class="inline-block" [steps]="steps" [config]="{orientation: orientations.vertical}">
-      </step-tracker>
-    </div>
-  </div>
-  <wizard [wizardSteps]="wizardSteps" [currentStep]="currentStep" (clickBack)="onClickBack($event)"
-    (clickNext)="onClickNext($event)"></wizard>
 </div>
+<wizard [wizardSteps]="wizardSteps" [currentStep]="currentStep" (clickBack)="onClickBack($event)"
+  (clickNext)="onClickNext($event)"></wizard>

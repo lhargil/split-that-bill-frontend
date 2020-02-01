@@ -4,6 +4,7 @@
 
 ul.toc-list {
   flex-direction: row;
+  color: #dbdbdb;
 }
 ul.toc-list li:not(:first-child)::before {
   border-top: 2px solid #dbdbdb;

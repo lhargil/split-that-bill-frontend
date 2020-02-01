@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { Subject, from, of, zip } from 'rxjs';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Subject, from, of, zip, fromEvent } from 'rxjs';
 import { WizardStep } from '../wizard/models';
 import { BillEditorShellComponent } from './bill-editor-shell/bill-editor-shell.component';
 import { BillItemsEditorShellComponent } from './bill-items-editor-shell/bill-items-editor-shell.component';
@@ -77,6 +77,11 @@ export class BillingComponent implements OnInit {
   private destroyed$ = new Subject();
   private store: any;
 
+  @ViewChild('target', { static: true }) target: ElementRef;
+  @ViewChild('parent', { static: true }) parent: ElementRef;
+
+  leftPosition = 0;
+
   constructor(private billingStore: BillingStoreService, private billService: BillsService, private wizardService: WizardService, private router: Router, private peopleService: PeopleService) {
   }
 
@@ -100,12 +105,33 @@ export class BillingComponent implements OnInit {
       ).subscribe(store => {
         this.store = store;
       });
+
+    fromEvent(window, 'resize')
+      .pipe(
+        tap(console.log),
+        takeUntil(this.destroyed$),
+      ).subscribe(_ => {
+        this.getCurrentStepPosition();
+        for (let i = 1; i < this.currentStep; i++) {
+          this.leftPosition = this.leftPosition - 133.33;
+        }
+      });
+    this.getCurrentStepPosition();
+  }
+
+  private getCurrentStepPosition() {
+    const clientRect = this.target.nativeElement.getBoundingClientRect();
+    const parent = this.parent.nativeElement.getBoundingClientRect();
+    this.leftPosition = clientRect.left - parent.left;
   }
 
   onClickBack($event) {
     this.wizardService.tryGoBack({
       $event,
-      back: (backData) => this.backCallback()
+      back: (backData) => {
+        this.leftPosition = this.leftPosition + 133.33;
+        this.backCallback();
+      }
     });
   }
 
@@ -113,6 +139,7 @@ export class BillingComponent implements OnInit {
     this.wizardService.tryGoNext({
       $event,
       next: (nextData) => {
+        this.leftPosition = this.leftPosition - 133.33;
         if (this.currentStep == this.steps.length) {
           this.onSubmit();
         } else {
@@ -139,7 +166,6 @@ export class BillingComponent implements OnInit {
         }),
         toArray(),
         map(personMap => {
-          console.log(personMap);
           return {
             personBillItems: this.store.personBillItems.map(pbi => {
               const person = personMap.find(pm => pm.person.id == pbi.assignee);
