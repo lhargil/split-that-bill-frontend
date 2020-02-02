@@ -8,6 +8,10 @@
     min-height: 100vh - 15vh;
 }
 
+section {
+  min-height: 600px;
+}
+
 .transparent {
 	/* Required for IE 5, 6, 7 */
 	/* ...or something to trigger hasLayout, like zoom: 1; */

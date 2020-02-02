@@ -1,7 +1,7 @@
 <div id="hero" class="bg-cover bg-local bg-no-repeat bg-top w-full">
   <div class="flex flex-col items-center justify-center h-full">
-    <h1 class="h1 font-bold text-white">We eatin'</h1>
-    <h1 class="h1 font-bold text-white">We split 'em</h1>
+    <h1 class="text-5xl font-bold text-white">We eatin'</h1>
+    <h1 class="text-5xl font-bold text-teal-400">We split 'em</h1>
   </div>
 </div>
 <section id="features" class="py-12 md:py-16 px-4 md:px-16 bg-white">
@@ -10,60 +10,34 @@
       <h1 class="h1 text-5xl font-bold">
         Split that bill
       </h1>
-      <p class="italic">like it ain't no thang</p>
+      <p class="italic text-gray-600">like it ain't no thang</p>
     </div>
     <div class="flex items-start justify-center flex-col md:flex-row mx-auto">
-      <div class="flex-1 p-4 m-4">
+      <div *ngFor="let feature of features;" class="flex-1 p-4 m-4">
         <header class="flex flex-col items-center mb-4">
-          <svg class="icon h-16 block mr-0 mb-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-            <path d="M1 4h2v2H1V4zm4 0h14v2H5V4zM1 9h2v2H1V9zm4 0h14v2H5V9zm-4 5h2v2H1v-2zm4 0h14v2H5v-2z" />
-          </svg>
-          <h2 class="h2">List</h2>
+          <div [innerHTML]="feature.image"></div>
+          <h2>{{feature.heading}}</h2>
         </header>
         <p>
-          List the items that you and your friends have partaken including the extra charges and discounts.
-        </p>
-      </div>
-      <div class="flex-1 p-4 m-4">
-        <header class="flex flex-col items-center mb-4">
-          <svg class="icon h-16 block mr-0 mb-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-            <path
-              d="M5.08 12.16A2.99 2.99 0 0 1 0 10a3 3 0 0 1 5.08-2.16l8.94-4.47a3 3 0 1 1 .9 1.79L5.98 9.63a3.03 3.03 0 0 1 0 .74l8.94 4.47A2.99 2.99 0 0 1 20 17a3 3 0 1 1-5.98-.37l-8.94-4.47z" />
-          </svg>
-          <h2 class="h2">Assign</h2>
-        </header>
-        <p>
-          Match each of the items in the bill to each of your friends with ease.
-        </p>
-      </div>
-      <div class="flex-1 p-4 m-4">
-        <header class="flex flex-col items-center mb-4">
-          <svg class="icon h-16 block mr-0 mb-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-            <path
-              d="M10 15l-4 4v-4H2a2 2 0 0 1-2-2V3c0-1.1.9-2 2-2h16a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-8zM5 7v2h2V7H5zm4 0v2h2V7H9zm4 0v2h2V7h-2z" />
-          </svg>
-          <h2 class="h2">Notify</h2>
-        </header>
-        <p>
-          Generate the receipt on the fly and send your friends their payables.
+          {{feature.description}}
         </p>
       </div>
     </div>
   </div>
 </section>
-<section id="about" class="py-12 md:py-16 px-4 md:px-16 bg-teal-900">
+<section id="about" class="py-12 md:py-16 px-4 md:px-16">
   <div class="flex flex-col-reverse items-center justify-center p-8 mx-auto max-w-6xl md:flex-row">
     <div class="flex-1 py-4 md:pr-8">
-      <h2 class="h2 mb-4 leading-tight text-4xl font-bold text-gray-500">
+      <h2 class="h2 mb-4 leading-tight text-4xl font-bold">
         Splitting bills has never been this easy.
       </h2>
-      <p class="text-gray-200 mb-16">
+      <p class="mb-16">
         Time is better spent with friends rather than lurking in a corner busily calculating bills when you don't have
         to.
       </p>
       <a [routerLink]="['/billing']"
-        class="bg-teal-500 hover:bg-teal-400 text-white font-bold py-2 px-4 border-b-4 border-teal-700 hover:border-teal-500 rounded">Get
-        started</a>
+        class="bg-teal-500 hover:bg-teal-400 text-white font-bold py-2 px-4 border-b-4 border-teal-700 hover:border-teal-500 rounded">Start
+        splittin'</a>
     </div>
     <div class="flex-1 py-4 md:pl-8">
       <div class="rounded shadow-md overflow-hidden">
@@ -72,8 +46,37 @@
     </div>
   </div>
 </section>
-<footer class="bg-white">
-  <div class="p-4 text-black text-center">
-    Copyright © 2019 | <a class="underline" href="https://tensileform.com">TensileForm</a> | All Rights Reserved
+<footer class="bg-teal-900 py-12 md:py-16 px-4 md:px-16">
+  <div class="flex flex-col-reverse items-center justify-start p-8 mx-auto max-w-6xl md:flex-row">
+    <div class="flex-1 text-white">
+      <a routerLink="/" class="no-underline text-xl mb-4 inline-block">
+        <svg class="h-8 w-auto inline-block fill-current mr-3" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+          xmlns="http://www.w3.org/2000/svg" xmlns:cc="http://creativecommons.org/ns#"
+          xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:svg="http://www.w3.org/2000/svg" id="svg2"
+          xml:space="preserve" viewBox="0 0 128 128" version="1.0">
+          <g id="g11" stroke="#000" transform="matrix(1.25 0 0 -1.25 -538.6 808.93)">
+            <path id="path35144" stroke-width="1.4972" fill-rule="evenodd" fill="#fff"
+              d="m458.3 638.52l32.65-39.53 6.32-10.94-6.01-3.58c-3.03 4.77-9.9 6.39-14.05 3.99-4.69 8.24-16.8 29.38-21.54 37.59-3.41 5.48-2.02 9.7 2.63 12.47z" />
+            <path id="path35116" stroke-width="1.5778"
+              d="m497.46 587.71l4.42-7.65c0.26 2.46 3.7 6 6.43 7.58 7.51 4.35 17.15 1.76 21.5-5.76s1.79-17.16-5.72-21.51c-7.27-4.21-16.54-1.94-21.07 5.01l-0.02-0.01-0.44 0.74-10.78 18.11 5.68 3.49zm14.52-6.41c-4.03-2.33-5.41-7.5-3.08-11.52s7.5-5.4 11.52-3.08c4.02 2.33 5.38 7.49 3.05 11.51-2.32 4.02-7.47 5.42-11.49 3.09z" />
+            <path id="path34288" stroke-width="1.4972" fill-rule="evenodd" fill="#fff"
+              d="m506.14 638.43l-32.65-39.52-6.32-10.94 5.43-3.29c3.33 4.48 10.34 5.95 14.48 3.56 4.7 8.23 16.95 29.52 21.69 37.73 3.41 5.48 2.02 9.7-2.63 12.46z" />
+            <path id="path53" stroke-width="1.5778"
+              d="m467.04 587.76l-4.43-7.66c-0.26 2.47-3.69 6-6.42 7.58-7.52 4.35-17.15 1.76-21.5-5.75-4.35-7.52-1.8-17.17 5.72-21.52 7.27-4.2 16.53-1.93 21.07 5.01l0.02-0.01 0.43 0.75 10.65 18.39-5.54 3.21zm-14.52-6.41c4.02-2.33 5.4-7.5 3.08-11.52-2.33-4.02-7.5-5.41-11.52-3.08s-5.38 7.49-3.06 11.51c2.33 4.02 7.48 5.41 11.5 3.09z" />
+            <path id="path57" stroke-width=".9861"
+              d="m482.37 593.22c-2.09 0-3.79 1.69-3.79 3.78s1.7 3.79 3.79 3.79 3.78-1.7 3.78-3.79-1.69-3.78-3.78-3.78" />
+          </g>
+        </svg>
+        <h3 class="inline-block">Split that bill</h3>
+      </a>
+      <ul class="flex items-center justify-start mb-4">
+        <li class="mr-4">About the app</li>
+        <li class="mr-4">Subscribe</li>
+        <li class="mr-4">Contact</li>
+      </ul>
+      <p class="text-xs text-gray-400">
+        © {{currentYear}}, A <a class="no-underline" href="https://tensileform.com">TensileForm app</a>
+      </p>
+    </div>
   </div>
 </footer>

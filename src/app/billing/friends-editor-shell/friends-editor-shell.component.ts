@@ -102,6 +102,7 @@ export class FriendsEditorShellComponent implements OnInit, OnDestroy {
   }
 
   closeAddPersonForm() {
+    this.personForm.reset();
     this.hidePersonForm = true;
   }
 

@@ -2,10 +2,10 @@
   <span class="flex items-center justify-between">
     <nav class="flex items-center justify-start">
       <a routerLink="/" class="no-underline text-xl">
-        <svg class="h-8 w-auto inline-block fill-current mr-3" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-          xmlns="http://www.w3.org/2000/svg" xmlns:cc="http://creativecommons.org/ns#"
-          xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:svg="http://www.w3.org/2000/svg" id="svg2"
-          xml:space="preserve" viewBox="0 0 128 128" version="1.0">
+        <svg class="h-8 w-auto inline-block fill-current mr-3 fill-current text-teal-500"
+          xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns="http://www.w3.org/2000/svg"
+          xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/"
+          xmlns:svg="http://www.w3.org/2000/svg" id="svg2" xml:space="preserve" viewBox="0 0 128 128" version="1.0">
           <g id="g11" stroke="#000" transform="matrix(1.25 0 0 -1.25 -538.6 808.93)">
             <path id="path35144" stroke-width="1.4972" fill-rule="evenodd" fill="#fff"
               d="m458.3 638.52l32.65-39.53 6.32-10.94-6.01-3.58c-3.03 4.77-9.9 6.39-14.05 3.99-4.69 8.24-16.8 29.38-21.54 37.59-3.41 5.48-2.02 9.7 2.63 12.47z" />
@@ -19,13 +19,13 @@
               d="m482.37 593.22c-2.09 0-3.79 1.69-3.79 3.78s1.7 3.79 3.79 3.79 3.78-1.7 3.78-3.79-1.69-3.78-3.78-3.78" />
           </g>
         </svg>
-        Split that bill
+        <h3 class="inline-block">Split that bill</h3>
       </a>
       <app-menu class="hidden lg:inline-block"></app-menu>
     </nav>
     <span>
       <a [routerLink]="['/billing']"
-        class="bg-teal-500 hover:bg-teal-400 text-white font-bold border-b-4 h-8 border-teal-700 hover:border-teal-500 rounded px-2 no-underline xxs: hidden lg:block">Get
+        class="bg-teal-500 hover:bg-teal-400 text-white font-bold py-2 px-4 border-b-4 border-teal-700 hover:border-teal-500 rounded hidden lg:block">Get
         started</a>
       <button #siteNavTrigger class="no-underline lg:hidden" (click)="showMenu(true)">
         <svg class="h-6 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
