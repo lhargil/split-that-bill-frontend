@@ -5,11 +5,11 @@ import { Router, NavigationEnd, NavigationStart, Event as NavigationEvent } from
 import { AppService } from '../app.service';
 
 @Component({
-  selector: 'app-home-header',
-  templateUrl: './home-header.component.html',
-  styleUrls: ['./home-header.component.scss']
+  selector: 'app-header',
+  templateUrl: './header.component.html',
+  styleUrls: ['./header.component.scss']
 })
-export class HomeHeaderComponent implements OnInit, OnDestroy, AfterViewInit {
+export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('header', { static: false }) header: ElementRef;
   menuIsVisible: boolean;
   private destroyed$ = new ReplaySubject(0);
@@ -17,8 +17,7 @@ export class HomeHeaderComponent implements OnInit, OnDestroy, AfterViewInit {
     fromEvent(window, 'scroll'),
     fromEvent(window, 'resize')
   ).pipe(
-    takeUntil(this.destroyed$),
-    map(ev => ev)
+    map(ev => ev),
   );
   isHome = true;
 
@@ -26,10 +25,10 @@ export class HomeHeaderComponent implements OnInit, OnDestroy, AfterViewInit {
     this.menuIsVisible = false;
     this.router.events
       .pipe(
-        takeUntil(this.destroyed$),
         filter(
           ev => ev instanceof NavigationEnd || ev instanceof NavigationStart
-        )
+        ),
+        takeUntil(this.destroyed$),
       )
       .subscribe(ev => {
         if (ev instanceof NavigationEnd) {
@@ -45,7 +44,11 @@ export class HomeHeaderComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngOnInit() {
-    this.scrolling$.subscribe(() => this.onScroll());
+    this.scrolling$
+      .pipe(
+        takeUntil(this.destroyed$),
+      )
+      .subscribe(() => this.onScroll());
   }
 
   ngAfterViewInit() { }

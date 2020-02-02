@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 
 import { ReceiptRoutingModule } from './receipt-routing.module';
 import { ReceiptComponent } from './receipt.component';
-import { PageHeaderModule } from '../page-header/page-header.module';
 import { FormsModule } from '../forms/forms.module';
 
 
@@ -12,7 +11,6 @@ import { FormsModule } from '../forms/forms.module';
   imports: [
     CommonModule,
     ReceiptRoutingModule,
-    PageHeaderModule,
     FormsModule
   ]
 })

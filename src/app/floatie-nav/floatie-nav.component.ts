@@ -11,6 +11,7 @@ import {
 } from '@angular/core';
 import { fromEvent, ReplaySubject } from 'rxjs';
 import { takeUntil, map } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-floatie-nav',
@@ -22,25 +23,32 @@ export class FloatieNavComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('floatieNav', { static: false }) floatieNav: ElementRef;
   @ViewChild('floatieBg', { static: false }) floatieBg: ElementRef;
 
-  private isDestroyed$ = new ReplaySubject(0);
+  private destroyed$ = new ReplaySubject(0);
   clickOut$ = fromEvent(window, 'click')
     .pipe(
-      takeUntil(this.isDestroyed$),
       map(ev => ev)
     );
   resize$ = fromEvent(window, 'resize')
     .pipe(
-      takeUntil(this.isDestroyed$),
       map(ev => ev)
     );
 
-  constructor(private renderer2: Renderer2) {
+  constructor(private renderer2: Renderer2, private router: Router) {
     this.showMenu = new EventEmitter();
+    this.router.events
+      .pipe(
+        takeUntil(this.destroyed$)
+      ).subscribe(_ => {
+        this.hide();
+      });
   }
 
   ngOnInit() {
     setTimeout(() => {
       this.clickOut$
+        .pipe(
+          takeUntil(this.destroyed$),
+        )
         .subscribe(ev => {
           const clickedInside = this.floatieNav.nativeElement.contains(ev.target);
           if (!clickedInside) {
@@ -51,12 +59,15 @@ export class FloatieNavComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngOnDestroy() {
-    this.isDestroyed$.next(true);
-    this.isDestroyed$.complete();
+    this.destroyed$.next(true);
+    this.destroyed$.complete();
   }
 
   ngAfterViewInit() {
     this.resize$
+      .pipe(
+        takeUntil(this.destroyed$),
+      )
       .subscribe(() => this.hide());
 
     this.show();

@@ -14,7 +14,7 @@ import { FooterModule } from './footer/footer.module';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { LoadingInterceptor } from './shared/loader/loading-interceptor';
 import { AuthInterceptorService } from './core/auth/auth-interceptor.service';
-import { HomeHeaderModule } from './home-header/home-header.module';
+import { HeaderModule } from './header/header.module';
 
 @NgModule({
   declarations: [
@@ -27,7 +27,7 @@ import { HomeHeaderModule } from './home-header/home-header.module';
     SharedModule,
     AppRoutingModule,
     HomeModule,
-    HomeHeaderModule,
+    HeaderModule,
     FooterModule
   ],
   providers: [

@@ -4,13 +4,13 @@ import { AppRoutingModule } from '../app-routing.module';
 import { FloatieNavModule } from '../floatie-nav/floatie-nav.module';
 import { MenuModule } from '../menu/menu.module';
 import { FixedNavModule } from '../fixed-nav/fixed-nav.module';
-import { HomeHeaderComponent } from './home-header.component';
+import { HeaderComponent } from './header.component';
 
 
 
 @NgModule({
   declarations: [
-    HomeHeaderComponent
+    HeaderComponent
   ],
   imports: [
     SharedModule,
@@ -20,7 +20,7 @@ import { HomeHeaderComponent } from './home-header.component';
     FixedNavModule
   ],
   exports: [
-    HomeHeaderComponent
+    HeaderComponent
   ]
 })
-export class HomeHeaderModule { }
+export class HeaderModule { }

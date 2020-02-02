@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { HomeHeaderComponent } from './home-header.component';
+import { HomeHeaderComponent } from './header.component';
 import { NavComponent } from '../fixed-nav/nav.component';
 import { MenuComponent } from '../menu/menu.component';
 import { RouterTestingModule } from '@angular/router/testing';
