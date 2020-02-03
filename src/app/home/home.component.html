@@ -1,7 +1,7 @@
 <div id="hero" class="bg-cover bg-local bg-no-repeat bg-top w-full">
   <div class="flex flex-col items-center justify-center h-full">
-    <h1 class="text-5xl font-bold text-white">We eatin'</h1>
-    <h1 class="text-5xl font-bold text-teal-400">We split 'em</h1>
+    <h1 class="text-5xl font-bold text-white leading-none">We eatin'</h1>
+    <h1 class="text-5xl font-bold text-teal-400 leading-none">We split 'em</h1>
   </div>
 </div>
 <section id="features" class="py-12 md:py-16 px-4 md:px-16 bg-white">
@@ -32,8 +32,7 @@
         Splitting bills has never been this easy.
       </h2>
       <p class="mb-16">
-        Time is better spent with friends rather than lurking in a corner busily calculating bills when you don't have
-        to.
+        With just a few clicks, you'll be splittin' that bill like you just don't care.
       </p>
       <a [routerLink]="['/billing']"
         class="bg-teal-500 hover:bg-teal-400 text-white font-bold py-2 px-4 border-b-4 border-teal-700 hover:border-teal-500 rounded">Start
@@ -70,12 +69,12 @@
         <h3 class="inline-block">Split that bill</h3>
       </a>
       <ul class="flex items-center justify-start mb-4">
-        <li class="mr-4">About the app</li>
+        <li class="mr-4">About</li>
         <li class="mr-4">Subscribe</li>
         <li class="mr-4">Contact</li>
       </ul>
       <p class="text-xs text-gray-400">
-        © {{currentYear}}, A <a class="no-underline" href="https://tensileform.com">TensileForm app</a>
+        © {{currentYear}}, A <a class="no-underline" href="https://tensileform.com">TensileForm</a> app.
       </p>
     </div>
   </div>
