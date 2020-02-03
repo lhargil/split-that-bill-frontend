@@ -5,6 +5,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { WithChargePipe } from './pipes/with-charge.pipe';
 import { ApplyChargesPipe } from './pipes/apply-charges.pipe';
 import { LoaderModule } from './loader/loader.module';
+import { ModalModule } from './modal/modal.module';
 
 
 @NgModule({
@@ -12,7 +13,8 @@ import { LoaderModule } from './loader/loader.module';
   imports: [
     ReactiveFormsModule,
     HttpClientModule,
-    CommonModule
+    CommonModule,
+    ModalModule
   ],
   exports: [
     ReactiveFormsModule,
@@ -20,7 +22,8 @@ import { LoaderModule } from './loader/loader.module';
     CommonModule,
     WithChargePipe,
     ApplyChargesPipe,
-    LoaderModule
+    LoaderModule,
+    ModalModule
   ]
 })
 export class SharedModule { }
