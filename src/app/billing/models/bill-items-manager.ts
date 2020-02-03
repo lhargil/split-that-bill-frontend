@@ -31,7 +31,7 @@ export class BillItemsManager {
       billItems: this.formBuilder.array(this.billItemsList.map(item => {
         return this.buildBillItem(item);
       })),
-    }, { validators: hasBillItemsValidator(1) });
+    });
   }
 
 

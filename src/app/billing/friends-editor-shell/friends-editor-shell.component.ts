@@ -52,7 +52,6 @@ export class FriendsEditorShellComponent implements OnInit, OnDestroy {
           this.friendsForm = this.createForm([]);
           const participants = this.friendsForm.get('participants') as FormArray;
           people.forEach(person => participants.push(person));
-          this.friendsForm.setValidators(hasSelectedFriendValidator(1));
         }),
       )
       .subscribe();
