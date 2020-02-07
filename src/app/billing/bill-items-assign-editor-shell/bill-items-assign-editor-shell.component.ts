@@ -13,7 +13,7 @@ import { BillingStoreService, BillingStoreStateKeys } from '../billing-store.ser
   styles: []
 })
 export class BillItemsAssignEditorShellComponent implements OnInit, OnDestroy {
-  @ViewChild('personBillItemsComponent', { static: false }) personBillItemsComponent: BillItemsAssignFormComponent;
+  @ViewChild('personBillItemsComponent') personBillItemsComponent: BillItemsAssignFormComponent;
   private destroyed$ = new ReplaySubject(0);
   vm: {
     billItemsForm: FormGroup;

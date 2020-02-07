@@ -20,8 +20,8 @@ import { Router } from '@angular/router';
 })
 export class FloatieNavComponent implements OnInit, OnDestroy, AfterViewInit {
   @Output() showMenu: EventEmitter<boolean>;
-  @ViewChild('floatieNav', { static: false }) floatieNav: ElementRef;
-  @ViewChild('floatieBg', { static: false }) floatieBg: ElementRef;
+  @ViewChild('floatieNav') floatieNav: ElementRef;
+  @ViewChild('floatieBg') floatieBg: ElementRef;
 
   private destroyed$ = new ReplaySubject(0);
   clickOut$ = fromEvent(window, 'click')

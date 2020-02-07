@@ -15,7 +15,7 @@ import { BillItem } from '../models';
   styles: []
 })
 export class BillItemsEditorShellComponent implements OnInit, OnDestroy {
-  @ViewChild('billItemsFormComponent', { static: false }) billItemsFormComponent: BillItemsFormComponent;
+  @ViewChild('billItemsFormComponent') billItemsFormComponent: BillItemsFormComponent;
 
   private destroyed$ = new ReplaySubject(0);
   private billItemsManager: BillItemsManager;

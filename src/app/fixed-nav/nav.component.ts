@@ -18,9 +18,9 @@ import { AuthService } from 'src/app/core/auth/auth.service';
   styleUrls: ['./nav.component.scss']
 })
 export class NavComponent implements OnInit, OnDestroy, AfterViewInit {
-  @ViewChild('siteNav', { static: false }) siteNav: ElementRef;
-  @ViewChild('siteTitle', { static: false }) siteTitle: ElementRef;
-  @ViewChild('siteNavTrigger', { static: false }) siteNavTrigger: ElementRef;
+  @ViewChild('siteNav') siteNav: ElementRef;
+  @ViewChild('siteTitle') siteTitle: ElementRef;
+  @ViewChild('siteNavTrigger') siteNavTrigger: ElementRef;
 
   private destroy$ = new ReplaySubject(0);
   scrolling$ = merge(

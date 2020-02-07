@@ -15,7 +15,7 @@ import { ExtraCharge } from '../models';
   styles: []
 })
 export class ExtraChargesEditorShellComponent implements OnInit, OnDestroy {
-  @ViewChild('extraChargesFormComponent', { static: false }) extraChargesFormComponent: ExtraChargesFormComponent;
+  @ViewChild('extraChargesFormComponent') extraChargesFormComponent: ExtraChargesFormComponent;
 
   private destroyed$ = new ReplaySubject(0);
   private extraChargesManager: ExtraChargesManager;
