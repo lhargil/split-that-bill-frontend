@@ -10,7 +10,7 @@ import { AppService } from '../app.service';
   styleUrls: ['./home-header.component.scss']
 })
 export class HomeHeaderComponent implements OnInit, OnDestroy, AfterViewInit {
-  @ViewChild('header', { static: false }) header: ElementRef;
+  @ViewChild('header') header: ElementRef;
   menuIsVisible: boolean;
   private destroyed$ = new ReplaySubject(0);
   scrolling$ = merge(

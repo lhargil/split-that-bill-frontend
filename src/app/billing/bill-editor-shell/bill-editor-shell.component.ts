@@ -12,7 +12,7 @@ import { BillFormComponent } from 'src/app/forms/bill-form/bill-form.component';
   styles: []
 })
 export class BillEditorShellComponent implements OnInit, OnDestroy {
-  @ViewChild('billFormComponent', { static: false }) billFormComponent: BillFormComponent;
+  @ViewChild('billFormComponent') billFormComponent: BillFormComponent;
 
   private destroyed$ = new ReplaySubject(0);
   billForm: FormGroup;

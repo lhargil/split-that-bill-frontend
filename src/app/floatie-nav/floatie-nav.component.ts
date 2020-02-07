@@ -19,8 +19,8 @@ import { takeUntil, map } from 'rxjs/operators';
 })
 export class FloatieNavComponent implements OnInit, OnDestroy, AfterViewInit {
   @Output() showMenu: EventEmitter<boolean>;
-  @ViewChild('floatieNav', { static: false }) floatieNav: ElementRef;
-  @ViewChild('floatieBg', { static: false }) floatieBg: ElementRef;
+  @ViewChild('floatieNav') floatieNav: ElementRef;
+  @ViewChild('floatieBg') floatieBg: ElementRef;
 
   private isDestroyed$ = new ReplaySubject(0);
   clickOut$ = fromEvent(window, 'click')

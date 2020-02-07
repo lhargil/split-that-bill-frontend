@@ -15,7 +15,7 @@ import { IdGenerator } from 'src/app/shared/utilities';
   styles: []
 })
 export class FriendsEditorShellComponent implements OnInit, OnDestroy {
-  @ViewChild('friendsFormComponent', { static: false }) friendsFormComponent: FriendsFormComponent;
+  @ViewChild('friendsFormComponent') friendsFormComponent: FriendsFormComponent;
 
   private destroyed$ = new ReplaySubject(0);
   friendsForm: FormGroup;
