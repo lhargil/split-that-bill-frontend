@@ -7,20 +7,21 @@
     <div class="relative flex flex-col w-full pointer-events-auto bg-white border rounded-md outline-none border">
       <div class="modal-header flex flex-row items-center justify-between p-4 border-b">
         <h5 class="text-3xl" id="dialogLabel">{{dialogData.heading}}</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="close()">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="close(false)">
           <svg class="h-6 w-auto fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
             <path
               d="M10 8.586L2.929 1.515 1.515 2.929 8.586 10l-7.071 7.071 1.414 1.414L10 11.414l7.071 7.071 1.414-1.414L11.414 10l7.071-7.071-1.414-1.414L10 8.586z" />
           </svg>
         </button>
       </div>
-      <div class="modal-body p-4">
+      <div class="modal-body p-4" style="min-height: 100px;">
         <p>
           {{dialogData.message}}
         </p>
       </div>
       <div class="modal-footer flex flex-row items-center justify-end p-4 border-t">
-        <button type="button" class="btn btn-outline" data-dismiss="modal" (click)="close()">Ok</button>
+        <button type="button" class="btn btn-outline mr-4" (click)="close(false)">No</button>
+        <button type="button" class="btn btn-primary" (click)="close(true)">Yes</button>
       </div>
     </div>
   </div>

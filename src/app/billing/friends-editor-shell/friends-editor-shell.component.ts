@@ -8,6 +8,8 @@ import { BillingStoreService, BillingStoreStateKeys } from '../billing-store.ser
 import { FriendsFormComponent } from 'src/app/forms/friends-form/friends-form.component';
 import { hasSelectedFriendValidator } from 'src/app/shared/validators';
 import { IdGenerator } from 'src/app/shared/utilities';
+import { Person } from 'src/app/people/person';
+import { DialogService } from 'src/app/shared/dialog/dialog.service';
 
 @Component({
   selector: 'app-friends-editor-shell',
@@ -23,7 +25,7 @@ export class FriendsEditorShellComponent implements OnInit, OnDestroy {
   hidePersonForm: boolean;
 
   constructor(private fb: FormBuilder, private wizardService: WizardService,
-    private peopleService: PeopleService, private billingStore: BillingStoreService) {
+    private peopleService: PeopleService, private billingStore: BillingStoreService, private dialogService: DialogService) {
     this.friendsForm = this.createForm([]);
     this.personForm = this.fb.group({
       lastname: ['', [Validators.required, Validators.minLength(3)]],
@@ -122,10 +124,19 @@ export class FriendsEditorShellComponent implements OnInit, OnDestroy {
       return;
     }
 
-    const friends = this.friendsForm.get('participants').value;
-
+    const friends = this.friendsForm.get('participants').value as Person[];
     this.billingStore.updateSlice(BillingStoreStateKeys.Friends, [...friends]);
-
-    callback();
+    if (friends.length <= 0) {
+      this.dialogService.info({
+        heading: 'Hey',
+        message: 'You have not added any friends yet. Is that correct?',
+        callback: affirmative => {
+          if (affirmative) {
+            callback();
+          }
+          return;
+        }
+      });
+    }
   }
 }

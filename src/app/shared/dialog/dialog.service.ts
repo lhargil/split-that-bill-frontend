@@ -4,7 +4,7 @@ import { Subject } from 'rxjs';
 export interface DialogData {
   heading: string;
   message: string;
-  callback: (eventData: any) => {};
+  callback: (eventData: any) => void;
 }
 
 export const enum DialogTypes {
@@ -37,7 +37,8 @@ export class DialogService {
     this.notification.next(dialogState);
   }
 
-  dismiss() {
-
+  confirm(data: DialogData) {
+    const dialogState = { data: { ...data }, ...{ type: DialogTypes.confirm } };
+    this.notification.next(dialogState);
   }
 }

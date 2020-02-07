@@ -1,8 +1,5 @@
-import { Component, OnInit, ViewChild, ElementRef, OnDestroy, Type, ComponentFactoryResolver, Renderer2, Input, ChangeDetectionStrategy, Output, EventEmitter } from '@angular/core';
-import { DialogService, DialogData } from './dialog.service';
-import { takeUntil } from 'rxjs/operators';
-import { ReplaySubject } from 'rxjs';
-import { ContentHostDirective } from '../directives/content-host/content-host.directive';
+import { Component, OnInit, Input, ChangeDetectionStrategy, Output, EventEmitter } from '@angular/core';
+import { DialogData } from './dialog.service';
 
 @Component({
   selector: 'app-dialog',
@@ -12,17 +9,17 @@ import { ContentHostDirective } from '../directives/content-host/content-host.di
 })
 export class DialogComponent implements OnInit {
   @Input() dialogData: DialogData;
-  @Output() closeDialog: EventEmitter<void>;
+  @Output() closeDialog: EventEmitter<any>;
 
   constructor() {
-    this.closeDialog = new EventEmitter<void>();
+    this.closeDialog = new EventEmitter<any>();
   }
 
   ngOnInit() {
 
   }
 
-  close() {
-    this.closeDialog.emit();
+  close(answer: boolean) {
+    this.closeDialog.emit(answer);
   }
 }
