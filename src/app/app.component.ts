@@ -1,11 +1,12 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ComponentFactoryResolver } from '@angular/core';
 import { Router, NavigationStart, RouteConfigLoadStart, RouteConfigLoadEnd, NavigationEnd, NavigationCancel } from '@angular/router';
 import { tap, takeUntil } from 'rxjs/operators';
 import { LoaderService } from './shared/loader/loader.service';
 import { ReplaySubject } from 'rxjs';
 import { AuthService } from './core/auth/auth.service';
 import { AppService } from './app.service';
-import { BillsService } from './bills/bills.service';
+import { ContentHostDirective } from './shared/directives/content-host/content-host.directive';
+import { DialogService } from './shared/dialog/dialog.service';
 
 @Component({
   selector: 'app-root',
@@ -17,6 +18,7 @@ export class AppComponent implements OnInit, OnDestroy {
   title = 'splitthatbill';
 
   constructor(private router: Router, private loaderService: LoaderService, public authService: AuthService, private appService: AppService) { }
+  @ViewChild(ContentHostDirective, { static: true }) contentHost: ContentHostDirective;
 
   ngOnInit() {
     this.router.events

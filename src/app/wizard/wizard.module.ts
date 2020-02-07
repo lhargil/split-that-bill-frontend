@@ -2,15 +2,16 @@ import { NgModule } from '@angular/core';
 import { WizardComponent } from './wizard.component';
 import { SharedModule } from '../shared/shared.module';
 import { StepTrackerModule } from '../step-tracker/step-tracker.module';
-import { ContentHostDirective } from '../shared/directives/content-host.directive';
+import { ContentHostModule } from '../shared/directives/content-host/content-host.module';
 
 
 
 @NgModule({
-  declarations: [WizardComponent, ContentHostDirective,],
+  declarations: [WizardComponent,],
   imports: [
     SharedModule,
-    StepTrackerModule
+    StepTrackerModule,
+    ContentHostModule
   ],
   exports: [WizardComponent],
 })

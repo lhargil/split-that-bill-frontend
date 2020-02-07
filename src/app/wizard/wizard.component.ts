@@ -1,5 +1,5 @@
 import { Component, ViewChild, ComponentFactoryResolver, Input, Output, EventEmitter } from '@angular/core';
-import { ContentHostDirective } from '../shared/directives/content-host.directive';
+import { ContentHostDirective } from '../shared/directives/content-host/content-host.directive';
 import { WizardStep } from './models';
 import { WizardService } from './wizard.service';
 

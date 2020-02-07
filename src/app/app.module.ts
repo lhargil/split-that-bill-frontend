@@ -15,6 +15,8 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { LoadingInterceptor } from './shared/loader/loading-interceptor';
 import { AuthInterceptorService } from './core/auth/auth-interceptor.service';
 import { HeaderModule } from './header/header.module';
+import { DialogModule } from './shared/dialog/dialog.module';
+import { ContentHostModule } from './shared/directives/content-host/content-host.module';
 
 @NgModule({
   declarations: [
@@ -28,7 +30,9 @@ import { HeaderModule } from './header/header.module';
     AppRoutingModule,
     HomeModule,
     HeaderModule,
-    FooterModule
+    FooterModule,
+    DialogModule,
+    ContentHostModule,
   ],
   providers: [
     // { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true },

@@ -14,9 +14,7 @@ import { DialogModule } from './dialog/dialog.module';
   imports: [
     ReactiveFormsModule,
     HttpClientModule,
-    CommonModule,
-    ModalModule,
-    DialogModule
+    CommonModule
   ],
   exports: [
     ReactiveFormsModule,
@@ -24,9 +22,7 @@ import { DialogModule } from './dialog/dialog.module';
     CommonModule,
     WithChargePipe,
     ApplyChargesPipe,
-    LoaderModule,
-    ModalModule,
-    DialogModule
+    LoaderModule
   ]
 })
 export class SharedModule { }

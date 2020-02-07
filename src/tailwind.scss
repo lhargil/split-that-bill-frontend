@@ -118,3 +118,7 @@ h3 {
 .floatie-bg {
     @apply fixed inset-0 bg-gray-800 opacity-75 z-20;
 }
+
+.modal-open {
+  @apply overflow-hidden;
+}
