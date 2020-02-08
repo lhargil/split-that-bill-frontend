@@ -24,12 +24,15 @@ export class ModalHostComponent implements OnInit {
   private handleModalNotifications(): (modalState: ModalState) => void {
     return state => {
       const refs = this.loadComponent(ModalComponent);
+
+      this.toggleBodyScroll(true);
+
       refs.component.closeClicked.subscribe(_ => {
-        refs.viewContainerRef.clear();
+        this.dismissModal(refs);
       });
       refs.component.saveClicked.subscribe(eventData => {
         state.handleSave(eventData);
-        refs.viewContainerRef.clear();
+        this.dismissModal(refs);
       });
       refs.component.deleteClicked.subscribe(eventData => {
         this.dialogService.confirm({
@@ -38,7 +41,7 @@ export class ModalHostComponent implements OnInit {
           callback: affirmativeAnswer => {
             if (affirmativeAnswer) {
               state.handleDelete(eventData);
-              refs.viewContainerRef.clear();
+              this.dismissModal(refs);
             }
           }
         });
@@ -51,6 +54,11 @@ export class ModalHostComponent implements OnInit {
     };
   }
 
+  private dismissModal(refs) {
+    refs.viewContainerRef.clear();
+    this.toggleBodyScroll(false);
+  }
+
   private loadComponent(componentToRender) {
     const componentFactory = this.componentFactoryResolver.resolveComponentFactory(componentToRender);
 
@@ -61,5 +69,13 @@ export class ModalHostComponent implements OnInit {
       component: viewContainerRef.createComponent(componentFactory).instance as ModalComponent,
       viewContainerRef
     };
+  }
+
+  private toggleBodyScroll(toggledOn: boolean) {
+    if (toggledOn) {
+      document.querySelector('body').classList.add('modal-open');
+    } else {
+      document.querySelector('body').classList.remove('modal-open');
+    }
   }
 }

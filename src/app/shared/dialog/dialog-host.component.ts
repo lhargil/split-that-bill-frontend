@@ -20,7 +20,7 @@ export class DialogHostComponent implements OnInit {
   private handleDialogNotifications(): (dialogState: DialogState) => void {
     return state => {
       const refs = this.loadComponent();
-
+      this.toggleBodyScroll(true);
       refs.component.dialogData = state.data;
       refs.component.closeDialog.subscribe(this.handleCloseDialogEvent(refs, state));
     };
@@ -29,6 +29,7 @@ export class DialogHostComponent implements OnInit {
   private handleCloseDialogEvent(refs, state: DialogState): any {
     return eventData => {
       refs.viewContainerRef.clear();
+      this.toggleBodyScroll(false);
       state.data.callback(eventData);
     };
   }
@@ -44,5 +45,13 @@ export class DialogHostComponent implements OnInit {
       component: componentRef.instance as DialogComponent,
       viewContainerRef
     };
+  }
+
+  private toggleBodyScroll(toggledOn: boolean) {
+    if (toggledOn) {
+      document.querySelector('body').classList.add('dialog-open');
+    } else {
+      document.querySelector('body').classList.remove('dialog-open');
+    }
   }
 }
