@@ -8,7 +8,6 @@ import { SharedModule } from '../shared/shared.module';
 import { WizardModule } from '../wizard/wizard.module';
 import { PersonEditorShellComponent } from './person-editor-shell/person-editor-shell.component';
 import { FormsModule } from '../forms/forms.module';
-import { PeopleEditorShellComponent } from './people-editor-shell/people-editor-shell.component';
 import { BillEditorShellComponent } from './bill-editor-shell/bill-editor-shell.component';
 import { BillItemsEditorShellComponent } from './bill-items-editor-shell/bill-items-editor-shell.component';
 import { FriendsEditorShellComponent } from './friends-editor-shell/friends-editor-shell.component';
@@ -24,7 +23,6 @@ import { StepTrackerModule } from '../step-tracker/step-tracker.module';
     BillingListComponent,
     BillingPaymentComponent,
     PersonEditorShellComponent,
-    PeopleEditorShellComponent,
     BillEditorShellComponent,
     BillItemsEditorShellComponent,
     FriendsEditorShellComponent,
@@ -40,7 +38,6 @@ import { StepTrackerModule } from '../step-tracker/step-tracker.module';
   ],
   entryComponents: [
     PersonEditorShellComponent,
-    PeopleEditorShellComponent,
     BillEditorShellComponent,
     BillItemsEditorShellComponent,
     FriendsEditorShellComponent,
