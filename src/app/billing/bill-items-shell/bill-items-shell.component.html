@@ -1,6 +1,6 @@
 <ng-container *ngIf="vm$ | async as vm">
-  <header class="mb-8 flex items-center justify-between">
-    <h2>
+  <header class="mb-8 flex items-baseline justify-between">
+    <h2 class="leading-none">
       {{vm.wizardStep.stepName}}
     </h2>
     <button class="btn btn-outline inline-flex items-center justify-center" type="button" (click)="addBillItem()">
@@ -9,16 +9,26 @@
       Add
     </button>
   </header>
-  <div>
+  <div *ngIf="vm.billItems.length > 0; then showBillItems; else noBillItems;"></div>
+  <ng-template #showBillItems>
     <ul>
-      <li *ngFor="let billItem of vm.billItems" class="flex items-center justify-start">
+      <li *ngFor="let billItem of vm.billItems" class="flex items-center justify-between py-4 border-b last:border-b-0">
         {{billItem.description}} {{billItem.amount | currency: 'MYR'}}
-        <button type="button" class="btn flex items-center justify-center" (click)="updateBillItem(billItem)">
+        <button type="button" class="btn flex items-center justify-center text-teal-700 px-0"
+          (click)="updateBillItem(billItem)">
           <svg class="h-4 fill-current mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
             <path d="M12.3 3.7l4 4L4 20H0v-4L12.3 3.7zm1.4-1.4L16 0l4 4-2.3 2.3-4-4z" /></svg>
           Update
         </button>
       </li>
     </ul>
-  </div>
+  </ng-template>
+  <ng-template #noBillItems>
+    <div class="py-4">
+      <img class="block mb-8 h-40 mx-auto" src="../../../assets/images/no-bill-items.svg" alt="Friends">
+      <p class="text-center text-gray-500">
+        You have not added bill items yet.
+      </p>
+    </div>
+  </ng-template>
 </ng-container>

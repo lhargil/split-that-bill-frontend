@@ -81,22 +81,13 @@ export class BillingStoreService {
 
   private create() {
     return {
-      friends: [{
-        id: -1,
-        firstname: 'lhar',
-        lastname: 'gil',
-        selected: true
-      }],
+      friends: [],
       bill: {
-        establishmentName: 'kfc',
+        establishmentName: '',
         billDate: new Date().toString(),
         remarks: ''
       },
-      extraCharges: [{
-        id: -1,
-        description: 'SST',
-        amount: 5,
-      }],
+      extraCharges: [],
       billItems: [],
       personBillItems: []
     };
