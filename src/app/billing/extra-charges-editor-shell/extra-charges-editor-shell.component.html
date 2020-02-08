@@ -1,9 +1,0 @@
-<ng-container *ngIf="wizardStep$ | async as wizardStep">
-  <header class="mb-8">
-    <h2>
-      {{wizardStep.stepName}}
-    </h2>
-  </header>
-  <extra-charges-form #extraChargesFormComponent [extraChargesForm]="extraChargesForm"
-    (addExtraCharge)="addExtraCharge()" (removeExtraCharge)="removeExtraCharge($event)"></extra-charges-form>
-</ng-container>

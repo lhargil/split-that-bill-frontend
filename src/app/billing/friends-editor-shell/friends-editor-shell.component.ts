@@ -88,6 +88,10 @@ export class FriendsEditorShellComponent implements OnInit, OnDestroy {
         firstname: '',
         lastname: '',
       },
+      dialog: {
+        heading: 'Removing a friend',
+        message: 'Are you sure you want to remove a friend?'
+      },
       component: PersonEditorShellComponent,
       handleSave: (person) => {
         const friend = {
@@ -112,6 +116,10 @@ export class FriendsEditorShellComponent implements OnInit, OnDestroy {
       heading: 'Update friend',
       formData: {
         ...friend
+      },
+      dialog: {
+        heading: 'Removing a friend',
+        message: 'Are you sure you want to remove a friend?'
       },
       component: PersonEditorShellComponent,
       handleSave: (person) => {

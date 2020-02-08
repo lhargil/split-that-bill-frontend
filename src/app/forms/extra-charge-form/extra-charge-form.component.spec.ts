@@ -1,11 +1,11 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ExtraChargesFormComponent } from './extra-charges-form.component';
+import { ExtraChargesFormComponent } from './extra-charge-form.component';
 import { ReactiveFormsModule } from '@angular/forms';
 
 describe('ExtraChargesFormComponent', () => {
-  let component: ExtraChargesFormComponent;
-  let fixture: ComponentFixture<ExtraChargesFormComponent>;
+  let component: ExtraChargeFormComponent;
+  let fixture: ComponentFixture<ExtraChargeFormComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({

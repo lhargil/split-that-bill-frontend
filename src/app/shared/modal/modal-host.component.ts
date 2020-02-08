@@ -36,8 +36,8 @@ export class ModalHostComponent implements OnInit {
       });
       refs.component.deleteClicked.subscribe(eventData => {
         this.dialogService.confirm({
-          heading: 'Removing a friend',
-          message: 'Are you sure you want to remove your friend from the list?',
+          heading: state.dialog.heading,
+          message: state.dialog.message,
           callback: affirmativeAnswer => {
             if (affirmativeAnswer) {
               state.handleDelete(eventData);

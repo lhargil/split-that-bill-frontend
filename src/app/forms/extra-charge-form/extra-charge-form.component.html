@@ -1,0 +1,38 @@
+<form *ngIf="extraChargeForm" [formGroup]="extraChargeForm" class="pb-16">
+  <div class="flex items-center justify-between mb-4">
+    <em class="text-red-500 text-sm">
+      ** Extra charges are in percentage units
+    </em>
+  </div>
+  <div>
+    <div class="flex flex-col items-start justify-center my-2 xs:items-center xs:flex-row">
+      <input class="field-input-text focus:outline-none focus:shadow-outline my-2 mr-2 max-w-sm" type="text"
+        [ngClass]="{'border border-red-500 focus:shadow-none': extraChargeForm.get('description').invalid && (extraChargeForm.get('description').dirty || extraChargeForm.get('description').touched)}"
+        formControlName="description" placeholder="Description" />
+      <div class="relative w-32">
+        <input class="field-input-text focus:outline-none focus:shadow-outline"
+          [ngClass]="{'border border-red-500 focus:shadow-none': extraChargeForm.get('amount').invalid && (extraChargeForm.get('amount').dirty || extraChargeForm.get('amount').touched)}"
+          type="text" formControlName="amount" placeholder="Amount" />
+        <span class="absolute abs-v-middle right-0 pr-4">%</span>
+      </div>
+    </div>
+    <div class="field-error"
+      *ngIf="extraChargeForm.get('description').invalid && (extraChargeForm.get('description').dirty || extraChargeForm.get('description').touched)">
+      <div *ngIf="extraChargeForm.get('description').errors.required">
+        Description is required.
+      </div>
+    </div>
+    <div class="field-error"
+      *ngIf="extraChargeForm.get('amount').invalid && (extraChargeForm.get('amount').dirty || extraChargeForm.get('amount').touched)">
+      <div *ngIf="extraChargeForm.get('amount').errors.required">
+        Amount is required.
+      </div>
+      <div *ngIf="extraChargeForm.get('amount').errors.min">
+        Amount must be greater than 0.
+      </div>
+      <div *ngIf="extraChargeForm.get('amount').errors.notDecimal">
+        Amount must be in decimal format.
+      </div>
+    </div>
+  </div>
+</form>

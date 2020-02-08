@@ -1,22 +1,22 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ExtraChargesEditorShellComponent } from './extra-charges-editor-shell.component';
+import { ExtraChargeEditorShellComponent } from './extra-charge-editor-shell.component';
 import { FormsModule } from 'src/app/forms/forms.module';
 
 describe('ExtraChargesEditorShellComponent', () => {
-  let component: ExtraChargesEditorShellComponent;
-  let fixture: ComponentFixture<ExtraChargesEditorShellComponent>;
+  let component: ExtraChargeEditorShellComponent;
+  let fixture: ComponentFixture<ExtraChargeEditorShellComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ExtraChargesEditorShellComponent],
+      declarations: [ExtraChargeEditorShellComponent],
       imports: [FormsModule]
     })
       .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ExtraChargesEditorShellComponent);
+    fixture = TestBed.createComponent(ExtraChargeEditorShellComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
