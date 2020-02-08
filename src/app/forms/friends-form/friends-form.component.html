@@ -4,11 +4,16 @@
     <div class="mb-8">
       <div formArrayName="participants"
         *ngFor="let participant of participants.controls; let i = index; trackBy: trackByFn">
-        <div [formGroupName]="i">
-          <label class="block mb-4">
+        <div [formGroupName]="i" class="flex items-center justify-start mb-2">
+          <label class="block">
             <input type="checkbox" formControlName="selected" />
             {{participant.get('fullname').value | titlecase}}
           </label>
+          <button type="button" class="btn flex items-center justify-center" (click)="update(participant)">
+            <svg class="h-4 fill-current mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+              <path d="M12.3 3.7l4 4L4 20H0v-4L12.3 3.7zm1.4-1.4L16 0l4 4-2.3 2.3-4-4z" /></svg>
+            Update
+          </button>
         </div>
       </div>
       <div class="field-error" *ngIf="friendsForm.invalid && (friendsForm.dirty || friendsForm.touched)">

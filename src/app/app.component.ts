@@ -6,7 +6,8 @@ import { ReplaySubject } from 'rxjs';
 import { AuthService } from './core/auth/auth.service';
 import { AppService } from './app.service';
 import { ContentHostDirective } from './shared/directives/content-host/content-host.directive';
-import { DialogService } from './shared/dialog/dialog.service';
+import { ModalService } from './shared/modal/modal.service';
+import { PersonEditorShellComponent } from './billing/person-editor-shell/person-editor-shell.component';
 
 @Component({
   selector: 'app-root',

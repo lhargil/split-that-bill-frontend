@@ -1,14 +1,18 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ModalComponent } from './modal.component';
+import { ModalHostComponent } from './modal-host.component';
+import { ContentHostModule } from '../directives/content-host/content-host.module';
 
 
 
 @NgModule({
-  declarations: [ModalComponent],
+  declarations: [ModalComponent, ModalHostComponent],
   imports: [
-    CommonModule
+    CommonModule,
+    ContentHostModule
   ],
-  exports: [ModalComponent]
+  exports: [ModalHostComponent],
+  entryComponents: [ModalComponent]
 })
 export class ModalModule { }

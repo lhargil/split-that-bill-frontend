@@ -17,6 +17,7 @@ import { AuthInterceptorService } from './core/auth/auth-interceptor.service';
 import { HeaderModule } from './header/header.module';
 import { DialogModule } from './shared/dialog/dialog.module';
 import { ContentHostModule } from './shared/directives/content-host/content-host.module';
+import { ModalModule } from './shared/modal/modal.module';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,7 @@ import { ContentHostModule } from './shared/directives/content-host/content-host
     HeaderModule,
     FooterModule,
     DialogModule,
-    ContentHostModule,
+    ModalModule,
   ],
   providers: [
     // { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true },

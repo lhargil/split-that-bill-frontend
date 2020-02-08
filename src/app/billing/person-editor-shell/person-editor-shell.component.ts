@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { WizardService } from 'src/app/wizard/wizard.service';
 import { PeopleService } from 'src/app/people/people.service';
@@ -11,43 +11,19 @@ import { takeUntil, map, tap } from 'rxjs/operators';
   styles: []
 })
 export class PersonEditorShellComponent implements OnInit, OnDestroy {
+  @Input() formData: any;
   private destroyed$ = new ReplaySubject(0);
   personForm: FormGroup;
-  constructor(private fb: FormBuilder, private wizardService: WizardService, private peopleService: PeopleService) {
+  constructor(private fb: FormBuilder) {
     this.personForm = this.fb.group({
+      id: [''],
       lastname: ['', [Validators.required, Validators.minLength(3)]],
       firstname: ['', [Validators.required, Validators.minLength(3)]]
     });
   }
 
   ngOnInit() {
-    this.peopleService.getPerson(1)
-      .pipe(
-        takeUntil(this.destroyed$),
-        map(person => {
-          return this.personForm.patchValue({
-            lastname: person.lastname,
-            firstname: person.firstname
-          });
-        })
-      )
-      .subscribe();
-    this.wizardService.nextStep$
-      .pipe(
-        takeUntil(this.destroyed$)
-      )
-      .subscribe(nextData => {
-        if (nextData == null) return;
-        this.formSubmit(_ => nextData.next());
-      });
-    this.wizardService.backStep$
-      .pipe(
-        takeUntil(this.destroyed$),
-      )
-      .subscribe(backData => {
-        if (backData == null) return;
-        this.formSubmit(_ => backData.back());
-      });
+    this.personForm.patchValue(this.formData);
   }
 
   ngOnDestroy() {
@@ -62,10 +38,6 @@ export class PersonEditorShellComponent implements OnInit, OnDestroy {
     }
 
     const updatedPerson = { ...this.personForm.value };
-
-    console.log(updatedPerson);
-
-    // this.wizardService.confirmGoNext({});
-    callback(this.personForm);
+    callback(updatedPerson);
   }
 }

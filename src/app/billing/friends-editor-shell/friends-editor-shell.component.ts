@@ -10,6 +10,8 @@ import { hasSelectedFriendValidator } from 'src/app/shared/validators';
 import { IdGenerator } from 'src/app/shared/utilities';
 import { Person } from 'src/app/people/person';
 import { DialogService } from 'src/app/shared/dialog/dialog.service';
+import { ModalService } from 'src/app/shared/modal/modal.service';
+import { PersonEditorShellComponent } from '../person-editor-shell/person-editor-shell.component';
 
 @Component({
   selector: 'app-friends-editor-shell',
@@ -21,17 +23,10 @@ export class FriendsEditorShellComponent implements OnInit, OnDestroy {
 
   private destroyed$ = new ReplaySubject(0);
   friendsForm: FormGroup;
-  personForm: FormGroup;
-  hidePersonForm: boolean;
 
   constructor(private fb: FormBuilder, private wizardService: WizardService,
-    private peopleService: PeopleService, private billingStore: BillingStoreService, private dialogService: DialogService) {
+    private peopleService: PeopleService, private billingStore: BillingStoreService, private dialogService: DialogService, private modalService: ModalService) {
     this.friendsForm = this.createForm([]);
-    this.personForm = this.fb.group({
-      lastname: ['', [Validators.required, Validators.minLength(3)]],
-      firstname: ['', [Validators.required, Validators.minLength(3)]]
-    });
-    this.hidePersonForm = true;
   }
   wizardStep$ = this.wizardService.wizardStep$;
   friendsFromStore = [];
@@ -83,32 +78,56 @@ export class FriendsEditorShellComponent implements OnInit, OnDestroy {
     this.destroyed$.complete();
   }
 
-  addFriend() {
-    this.personForm.markAllAsTouched();
-    if (!this.personForm.valid) {
-      return;
-    }
+  addPerson() {
+    this.modalService.show({
+      heading: 'Add friend',
+      formData: {
+        ...{
+          id: IdGenerator.generate(-1, -100)
+        },
+        firstname: '',
+        lastname: '',
+      },
+      component: PersonEditorShellComponent,
+      handleSave: (person) => {
+        const friend = {
+          ...person, ...{
+            id: IdGenerator.generate(-1, -100)
+          }, ...{
+            selected: true
+          }
+        };
 
-    const friend = {
-      ...this.personForm.value, ...{
-        id: IdGenerator.generate(-1, -100)
-      }, ...{
-        selected: true
+        const updatedStore = [...this.friendsFromStore, friend];
+        this.billingStore.updateSlice(BillingStoreStateKeys.Friends, updatedStore);
+      },
+      handleDelete: person => {
+        this.billingStore.updateSlice(BillingStoreStateKeys.Friends, [...this.friendsFromStore.filter(f => f.id != person.id)]);
       }
-    };
-
-    const updatedStore = [...this.friendsFromStore, friend];
-    this.billingStore.updateSlice(BillingStoreStateKeys.Friends, updatedStore);
-    this.personForm.reset();
+    });
   }
 
-  closeAddPersonForm() {
-    this.personForm.reset();
-    this.hidePersonForm = true;
-  }
+  updateFriend(friend) {
+    this.modalService.show({
+      heading: 'Update friend',
+      formData: {
+        ...friend
+      },
+      component: PersonEditorShellComponent,
+      handleSave: (person) => {
+        const friend = this.friendsFromStore.find(f => f.id == person.id);
 
-  openAddPersonForm() {
-    this.hidePersonForm = false;
+        if (!friend) {
+          return;
+        }
+        const updatedFriend = { ...friend, ...person };
+        const updatedStore = [...this.friendsFromStore.filter(f => f.id != person.id), updatedFriend];
+        this.billingStore.updateSlice(BillingStoreStateKeys.Friends, updatedStore);
+      },
+      handleDelete: person => {
+        this.billingStore.updateSlice(BillingStoreStateKeys.Friends, [...this.friendsFromStore.filter(f => f.id != person.id)]);
+      }
+    });
   }
 
   private createForm(friends: []) {
@@ -129,7 +148,7 @@ export class FriendsEditorShellComponent implements OnInit, OnDestroy {
     if (friends.length <= 0) {
       this.dialogService.info({
         heading: 'Hey',
-        message: 'You have not added any friends yet. Is that correct?',
+        message: 'You have not added any friends yet. Does that mean that you didn\'t go with friends?',
         callback: affirmative => {
           if (affirmative) {
             callback();
@@ -137,6 +156,8 @@ export class FriendsEditorShellComponent implements OnInit, OnDestroy {
           return;
         }
       });
+    } else {
+      callback();
     }
   }
 }
