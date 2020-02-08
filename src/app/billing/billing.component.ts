@@ -139,10 +139,10 @@ export class BillingComponent implements OnInit {
     this.wizardService.tryGoNext({
       $event,
       next: (nextData) => {
-        this.leftPosition = this.leftPosition - 133.33;
         if (this.currentStep == this.steps.length) {
           this.onSubmit();
-        } else {
+        } else if (this.currentStep < this.steps.length) {
+          this.leftPosition = this.leftPosition - 133.33;
           this.nextCallback();
         }
       }
