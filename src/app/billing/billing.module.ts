@@ -9,13 +9,14 @@ import { WizardModule } from '../wizard/wizard.module';
 import { PersonEditorShellComponent } from './person-editor-shell/person-editor-shell.component';
 import { FormsModule } from '../forms/forms.module';
 import { BillEditorShellComponent } from './bill-editor-shell/bill-editor-shell.component';
-import { BillItemsEditorShellComponent } from './bill-items-editor-shell/bill-items-editor-shell.component';
+import { BillItemEditorShellComponent } from './bill-item-editor-shell/bill-item-editor-shell.component';
 import { FriendsEditorShellComponent } from './friends-editor-shell/friends-editor-shell.component';
 import { BillItemsAssignEditorShellComponent } from './bill-items-assign-editor-shell/bill-items-assign-editor-shell.component';
 import { ExtraChargeEditorShellComponent } from './extra-charge-editor-shell/extra-charge-editor-shell.component';
 import { ReceiptShellComponent } from './receipt-shell/receipt-shell.component';
 import { StepTrackerModule } from '../step-tracker/step-tracker.module';
 import { ExtraChargesShellComponent } from './extra-charges-shell/extra-charges-shell.component';
+import { BillItemsShellComponent } from './bill-items-shell/bill-items-shell.component';
 
 
 @NgModule({
@@ -25,12 +26,13 @@ import { ExtraChargesShellComponent } from './extra-charges-shell/extra-charges-
     BillingPaymentComponent,
     PersonEditorShellComponent,
     BillEditorShellComponent,
-    BillItemsEditorShellComponent,
+    BillItemEditorShellComponent,
     FriendsEditorShellComponent,
     BillItemsAssignEditorShellComponent,
     ExtraChargeEditorShellComponent,
     ReceiptShellComponent,
-    ExtraChargesShellComponent,],
+    ExtraChargesShellComponent,
+    BillItemsShellComponent,],
   imports: [
     SharedModule,
     BillingRoutingModule,
@@ -41,12 +43,13 @@ import { ExtraChargesShellComponent } from './extra-charges-shell/extra-charges-
   entryComponents: [
     PersonEditorShellComponent,
     BillEditorShellComponent,
-    BillItemsEditorShellComponent,
+    BillItemEditorShellComponent,
     FriendsEditorShellComponent,
     BillItemsAssignEditorShellComponent,
     ExtraChargeEditorShellComponent,
     ReceiptShellComponent,
     ExtraChargesShellComponent,
+    BillItemsShellComponent
   ]
 })
 export class BillingModule { }

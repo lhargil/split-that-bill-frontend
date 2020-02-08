@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Subject, from, of, zip, fromEvent } from 'rxjs';
 import { WizardStep } from '../wizard/models';
 import { BillEditorShellComponent } from './bill-editor-shell/bill-editor-shell.component';
-import { BillItemsEditorShellComponent } from './bill-items-editor-shell/bill-items-editor-shell.component';
+import { BillItemEditorShellComponent } from './bill-item-editor-shell/bill-item-editor-shell.component';
 import { FriendsEditorShellComponent } from './friends-editor-shell/friends-editor-shell.component';
 import { BillItemsAssignEditorShellComponent } from './bill-items-assign-editor-shell/bill-items-assign-editor-shell.component';
 import { ExtraChargeEditorShellComponent } from './extra-charge-editor-shell/extra-charge-editor-shell.component';
@@ -16,6 +16,7 @@ import { Router } from '@angular/router';
 import { PeopleService } from '../people/people.service';
 import { Person } from '../people/person';
 import { ExtraChargesShellComponent } from './extra-charges-shell/extra-charges-shell.component';
+import { BillItemsShellComponent } from './bill-items-shell/bill-items-shell.component';
 
 @Component({
   selector: 'app-billing',
@@ -40,7 +41,7 @@ export class BillingComponent implements OnInit {
     stepName: 'What did you eat?',
     isDone: false,
     isActive: false,
-    component: BillItemsEditorShellComponent
+    component: BillItemsShellComponent
   }, {
     id: 5,
     stepName: 'Who ate what?',

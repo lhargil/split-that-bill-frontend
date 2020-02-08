@@ -1,22 +1,22 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { BillItemsEditorShellComponent } from './bill-items-editor-shell.component';
+import { BillItemEditorShellComponent } from './bill-item-editor-shell.component';
 import { FormsModule } from 'src/app/forms/forms.module';
 
 describe('BillItemsEditorShellComponent', () => {
-  let component: BillItemsEditorShellComponent;
-  let fixture: ComponentFixture<BillItemsEditorShellComponent>;
+  let component: BillItemEditorShellComponent;
+  let fixture: ComponentFixture<BillItemEditorShellComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [BillItemsEditorShellComponent],
+      declarations: [BillItemEditorShellComponent],
       imports: [FormsModule]
     })
       .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(BillItemsEditorShellComponent);
+    fixture = TestBed.createComponent(BillItemEditorShellComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

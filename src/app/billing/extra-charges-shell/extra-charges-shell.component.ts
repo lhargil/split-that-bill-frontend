@@ -83,7 +83,7 @@ export class ExtraChargesShellComponent implements OnInit, OnDestroy {
 
   updateExtraCharge(extraChargeToUpdate) {
     this.modalService.show({
-      heading: 'Add extra charge',
+      heading: 'Update extra charge',
       formData: {
         ...extraChargeToUpdate
       },

@@ -1,22 +1,22 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { BillItemsFormComponent } from './bill-items-form.component';
+import { BillItemFormComponent } from './bill-item-form.component';
 import { ReactiveFormsModule } from '@angular/forms';
 
 describe('BillItemsFormComponent', () => {
-  let component: BillItemsFormComponent;
-  let fixture: ComponentFixture<BillItemsFormComponent>;
+  let component: BillItemFormComponent;
+  let fixture: ComponentFixture<BillItemFormComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [BillItemsFormComponent],
+      declarations: [BillItemFormComponent],
       imports: [ReactiveFormsModule]
     })
       .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(BillItemsFormComponent);
+    fixture = TestBed.createComponent(BillItemFormComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

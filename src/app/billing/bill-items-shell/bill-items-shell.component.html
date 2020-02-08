@@ -1,0 +1,24 @@
+<ng-container *ngIf="vm$ | async as vm">
+  <header class="mb-8 flex items-center justify-between">
+    <h2>
+      {{vm.wizardStep.stepName}}
+    </h2>
+    <button class="btn btn-outline inline-flex items-center justify-center" type="button" (click)="addBillItem()">
+      <svg class="fill-current h-4 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+        <path d="M11 9V5H9v4H5v2h4v4h2v-4h4V9h-4zm-1 11a10 10 0 1 1 0-20 10 10 0 0 1 0 20z" /></svg>
+      Add
+    </button>
+  </header>
+  <div>
+    <ul>
+      <li *ngFor="let billItem of vm.billItems" class="flex items-center justify-start">
+        {{billItem.description}} {{billItem.amount | currency: 'MYR'}}
+        <button type="button" class="btn flex items-center justify-center" (click)="updateBillItem(billItem)">
+          <svg class="h-4 fill-current mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+            <path d="M12.3 3.7l4 4L4 20H0v-4L12.3 3.7zm1.4-1.4L16 0l4 4-2.3 2.3-4-4z" /></svg>
+          Update
+        </button>
+      </li>
+    </ul>
+  </div>
+</ng-container>
