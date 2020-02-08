@@ -28,7 +28,6 @@ export class ExtraChargeEditorShellComponent implements OnInit {
     }
 
     const updatedExtraCharge = { ...this.extraChargeForm.value };
-    console.log(updatedExtraCharge);
     callback(updatedExtraCharge);
   }
 }

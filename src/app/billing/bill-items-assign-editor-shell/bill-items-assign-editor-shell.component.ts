@@ -36,10 +36,9 @@ export class BillItemsAssignEditorShellComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.billingStore.store$
       .pipe(
-        takeUntil(this.destroyed$),
         map(store => {
           const priceWithCharges = store.extraCharges.reduce((acc, curr) => {
-            return acc + (Number(curr.rate) / 100);
+            return acc + (Number(curr.amount) / 100);
           }, 0);
           const personBillItems = store.billItems.map(bi => {
             const assignee = store.personBillItems &&
@@ -62,7 +61,8 @@ export class BillItemsAssignEditorShellComponent implements OnInit, OnDestroy {
         tap(vm => {
           this.vm.participants = vm.participants;
           this.vm.billItemsForm = this.createForm(vm.personBillItems);
-        })
+        }),
+        takeUntil(this.destroyed$),
       )
       .subscribe();
 
