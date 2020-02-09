@@ -12,6 +12,7 @@ import { Person } from 'src/app/people/person';
 import { DialogService } from 'src/app/shared/dialog/dialog.service';
 import { ModalService } from 'src/app/shared/modal/modal.service';
 import { PersonEditorShellComponent } from '../person-editor-shell/person-editor-shell.component';
+import { ModalModes } from 'src/app/shared/modal/modalState';
 
 @Component({
   selector: 'app-friends-editor-shell',
@@ -92,21 +93,17 @@ export class FriendsEditorShellComponent implements OnInit, OnDestroy {
         heading: 'Removing a friend',
         message: 'Are you sure you want to remove a friend?'
       },
+      modalMode: ModalModes.create,
       component: PersonEditorShellComponent,
       handleSave: (person) => {
         const friend = {
           ...person, ...{
-            id: IdGenerator.generate(-1, -100)
-          }, ...{
             selected: true
           }
         };
 
         const updatedStore = [...this.friendsFromStore, friend];
         this.billingStore.updateSlice(BillingStoreStateKeys.Friends, updatedStore);
-      },
-      handleDelete: person => {
-        this.billingStore.updateSlice(BillingStoreStateKeys.Friends, [...this.friendsFromStore.filter(f => f.id != person.id)]);
       }
     });
   }
@@ -121,6 +118,7 @@ export class FriendsEditorShellComponent implements OnInit, OnDestroy {
         heading: 'Removing a friend',
         message: 'Are you sure you want to remove a friend?'
       },
+      modalMode: ModalModes.update,
       component: PersonEditorShellComponent,
       handleSave: (person) => {
         const friend = this.friendsFromStore.find(f => f.id == person.id);

@@ -1,17 +1,6 @@
-import { Injectable, Type } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
-
-export interface ModalState {
-  heading: string;
-  formData: any;
-  dialog: {
-    heading: string;
-    message: string;
-  };
-  component: Type<any>;
-  handleSave: (eventData) => void;
-  handleDelete: (eventData) => void;
-}
+import { ModalState } from './modalState';
 
 @Injectable({
   providedIn: 'root'

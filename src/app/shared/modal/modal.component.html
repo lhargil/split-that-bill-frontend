@@ -17,7 +17,8 @@
         <div content-host></div>
       </div>
       <div class="modal-footer flex flex-row items-center justify-end p-4 border-t">
-        <button type="button" class="btn text-red-700 mr-4 flex items-center justify-center" (click)="delete()">
+        <button *ngIf="content.showDelete" type="button" class="btn text-red-700 mr-4 flex items-center justify-center"
+          (click)="delete()">
           <svg class="h-4 w-auto fill-current mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
             <path d="M6 2l2-2h4l2 2h4v2H2V2h4zM3 6h14l-1 14H4L3 6zm5 2v10h1V8H8zm3 0v10h1V8h-1z" /></svg>
           Delete

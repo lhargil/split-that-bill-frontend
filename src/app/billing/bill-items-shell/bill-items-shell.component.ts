@@ -6,6 +6,7 @@ import { tap, map, takeUntil } from 'rxjs/operators';
 import { ModalService } from 'src/app/shared/modal/modal.service';
 import { IdGenerator } from 'src/app/shared/utilities';
 import { BillItemEditorShellComponent } from '../bill-item-editor-shell/bill-item-editor-shell.component';
+import { ModalModes } from 'src/app/shared/modal/modalState';
 
 @Component({
   selector: 'app-bill-items-shell',
@@ -66,15 +67,12 @@ export class BillItemsShellComponent implements OnInit, OnDestroy {
         heading: 'Removing bill item',
         message: 'Are you sure you want to remove the bill item?',
       },
+      modalMode: ModalModes.create,
       component: BillItemEditorShellComponent,
       handleSave: billItem => {
         const updatedBillItems = [...this.billItemsFromStore, billItem];
         this.billingStore.updateSlice(BillingStoreStateKeys.BillItems, updatedBillItems);
       },
-      handleDelete: billItem => {
-        const updatedBillItems = [...this.billItemsFromStore.filter(bi => bi.id != billItem.id)];
-        this.billingStore.updateSlice(BillingStoreStateKeys.BillItems, updatedBillItems);
-      }
     });
   }
 
@@ -88,9 +86,10 @@ export class BillItemsShellComponent implements OnInit, OnDestroy {
         heading: 'Removing bill item',
         message: 'Are you sure you want to remove the bill item?',
       },
+      modalMode: ModalModes.update,
       component: BillItemEditorShellComponent,
       handleSave: billItem => {
-        const updatedBillItems = [...this.billItemsFromStore, billItem];
+        const updatedBillItems = [...this.billItemsFromStore.filter(bi => bi.id != billItem.id), billItem];
         this.billingStore.updateSlice(BillingStoreStateKeys.BillItems, updatedBillItems);
       },
       handleDelete: billItem => {

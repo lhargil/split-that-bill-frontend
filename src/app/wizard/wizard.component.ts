@@ -17,6 +17,7 @@ export class WizardComponent {
     this._currentStep = value;
     const wizardStep = this.wizardSteps.find(ws => ws.id == this._currentStep);
     this.loadComponent(wizardStep.component);
+    window.scrollTo(0, 0);
     this.wizardService.currentStep(wizardStep);
   }
 

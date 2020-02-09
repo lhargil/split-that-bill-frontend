@@ -6,6 +6,7 @@ import { ReplaySubject, combineLatest } from 'rxjs';
 import { ModalService } from 'src/app/shared/modal/modal.service';
 import { IdGenerator } from 'src/app/shared/utilities';
 import { ExtraChargeEditorShellComponent } from '../extra-charge-editor-shell/extra-charge-editor-shell.component';
+import { ModalModes } from 'src/app/shared/modal/modalState';
 
 @Component({
   selector: 'app-extra-charges-shell',
@@ -68,16 +69,12 @@ export class ExtraChargesShellComponent implements OnInit, OnDestroy {
         heading: 'Removing extra charge',
         message: 'Are you sure you want to remove the extra charge?'
       },
+      modalMode: ModalModes.create,
       component: ExtraChargeEditorShellComponent,
       handleSave: extraCharge => {
         const updateExtraCharges = [...this.extraChargesFromStore, extraCharge];
         this.billingStore.updateSlice(BillingStoreStateKeys.ExtraCharges, updateExtraCharges);
       },
-      handleDelete: extraCharge => {
-        const updatedExtraCharges = [...this.extraChargesFromStore.filter(ec => ec.id != extraCharge.id)];
-
-        this.billingStore.updateSlice(BillingStoreStateKeys.ExtraCharges, updatedExtraCharges);
-      }
     });
   }
 
@@ -91,9 +88,12 @@ export class ExtraChargesShellComponent implements OnInit, OnDestroy {
         heading: 'Removing extra charge',
         message: 'Are you sure you want to remove the extra charge?'
       },
+      modalMode: ModalModes.update,
       component: ExtraChargeEditorShellComponent,
       handleSave: extraCharge => {
-        this.billingStore.updateSlice(BillingStoreStateKeys.ExtraCharges, [...this.extraChargesFromStore.filter(ec => ec.id != extraCharge.id), { ...extraCharge }]);
+        this.billingStore.updateSlice(BillingStoreStateKeys.ExtraCharges,
+          [...this.extraChargesFromStore.filter(ec => ec.id != extraCharge.id),
+          { ...extraCharge }]);
       },
       handleDelete: extraCharge => {
         const updatedExtraCharges = [...this.extraChargesFromStore.filter(ec => ec.id != extraCharge.id)];
