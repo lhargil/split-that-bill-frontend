@@ -12,9 +12,12 @@
   <div *ngIf="vm.extraCharges.length > 0; then showCharges; else noCharges;"></div>
   <ng-template #showCharges>
     <ul>
-      <li *ngFor="let ec of vm.extraCharges" class="flex items-center justify-between py-4 border-b last:border-b-0">
-        {{ec.description}} {{ec.amount | currency: 'MYR'}}
-        <button type="button" class="btn flex items-center justify-center text-teal-700 px-0"
+      <li *ngFor="let ec of vm.extraCharges" class="flex items-end justify-between py-4 border-b last:border-b-0">
+        <div>
+          <h4 class="text-xl font-bold leading-none">{{ec.description }}</h4>
+          <p class="text-gray-500">{{ec.amount | currency: 'MYR'}}</p>
+        </div>
+        <button type="button" class="btn flex items-center justify-center text-gray-600 px-0"
           (click)="updateExtraCharge(ec)">
           <svg class="h-4 fill-current mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
             <path d="M12.3 3.7l4 4L4 20H0v-4L12.3 3.7zm1.4-1.4L16 0l4 4-2.3 2.3-4-4z" /></svg>

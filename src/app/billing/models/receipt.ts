@@ -18,6 +18,7 @@ export class Receipt {
       }),
       total: this.getTotal(),
       totalWithCharges: Receipt.createMoney(this.getTotalWithCharges()),
+      totalCharges: Receipt.createMoney(this.getTotalCharges()),
       totalChargeRates: this.getTotalChargeRates()
     };
   }
@@ -83,7 +84,10 @@ export class Receipt {
     }, 0));
   }
   private getTotalWithCharges() {
-    return this.getTotal().amount + (this.getTotal().amount * this.getTotalChargeRates());
+    return this.getTotal().amount + this.getTotalCharges();
+  }
+  private getTotalCharges() {
+    return this.getTotal().amount * this.getTotalChargeRates();
   }
   private getTotalChargeRates() {
     return this.billingData.extraCharges.reduce((acc, curr) => {

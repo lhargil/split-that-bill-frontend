@@ -29,6 +29,7 @@ module.exports = {
     borderWidth: ['responsive', 'first', 'last', 'odd', 'even', 'hover', 'focus'],
     backgroundColor: ['responsive', 'odd', 'even', 'hover', 'focus'],
     translate: ['responsive', 'hover', 'focus'],
+    padding: ['responsive', 'hover', 'focus', 'last'],
   },
   plugins: []
 }

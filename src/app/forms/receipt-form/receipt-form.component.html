@@ -4,24 +4,27 @@
       <h2 class="text-2xl">
         {{receipt.billInfo.placeName}}
       </h2>
-      <em>
+      <p class="text-gray-500 text-sm italic">
         {{receipt.billInfo.date}}
-      </em>
+      </p>
     </div>
     <div class="flex-1">
-      <p>
-        Total: <strong>{{receipt.billInfo.total.amount | currency: receipt.billInfo.total.currency}}</strong>
+      <p class="mb-2">
+        <strong
+          class="text-2xl">{{receipt.billInfo.totalWithCharges.amount | currency: receipt.billInfo.totalWithCharges.currency}}
+        </strong>
       </p>
       <p>
-        Total with charges:
-        <strong>{{receipt.billInfo.totalWithCharges.amount | currency: receipt.billInfo.totalWithCharges.currency}}</strong>
+        <span>{{receipt.billInfo.total.amount | currency: receipt.billInfo.total.currency}} </span>
+        <span class="text-gray-500 text-xs italic">sub-total</span>
       </p>
-      <em class="text-xs">
-        Extra charge rates: <strong>{{receipt.billInfo.totalChargeRates | percent }}</strong>
-      </em>
+      <p>
+        <span>{{receipt.billInfo.totalCharges.amount | currency: receipt.billInfo.totalCharges.currency}} </span>
+        <span class="text-gray-500 text-xs italic">extra charge ({{receipt.billInfo.totalChargeRates | percent}})</span>
+      </p>
     </div>
   </div>
-  <p>
+  <p *ngIf="receipt.billInfo.remarks" class="text-gray-600 italic">
     {{receipt.billInfo.remarks}}
   </p>
 </header>
@@ -34,24 +37,33 @@
       </div>
       <div class="flex-1">
         <ul>
-          <li *ngFor="let billItem of personBillItem.value" class="pb-4">
+          <li *ngFor="let billItem of personBillItem.value" class="pb-4 last:pb-6">
             <div>
-              <header>
-                <h3>{{ billItem.description }}</h3>
-              </header>
-              <p>
-                Unit price: <strong>{{billItem.price.amount | currency: billItem.price.currency}}</strong>
-              </p>
-              <p>
-                Price with charges:
-                <strong>{{ billItem.priceWithCharges.amount | currency: billItem.priceWithCharges.currency }}</strong>
-              </p>
+              <h4 class="text-xl font-bold leading-none mb-3">
+                {{ billItem.description }}
+              </h4>
+              <div>
+                <p>
+                  <span>
+                    {{billItem.price.amount | currency: billItem.price.currency}}
+                  </span>
+                  <span class="text-gray-500 text-xs italic">unit price</span>
+                </p>
+                <p>
+                  <span>
+                    {{ billItem.priceWithCharges.amount | currency: billItem.priceWithCharges.currency }}
+                  </span>
+                  <span class="text-gray-500 text-xs italic">with charges</span>
+                </p>
+              </div>
             </div>
           </li>
         </ul>
         <footer>
-          Total payable:
-          <strong>{{personBillItem.totalPayable.amount | currency: personBillItem.totalPayable.currency}}</strong>
+          <strong
+            class="text-base">{{personBillItem.totalPayable.amount | currency: personBillItem.totalPayable.currency}}
+          </strong>
+          <span class="text-gray-500 text-xs italic">total payable</span>
         </footer>
       </div>
     </li>

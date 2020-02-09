@@ -2,54 +2,43 @@
   <div *ngIf="billItems.length > 0; then withPersonBillItems; else noPersonBillItems;">
   </div>
   <ng-template #withPersonBillItems>
-    <table class="w-full">
-      <thead>
-        <tr>
-          <th class="text-gray-500 text-left">Description</th>
-          <th class="text-gray-500 text-left">To</th>
-        </tr>
-      </thead>
-      <tbody formArrayName="billItems">
-        <tr *ngFor="let billItem of billItems.controls; let i = index;" [formGroupName]="i"
-          class="border-b last:border-b-0">
-          <td class="py-8">
-            <div>
-              <header>
-                <h3>
-                  {{billItem.get('itemDescription').value}}
-                </h3>
-              </header>
-              <p>
-                Unit price:
-                <strong>
-                  {{billItem.get('amount').value | currency: billItem.get('currency').value }}
-                </strong>
-                <br>
-                Price with charges:
-                <strong>
-                  {{billItem.get('priceWithCharges').value | currency: billItem.get('currency').value }}
-                </strong>
-              </p>
-            </div>
-          </td>
-          <td>
-            <div class="inline-block relative w-full">
-              <select class="field-select hover:border-gray-500 focus:outline-none focus:shadow-outline"
-                formControlName="assignee">
-                <option value="0">Assign to</option>
-                <option *ngFor="let p of personBillItems.participants" [value]="p.id">
-                  {{p.fullname| titlecase}}
-                </option>
-              </select>
-              <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                  <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" /></svg>
-              </div>
-            </div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <ul formArrayName="billItems">
+      <li *ngFor="let billItem of billItems.controls; let i = index;" [formGroupName]="i"
+        class="border-b-2 border-dotted last:border-b-0 py-4 flex items-end justify-start">
+        <div class="flex-1">
+          <h4 class="text-xl font-bold leading-none mb-4">
+            {{billItem.get('itemDescription').value}}
+          </h4>
+          <div>
+            <p>
+              <span>
+                {{billItem.get('amount').value | currency: billItem.get('currency').value }}
+              </span>
+              <span class="text-gray-500 text-xs italic">unit price</span>
+            </p>
+            <p>
+              <span>
+                {{billItem.get('priceWithCharges').value | currency: billItem.get('currency').value }}
+              </span>
+              <span class="text-gray-500 text-xs italic">with charges</span>
+            </p>
+          </div>
+        </div>
+        <div class="inline-block relative">
+          <select class="field-select hover:border-gray-500 focus:outline-none focus:shadow-outline"
+            formControlName="assignee">
+            <option value="0">Assign to</option>
+            <option *ngFor="let p of personBillItems.participants" [value]="p.id">
+              {{p.fullname| titlecase}}
+            </option>
+          </select>
+          <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+            <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+              <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" /></svg>
+          </div>
+        </div>
+      </li>
+    </ul>
 
   </ng-template>
   <ng-template #noPersonBillItems>

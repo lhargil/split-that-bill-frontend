@@ -23,8 +23,8 @@ export class BillingStoreService {
 
   get storeSlice$() {
     return combineLatest(
-      this.store$,
-      this.slice$
+      [this.store$,
+      this.slice$]
     ).pipe(
       map(([store, slice]) => {
         if (!slice) {
@@ -52,8 +52,8 @@ export class BillingStoreService {
   getStoreSlice$(slice: BillingStoreStateKeys) {
     this.sliceOfStateSubject.next(slice);
     return combineLatest(
-      this.store$,
-      this.slice$
+      [this.store$,
+      this.slice$]
     ).pipe(
       map(([store, storeSlice]) => {
         if (!storeSlice) {
