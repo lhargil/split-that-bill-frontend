@@ -39,14 +39,7 @@ export class AppComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroyed$))
       .subscribe(_ => this.router.navigate(['/billing']));
 
-    fromEvent(window, 'resize')
-      .pipe(
-        debounceTime(200),
-        takeUntil(this.destroyed$),
-      ).subscribe(
-        _ => this.resetHeight()
-      );
-    this.resetHeight();
+
   }
 
   ngOnDestroy() {
@@ -54,9 +47,5 @@ export class AppComponent implements OnInit, OnDestroy {
     this.destroyed$.complete();
   }
 
-  // this is a solution to handle the 100vh element height in IOS Safari as the browser bottom navigation covers up a portion of the bottom part of an element
-  // see more: https://stackoverflow.com/questions/43575363/css-100vh-is-too-tall-on-mobile-due-to-browser-ui
-  private resetHeight() {
-    document.body.style.height = window.innerHeight + 'px';
-  }
+
 }

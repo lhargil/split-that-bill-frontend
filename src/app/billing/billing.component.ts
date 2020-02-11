@@ -9,7 +9,7 @@ import { ExtraChargeEditorShellComponent } from './extra-charge-editor-shell/ext
 import { ReceiptShellComponent } from './receipt-shell/receipt-shell.component';
 import { BillingStoreService } from './billing-store.service';
 import { BillsService } from '../bills/bills.service';
-import { takeUntil, concatMap, mergeMap, tap, map, toArray } from 'rxjs/operators';
+import { takeUntil, concatMap, mergeMap, tap, map, toArray, debounceTime } from 'rxjs/operators';
 import { WizardService } from '../wizard/wizard.service';
 import { Step, Orientations } from '../step-tracker/models';
 import { Router } from '@angular/router';
@@ -110,7 +110,7 @@ export class BillingComponent implements OnInit {
 
     fromEvent(window, 'resize')
       .pipe(
-        tap(console.log),
+        debounceTime(200),
         takeUntil(this.destroyed$),
       ).subscribe(_ => {
         this.getCurrentStepPosition();

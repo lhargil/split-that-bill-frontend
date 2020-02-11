@@ -27,8 +27,8 @@ export class NavComponent implements OnInit, OnDestroy, AfterViewInit {
     fromEvent(window, 'scroll'),
     fromEvent(window, 'resize')
   ).pipe(
+    map(ev => ev),
     takeUntil(this.destroy$),
-    map(ev => ev)
   );
 
   visible = false;
@@ -48,10 +48,10 @@ export class NavComponent implements OnInit, OnDestroy, AfterViewInit {
   ngAfterViewInit() {
     this.router.events
       .pipe(
-        takeUntil(this.destroy$),
         filter(
           ev => ev instanceof NavigationEnd || ev instanceof NavigationStart
-        )
+        ),
+        takeUntil(this.destroy$),
       )
       .subscribe(ev => {
         if (ev instanceof NavigationEnd) {
