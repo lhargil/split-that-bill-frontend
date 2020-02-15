@@ -1,6 +1,5 @@
-import { Component, OnInit, ComponentFactoryResolver, ViewChild } from '@angular/core';
-import { ContentHostDirective } from '../shared/directives/content-host/content-host.directive';
-import { NotificationComponent } from './notification.component';
+import { Component, OnInit } from '@angular/core';
+import { NotificationService } from './notification.service';
 
 @Component({
   selector: 'app-notification-host',
@@ -8,20 +7,21 @@ import { NotificationComponent } from './notification.component';
   styles: []
 })
 export class NotificationHostComponent implements OnInit {
-  @ViewChild(ContentHostDirective, { static: true }) notificationHost: ContentHostDirective;
+  notifications: Notification[];
 
-
-  constructor(private componentFactoryResolver: ComponentFactoryResolver) { }
-
-  ngOnInit(): void {
-    this.loadComponent();
+  constructor(private notificationService: NotificationService) {
+    this.notifications = [];
   }
 
-  private loadComponent() {
-    const componentFactory = this.componentFactoryResolver.resolveComponentFactory(NotificationComponent);
+  ngOnInit(): void {
+    this.notificationService.notification$
+      .subscribe(notification => {
+        this.notifications.push(notification);
+      });
 
-    const viewContainerRef = this.notificationHost.viewContainerRef;
-    viewContainerRef.clear();
-    viewContainerRef.createComponent(componentFactory);
+  }
+
+  close(index: number) {
+    this.notifications = [...this.notifications.filter((v, i) => i != index)];
   }
 }

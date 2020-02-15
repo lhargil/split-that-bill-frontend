@@ -1,1 +1,6 @@
-<ng-container content-host></ng-container>
+<div class="fixed right-0 z-50 top-0">
+  <ng-container *ngFor="let notification of notifications; let i = index;">
+    <app-notification class="block mb-1" style="width: 300px;" [notification]="notification" (closeClicked)="close(i)">
+    </app-notification>
+  </ng-container>
+</div>
