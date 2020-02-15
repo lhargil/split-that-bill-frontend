@@ -4,6 +4,7 @@ import { takeUntil, switchMap, map, combineAll, tap, concatMap } from 'rxjs/oper
 import { Subject, merge, zip, of } from 'rxjs';
 import { BillsService } from '../bills/bills.service';
 import { BillingService } from '../billing/billing.service';
+import { NotificationService } from '../notification/notification.service';
 
 @Component({
   selector: 'app-receipt',
@@ -13,10 +14,8 @@ import { BillingService } from '../billing/billing.service';
 export class ReceiptComponent implements OnInit, OnDestroy {
   private destroyed$ = new Subject();
 
-  copiedUrl: string;
-
   constructor(private activatedRoute: ActivatedRoute,
-    private billsService: BillsService, private billingService: BillingService) { }
+    private billsService: BillsService, private billingService: BillingService, private notificationService: NotificationService) { }
 
   receipt$ = this.activatedRoute.params
     .pipe(
@@ -75,12 +74,12 @@ export class ReceiptComponent implements OnInit, OnDestroy {
   }
 
   onShare() {
-    this.copiedUrl = window.location.href;
-    this.copyMessage(this.copiedUrl);
-
-    setTimeout(() => {
-      this.copiedUrl = '';
-    }, 2000);
+    const copiedUrl = window.location.href;
+    this.copyMessage(copiedUrl);
+    this.notificationService.info({
+      header: 'Url copied',
+      message: 'The receipt url has been copied to your clipboard.'
+    });
   }
 
   private copyMessage(val: string) {

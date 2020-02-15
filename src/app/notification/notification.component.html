@@ -9,7 +9,7 @@
         {{notification.message}}
       </p>
       <div class="h-4"></div>
-      <footer>
+      <footer *ngIf="notification.button">
         <button type="button" class="btn btn-outline"
           [ngClass]="[notification.styling.textColor, notification.styling.border]"
           (click)="close()">{{notification.button.text}}</button>
@@ -24,64 +24,3 @@
     </button>
   </div>
 </div>
-<!-- <div class="bg-blue-200 border-l-4 border-blue-700 z-40 p-4">
-<div class="flex items-center justify-between">
-<div>
-<h4 class="text-lg font-bold text-blue-700">Notification header</h4>
-<p class="text-blue-900 text-sm">
-This is an informative message to you.
-</p>
-<div class="h-4"></div>
-<footer>
-<button type="button" class="btn btn-outline text-blue-700 border-blue-700">Action</button>
-</footer>
-</div>
-<button type="button" class="text-blue-700 opacity-25" data-dismiss="modal" aria-label="Close" (click)="close()">
-<svg class="h-6 w-auto fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-<path
-d="M10 8.586L2.929 1.515 1.515 2.929 8.586 10l-7.071 7.071 1.414 1.414L10 11.414l7.071 7.071 1.414-1.414L11.414 10l7.071-7.071-1.414-1.414L10 8.586z" />
-</svg>
-</button>
-</div>
-</div>
-<div class="bg-orange-200 border-l-4 border-orange-700 z-40 p-4">
-<div class="flex items-center justify-between">
-<div>
-<h4 class="text-lg font-bold text-orange-700">Notification header</h4>
-<p class="text-orange-900 text-sm">
-This is an informative message to you.
-</p>
-<div class="h-4"></div>
-<footer>
-<button type="button" class="btn btn-outline text-orange-700 border-orange-700">Action</button>
-</footer>
-</div>
-<button type="button" class="text-orange-700 opacity-25" data-dismiss="modal" aria-label="Close"
-(click)="close()">
-<svg class="h-6 w-auto fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-<path
-d="M10 8.586L2.929 1.515 1.515 2.929 8.586 10l-7.071 7.071 1.414 1.414L10 11.414l7.071 7.071 1.414-1.414L11.414 10l7.071-7.071-1.414-1.414L10 8.586z" />
-</svg>
-</button>
-</div>
-</div>
-<div class="bg-red-200 border-l-4 border-red-700 z-40 p-4">
-<div class="flex items-center justify-between">
-<div>
-<h4 class="text-lg font-bold text-red-700">Notification header</h4>
-<p class="text-red-900 text-sm">
-This is an informative message to you.
-</p>
-<div class="h-4"></div>
-<footer>
-<button type="button" class="btn btn-outline text-red-700 border-red-700">Action</button>
-</footer>
-</div>
-<button type="button" class="text-red-700 opacity-25" data-dismiss="modal" aria-label="Close" (click)="close()">
-<svg class="h-6 w-auto fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-<path
-d="M10 8.586L2.929 1.515 1.515 2.929 8.586 10l-7.071 7.071 1.414 1.414L10 11.414l7.071 7.071 1.414-1.414L11.414 10l7.071-7.071-1.414-1.414L10 8.586z" />
-</svg>
-</button>
-</div>
-</div> -->

@@ -16,10 +16,7 @@ export interface NotificationState {
 export class Notification {
   header = '';
   message = '';
-  button = {
-    callback: eventData => { },
-    text: '',
-  };
+  button = null;
   styling = {
     background: '',
     border: '',
@@ -32,8 +29,8 @@ export class Notification {
   private constructor(notificationType: NotificationTypes, public data: any) {
     this.header = data.header;
     this.message = data.message;
-    this.button = { ...data.button },
-      this.styling = this.getNotificationClass(notificationType);
+    this.button = data.button && { ...data.button };
+    this.styling = this.getNotificationClass(notificationType);
   }
 
   private getNotificationClass(type: NotificationTypes) {

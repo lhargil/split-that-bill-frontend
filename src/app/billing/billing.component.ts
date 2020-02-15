@@ -17,6 +17,7 @@ import { PeopleService } from '../people/people.service';
 import { Person } from '../people/person';
 import { ExtraChargesShellComponent } from './extra-charges-shell/extra-charges-shell.component';
 import { BillItemsShellComponent } from './bill-items-shell/bill-items-shell.component';
+import { NotificationService } from '../notification/notification.service';
 
 @Component({
   selector: 'app-billing',
@@ -84,7 +85,7 @@ export class BillingComponent implements OnInit {
 
   leftPosition = 0;
 
-  constructor(private billingStore: BillingStoreService, private billService: BillsService, private wizardService: WizardService, private router: Router, private peopleService: PeopleService) {
+  constructor(private billingStore: BillingStoreService, private billService: BillsService, private wizardService: WizardService, private router: Router, private peopleService: PeopleService, private notificationService: NotificationService) {
   }
 
   ngOnInit() {
@@ -215,7 +216,14 @@ export class BillingComponent implements OnInit {
 
           return this.billService.createBill(updatedBill);
         })
-      ).subscribe(createdBill => this.router.navigate(['/receipt', createdBill.externalId]));
+      ).subscribe(createdBill => {
+        this.notificationService.success({
+          header: 'Bill created',
+          message: 'Your bill has been successfully created and saved.',
+          button: null
+        });
+        this.router.navigate(['/receipt', createdBill.externalId]);
+      });
   }
 
   private nextCallback() {
