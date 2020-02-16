@@ -28,6 +28,7 @@ module.exports = (config, options) => {
           ident: 'postcss',
           syntax: 'postcss-scss',
           plugins: [
+            require('postcss-import'),
             require('tailwindcss')('./tailwind.config.js'),
             require('autoprefixer'),
             ...(config.mode === 'production' ? [purgecss] : [])

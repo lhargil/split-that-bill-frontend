@@ -17,11 +17,7 @@ export class Notification {
   header = '';
   message = '';
   button = null;
-  styling = {
-    background: '',
-    border: '',
-    textColor: ''
-  };
+  styling = '';
   static create(notificationType: NotificationTypes, data: any): Notification {
     return new Notification(notificationType, data);
   }
@@ -37,32 +33,16 @@ export class Notification {
     let notificationClass: any;
     switch (type) {
       case NotificationTypes.error:
-        notificationClass = {
-          background: 'bg-red-200',
-          border: 'border-red-700',
-          textColor: 'text-red-700',
-        };
+        notificationClass = 'notification notification-error';
         break;
       case NotificationTypes.info:
-        notificationClass = {
-          background: 'bg-blue-200',
-          border: 'border-blue-700',
-          textColor: 'text-blue-700',
-        };
+        notificationClass = 'notification notification-info';
         break;
       case NotificationTypes.success:
-        notificationClass = {
-          background: 'bg-green-200',
-          border: 'border-green-700',
-          textColor: 'text-green-700',
-        };
+        notificationClass = 'notification notification-success';
         break;
       case NotificationTypes.warning:
-        notificationClass = {
-          background: 'bg-orange-200',
-          border: 'border-orange-700',
-          textColor: 'text-orange-700',
-        };
+        notificationClass = 'notification notification-warning';
         break;
 
     }
