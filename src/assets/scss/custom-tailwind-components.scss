@@ -44,7 +44,7 @@
 .notification {
   width: 300px;
 }
-/* purgecss start ignore */
+
 .notification-success {
   @apply bg-green-200 border-green-700;
 
@@ -121,7 +121,5 @@
     @apply border-orange-700;
   }
 }
-
-/* purgecss end ignore */
 
 
