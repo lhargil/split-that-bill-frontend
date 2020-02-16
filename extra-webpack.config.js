@@ -20,11 +20,13 @@ module.exports = (config, options) => {
     }
   }));
   config.module.rules.push({
-    test: /tailwind\.scss$/,
+    test: /\.scss$/,
     use: [
       {
         loader: 'postcss-loader',
         options: {
+          ident: 'postcss',
+          syntax: 'postcss-scss',
           plugins: [
             require('tailwindcss')('./tailwind.config.js'),
             require('autoprefixer'),
