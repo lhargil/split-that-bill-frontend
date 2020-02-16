@@ -16,9 +16,9 @@ export class NotificationComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    // this.timeOut = setTimeout(() => {
-    //   this.closeClicked.emit();
-    // }, 5000);
+    this.timeOut = setTimeout(() => {
+      this.closeClicked.emit();
+    }, 5000);
   }
 
   close() {
