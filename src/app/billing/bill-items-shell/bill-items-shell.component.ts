@@ -19,16 +19,18 @@ export class BillItemsShellComponent implements OnInit, OnDestroy {
   constructor(private wizardService: WizardService, private billingStore: BillingStoreService, private modalService: ModalService) { }
 
   vm$ = combineLatest(
-    this.wizardService.wizardStep$,
-    this.billingStore.getStoreSlice$(BillingStoreStateKeys.BillItems)
+    [this.wizardService.wizardStep$,
+    this.billingStore.getStoreSlices$([BillingStoreStateKeys.BillItems, BillingStoreStateKeys.Bill])
+    ]
   ).pipe(
-    tap(([wizardStep, billItems]) => {
-      this.billItemsFromStore = billItems;
+    tap(([_, billAndBillItems]: [any, any]) => {
+      this.billItemsFromStore = billAndBillItems.billItems;
     }),
-    map(([wizardStep, billItems]) => {
+    map(([wizardStep, billAndBillItems]) => {
       return {
         wizardStep,
-        billItems
+        billItems: billAndBillItems.billItems,
+        bill: billAndBillItems.bill
       };
     }),
   );

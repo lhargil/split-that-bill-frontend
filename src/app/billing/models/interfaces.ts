@@ -10,3 +10,8 @@ export interface ExtraCharge {
   amount: number;
   description: string;
 }
+
+export interface Currency {
+  code: string;
+  name: string;
+}

@@ -1,29 +1,23 @@
 import { Component, OnInit, Input, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
-import { FormGroup, FormArray } from '@angular/forms';
+import { FormGroup, FormArray, FormControl } from '@angular/forms';
+import { Currency } from 'src/app/billing/models';
 
 @Component({
-  selector: 'bill-form[billForm]',
+  selector: 'bill-form[billForm][currencies]',
   templateUrl: './bill-form.component.html',
   styleUrls: ['./bill-form.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BillFormComponent implements OnInit {
   @Input() billForm: FormGroup;
-
-  get participants() {
-    return this.billForm.get('participants') as FormArray;
-  }
-
-  get extraCharges() {
-    return this.billForm.get('extraCharges') as FormArray;
-  }
-
-  get billItems() {
-    return this.billForm.get('billItems') as FormArray;
-  }
+  @Input() currencies: Currency[];
 
   get establishmentName() {
-    return this.billForm.get('establishmentName') as FormGroup;
+    return this.billForm.get('establishmentName') as FormControl;
+  }
+
+  get currency() {
+    return this.billForm.get('currency') as FormControl;
   }
 
   datePickerList: {

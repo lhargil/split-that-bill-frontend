@@ -41,7 +41,8 @@ export class ReceiptComponent implements OnInit, OnDestroy {
           bill: {
             establishmentName: bill.establishmentName,
             billDate: new Date(bill.billDate),
-            remarks: bill.remarks
+            remarks: bill.remarks,
+            currency: bill.currency
           },
           extraCharges: bill.extraCharges.map(ec => {
             return {

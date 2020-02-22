@@ -18,7 +18,7 @@
             {{billItem.description}}
           </h4>
           <p class="text-gray-500">
-            {{billItem.amount | currency: 'MYR'}}
+            {{billItem.amount | currency: vm.bill.currency}}
           </p>
         </div>
         <button type="button" class="btn flex items-center justify-center text-gray-600 px-0"

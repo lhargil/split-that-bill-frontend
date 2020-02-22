@@ -58,4 +58,24 @@
     </label>
     <textarea class="field-input-text" formControlName="remarks" cols="30" rows="10"></textarea>
   </div>
+  <div class="field-container">
+    <label for="currency" class="field-label">Currency</label>
+    <div class="block relative max-w-xs">
+      <select class="field-select hover:border-gray-500 focus:outline-none focus:shadow-outline"
+        formControlName="currency">
+        <option value="">Select one</option>
+        <option *ngFor="let currency of currencies" [value]="currency.code">{{currency.name}} ({{currency.code}})
+        </option>
+      </select>
+      <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+        <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+          <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" /></svg>
+      </div>
+    </div>
+    <div *ngIf="currency.invalid && (currency.dirty || currency.touched)" class="field-error">
+      <div *ngIf="currency.errors.required">
+        You must select a currency.
+      </div>
+    </div>
+  </div>
 </form>

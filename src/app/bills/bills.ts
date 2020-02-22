@@ -12,6 +12,7 @@ export interface BillDto {
   billTotal: number;
   billTotalWithoutCharges: number;
   totalCharges: number;
+  currency: string;
 }
 
 export interface BillItemDto {

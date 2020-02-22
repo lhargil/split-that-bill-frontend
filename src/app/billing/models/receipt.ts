@@ -1,7 +1,7 @@
 import { BillingData } from 'src/app/billing/billing';
 export class Receipt {
-  static createMoney(amount: number) {
-    return { amount, currency: 'MYR' };
+  static createMoney(amount: number, currency: string) {
+    return { amount, currency };
   }
   static create(billingData: BillingData) {
     return new Receipt(billingData);
@@ -17,8 +17,8 @@ export class Receipt {
         year: this.billingData.bill.billDate.getFullYear()
       }),
       total: this.getTotal(),
-      totalWithCharges: Receipt.createMoney(this.getTotalWithCharges()),
-      totalCharges: Receipt.createMoney(this.getTotalCharges()),
+      totalWithCharges: Receipt.createMoney(this.getTotalWithCharges(), this.billingData.bill.currency),
+      totalCharges: Receipt.createMoney(this.getTotalCharges(), this.billingData.bill.currency),
       totalChargeRates: this.getTotalChargeRates()
     };
   }
@@ -27,8 +27,8 @@ export class Receipt {
       const personBillItem = this.billingData.personBillItems.find(pbi => pbi.itemId == bi.id);
       return {
         ...bi,
-        price: Receipt.createMoney(bi.amount),
-        priceWithCharges: Receipt.createMoney(Number(bi.amount) + (bi.amount * this.getTotalChargeRates())),
+        price: Receipt.createMoney(bi.amount, this.billingData.bill.currency),
+        priceWithCharges: Receipt.createMoney(Number(bi.amount) + (bi.amount * this.getTotalChargeRates()), this.billingData.bill.currency),
         assignedTo: this.billingData.friends.find(f => f.id == Number(personBillItem && personBillItem.assignee || null)) != null ?
           this.billingData.friends.find(f => f.id == Number(personBillItem.assignee)) : null
       };
@@ -45,8 +45,9 @@ export class Receipt {
       const item = this.billingData.billItems.find(bi => bi.id == curr.itemId);
       const billItem = {
         ...item,
-        price: Receipt.createMoney(item.amount),
-        priceWithCharges: Receipt.createMoney(Number(item.amount) + (item.amount * this.getTotalChargeRates())),
+        price: Receipt.createMoney(item.amount, this.billingData.bill.currency),
+        priceWithCharges: Receipt.createMoney(Number(item.amount) + (item.amount * this.getTotalChargeRates()),
+          this.billingData.bill.currency),
       };
       const person = this.billingData.friends.find(f => f.id == curr.assignee) || defaultPerson;
 
@@ -67,7 +68,8 @@ export class Receipt {
       return {
         key: result[key].person,
         value: result[key].billItems,
-        totalPayable: Receipt.createMoney(result[key].billItems.reduce((acc, curr) => acc + curr.priceWithCharges.amount, 0))
+        totalPayable: Receipt.createMoney(result[key].billItems.reduce((acc, curr) => acc + curr.priceWithCharges.amount, 0),
+          this.billingData.bill.currency)
       };
     });
   }
@@ -81,7 +83,7 @@ export class Receipt {
   private getTotal() {
     return Receipt.createMoney(this.billingData.billItems.reduce((acc, curr) => {
       return acc + Number(curr.amount);
-    }, 0));
+    }, 0), this.billingData.bill.currency);
   }
   private getTotalWithCharges() {
     return this.getTotal().amount + this.getTotalCharges();

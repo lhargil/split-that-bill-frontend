@@ -26,7 +26,7 @@ export class BillItemsAssignEditorShellComponent implements OnInit, OnDestroy {
 
   constructor(private wizardService: WizardService, private fb: FormBuilder, private billingStore: BillingStoreService) {
     this.vm = {
-      billItemsForm: this.createForm([]),
+      billItemsForm: this.createForm([], { currency: '' }),
       participants: []
     };
   }
@@ -47,7 +47,7 @@ export class BillItemsAssignEditorShellComponent implements OnInit, OnDestroy {
               itemId: bi.id,
               itemDescription: bi.description,
               amount: bi.amount,
-              currency: 'MYR',
+              currency: store.bill.currency,
               priceWithCharges: Number(bi.amount) + (bi.amount * priceWithCharges),
               assignee: (assignee && assignee.assignee || 0) || 0,
             };
@@ -55,12 +55,13 @@ export class BillItemsAssignEditorShellComponent implements OnInit, OnDestroy {
 
           return {
             participants: store.friends.filter(f => f.selected) || [],
-            personBillItems
+            personBillItems,
+            bill: store.bill
           };
         }),
         tap(vm => {
           this.vm.participants = vm.participants;
-          this.vm.billItemsForm = this.createForm(vm.personBillItems);
+          this.vm.billItemsForm = this.createForm(vm.personBillItems, vm.bill);
         }),
         takeUntil(this.destroyed$),
       )
@@ -86,14 +87,14 @@ export class BillItemsAssignEditorShellComponent implements OnInit, OnDestroy {
     this.destroyed$.complete();
   }
 
-  private createForm(personBillItems) {
+  private createForm(personBillItems, bill) {
     return this.fb.group({
       billItems: this.fb.array(personBillItems.map(pb => {
         return this.fb.group({
           itemId: [pb.itemId],
           itemDescription: [pb.itemDescription],
           amount: [Number(pb.amount)],
-          currency: ['MYR'],
+          currency: [bill.currency],
           priceWithCharges: [Number(pb.priceWithCharges)],
           assignee: [pb.assignee]
         });

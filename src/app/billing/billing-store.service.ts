@@ -85,7 +85,8 @@ export class BillingStoreService {
       bill: {
         establishmentName: '',
         billDate: new Date().toString(),
-        remarks: ''
+        remarks: '',
+        currency: ''
       },
       extraCharges: [],
       billItems: [],

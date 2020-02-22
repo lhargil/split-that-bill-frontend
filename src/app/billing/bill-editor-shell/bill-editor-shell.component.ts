@@ -1,10 +1,12 @@
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { ReplaySubject } from 'rxjs';
+import { ReplaySubject, combineLatest, Subject } from 'rxjs';
 import { takeUntil, tap, filter } from 'rxjs/operators';
 import { WizardService } from 'src/app/wizard/wizard.service';
 import { BillingStoreService, BillingStoreStateKeys } from '../billing-store.service';
 import { BillFormComponent } from 'src/app/forms/bill-form/bill-form.component';
+import { CurrenciesService } from '../currencies.service';
+import { Currency } from '../models';
 
 @Component({
   selector: 'app-bill-editor-shell',
@@ -14,29 +16,35 @@ import { BillFormComponent } from 'src/app/forms/bill-form/bill-form.component';
 export class BillEditorShellComponent implements OnInit, OnDestroy {
   @ViewChild('billFormComponent') billFormComponent: BillFormComponent;
 
-  private destroyed$ = new ReplaySubject(0);
+  private destroyed$ = new Subject();
   billForm: FormGroup;
-  constructor(private fb: FormBuilder, private wizardService: WizardService, private billingStore: BillingStoreService) {
+  currencies: Currency[];
+  constructor(private fb: FormBuilder, private wizardService: WizardService, private billingStore: BillingStoreService,
+    private currencyService: CurrenciesService) {
     this.billForm = this.createForm({
       establishmentName: '',
       billDate: new Date().toString(),
-      remarks: ''
+      remarks: '',
+      currency: ''
     });
   }
 
   wizardStep$ = this.wizardService.wizardStep$;
 
   ngOnInit() {
-    this.billingStore.getStoreSlice$(BillingStoreStateKeys.Bill)
+    combineLatest([this.billingStore.getStoreSlice$(BillingStoreStateKeys.Bill),
+    this.currencyService.getCurrencies()])
       .pipe(
-        takeUntil(this.destroyed$),
-        tap(bill => {
+        tap(([bill, currencies]) => {
+          this.currencies = currencies;
           this.billForm = this.createForm(bill || {
             establishmentName: '',
             billDate: new Date().toString(),
-            remarks: ''
+            remarks: '',
+            currency: ''
           });
-        })
+        }),
+        takeUntil(this.destroyed$),
       )
       .subscribe();
 
@@ -59,11 +67,11 @@ export class BillEditorShellComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.destroyed$.next(true);
+    this.destroyed$.next();
     this.destroyed$.complete();
   }
 
-  private createForm(bill: { establishmentName: string; billDate: string; remarks: string }) {
+  private createForm(bill: { establishmentName: string; billDate: string; remarks: string, currency: string }) {
     const billDate = new Date(bill.billDate);
     return this.fb.group({
       establishmentName: [bill.establishmentName,
@@ -75,6 +83,7 @@ export class BillEditorShellComponent implements OnInit, OnDestroy {
       billDateMonth: [billDate.getMonth() + 1, [Validators.required]],
       billDateDay: [billDate.getDate(), [Validators.required]],
       remarks: [bill.remarks],
+      currency: [bill.currency, [Validators.required]]
     });
   }
 
