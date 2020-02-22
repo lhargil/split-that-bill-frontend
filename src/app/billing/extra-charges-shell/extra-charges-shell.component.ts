@@ -18,8 +18,9 @@ export class ExtraChargesShellComponent implements OnInit, OnDestroy {
   private extraChargesFromStore = [];
   constructor(private wizardService: WizardService, private billingStore: BillingStoreService, private modalService: ModalService) { }
   vm$ = combineLatest(
-    this.wizardService.wizardStep$,
+    [this.wizardService.wizardStep$,
     this.billingStore.getStoreSlice$(BillingStoreStateKeys.ExtraCharges),
+    ]
   ).pipe(
     tap(([wizardStep, extraCharges]) => {
       this.extraChargesFromStore = extraCharges;
@@ -27,7 +28,12 @@ export class ExtraChargesShellComponent implements OnInit, OnDestroy {
     map(([wizardStep, extraCharges]) => {
       return {
         wizardStep,
-        extraCharges,
+        extraCharges: extraCharges.map(ec => {
+          return {
+            ...ec,
+            amount: ec.amount / 100
+          };
+        }),
       };
     })
   );
