@@ -69,7 +69,7 @@ export class ExtraChargesShellComponent implements OnInit, OnDestroy {
       formData: {
         id: IdGenerator.generate(-1, -100),
         description: '',
-        amount: 0
+        amount: ''
       },
       dialog: {
         heading: 'Removing extra charge',
@@ -88,7 +88,8 @@ export class ExtraChargesShellComponent implements OnInit, OnDestroy {
     this.modalService.show({
       heading: 'Update extra charge',
       formData: {
-        ...extraChargeToUpdate
+        ...extraChargeToUpdate,
+        amount: Number(extraChargeToUpdate.amount) * 100
       },
       dialog: {
         heading: 'Removing extra charge',
