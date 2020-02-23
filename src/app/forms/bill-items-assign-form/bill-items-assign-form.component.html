@@ -6,23 +6,24 @@
       <li *ngFor="let billItem of billItems.controls; let i = index;" [formGroupName]="i"
         class="border-b-2 border-dotted last:border-b-0 py-4 flex items-end justify-start">
         <div class="flex-1">
-          <h4 class="text-xl font-bold leading-none mb-4">
+          <h4 class="text-xl font-bold leading-none">
             {{billItem.get('itemDescription').value}}
           </h4>
-          <div>
-            <p>
-              <span>
-                {{billItem.get('amount').value | currency: billItem.get('currency').value }}
-              </span>
-              <span class="text-gray-500 text-xs italic">unit price</span>
-            </p>
-            <p>
-              <span>
-                {{billItem.get('priceWithCharges').value | currency: billItem.get('currency').value }}
-              </span>
-              <span class="text-gray-500 text-xs italic">with charges</span>
-            </p>
-          </div>
+          <div class="h-4"></div>
+          <p class="leading-none">
+            {{billItem.get('priceWithCharges').value | currency: billItem.get('currency').value }}
+            <span class="text-gray-500 text-xs italic">payable</span>
+          </p>
+          <div class="h-2"></div>
+          <p class="text-xs">
+            {{billItem.get('amount').value | currency: billItem.get('currency').value }}
+            <span class="text-gray-500 italic">unit price</span>
+          </p>
+          <p *ngIf="billItem.get('totalExtraCharges').value" class="text-green-500 text-xs italic">
+            +{{billItem.get('totalExtraCharges').value | percent:'1.2-5'}} extra
+            charges</p>
+          <p *ngIf="billItem.get('discount').value" class="text-red-500 text-xs italic">
+            -{{billItem.get('discount').value | percent:'1.2-5' }} discount</p>
         </div>
         <div class="inline-block relative">
           <select class="field-select hover:border-gray-500 focus:outline-none focus:shadow-outline"

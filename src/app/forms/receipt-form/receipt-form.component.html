@@ -20,7 +20,8 @@
       </p>
       <p>
         <span>{{receipt.billInfo.totalCharges.amount | currency: receipt.billInfo.totalCharges.currency}} </span>
-        <span class="text-gray-500 text-xs italic">extra charge ({{receipt.billInfo.totalChargeRates | percent}})</span>
+        <span class="text-green-500 text-xs italic">+{{receipt.billInfo.totalChargeRates | percent: '1.2-5'}} extra
+          charges</span>
       </p>
     </div>
   </div>
@@ -39,29 +40,31 @@
         <ul>
           <li *ngFor="let billItem of personBillItem.value" class="pb-4 last:pb-6">
             <div>
-              <h4 class="text-xl font-bold leading-none mb-3">
+              <h4 class="text-xl font-bold leading-none">
                 {{ billItem.description }}
               </h4>
-              <div>
-                <p>
-                  <span>
-                    {{billItem.price.amount | currency: billItem.price.currency}}
-                  </span>
-                  <span class="text-gray-500 text-xs italic">unit price</span>
-                </p>
-                <p>
-                  <span>
-                    {{ billItem.priceWithCharges.amount | currency: billItem.priceWithCharges.currency }}
-                  </span>
-                  <span class="text-gray-500 text-xs italic">with charges</span>
-                </p>
-              </div>
+              <div class="h-4"></div>
+              <p class="leading-none">
+                {{ billItem.priceWithCharges.amount | currency: billItem.priceWithCharges.currency }}
+                <span class="text-gray-500 text-xs italic">payable</span>
+              </p>
+              <div class="h-2"></div>
+              <p class="text-xs">
+                {{billItem.price.amount | currency: billItem.price.currency}}
+                <span class="text-gray-500 text-xs italic">unit price</span>
+              </p>
+              <p *ngIf="receipt.billInfo.totalChargeRates" class="text-green-500 text-xs italic">
+                +{{receipt.billInfo.totalChargeRates | percent: '1.2-5'}} extra charges
+              </p>
+              <p *ngIf="billItem.discount" class="text-red-500 text-xs italic">
+                -{{billItem.discount | percent: '1.2-5'}} discount
+              </p>
             </div>
           </li>
         </ul>
         <footer>
           <strong
-            class="text-base">{{personBillItem.totalPayable.amount | currency: personBillItem.totalPayable.currency}}
+            class="text-xl">{{personBillItem.totalPayable.amount | currency: personBillItem.totalPayable.currency}}
           </strong>
           <span class="text-gray-500 text-xs italic">total payable</span>
         </footer>

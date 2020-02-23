@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Subject, BehaviorSubject, combineLatest, of } from 'rxjs';
 import { map, tap, startWith } from 'rxjs/operators';
 import { BillingData } from './billing';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -80,6 +81,38 @@ export class BillingStoreService {
   }
 
   private create() {
+    if (environment.name == 'stage') {
+      return {
+        friends: [{
+          id: -1,
+          firstname: 'lhar',
+          lastname: 'gil',
+          selected: true
+        }],
+        bill: {
+          establishmentName: 'KFC',
+          billDate: new Date().toString(),
+          remarks: '',
+          currency: 'MYR'
+        },
+        extraCharges: [{
+          id: -1,
+          description: 'SST',
+          amount: 6
+        }],
+        billItems: [{
+          id: -1,
+          description: 'Fried chicken',
+          amount: 10,
+          discount: 10.555,
+        }, {
+          id: -2,
+          description: 'French fries',
+          amount: 10,
+        }],
+        personBillItems: []
+      };
+    }
     return {
       friends: [],
       bill: {

@@ -25,10 +25,15 @@ export class Receipt {
   get billItems() {
     return this.billingData.billItems.map(bi => {
       const personBillItem = this.billingData.personBillItems.find(pbi => pbi.itemId == bi.id);
+      const discount = Number(bi.discount) / 100 || 0;
+      const discountedAmount = bi.amount - (bi.amount * discount);
+
       return {
         ...bi,
+        discount,
         price: Receipt.createMoney(bi.amount, this.billingData.bill.currency),
-        priceWithCharges: Receipt.createMoney(Number(bi.amount) + (bi.amount * this.getTotalChargeRates()), this.billingData.bill.currency),
+        priceWithCharges: Receipt.createMoney(discountedAmount +
+          (discountedAmount * this.getTotalChargeRates()), this.billingData.bill.currency),
         assignedTo: this.billingData.friends.find(f => f.id == Number(personBillItem && personBillItem.assignee || null)) != null ?
           this.billingData.friends.find(f => f.id == Number(personBillItem.assignee)) : null
       };
@@ -43,10 +48,14 @@ export class Receipt {
     };
     const result = this.billingData.personBillItems.reduce((acc, curr) => {
       const item = this.billingData.billItems.find(bi => bi.id == curr.itemId);
+      const discount = Number(item.discount) / 100 || 0;
+      const discountedAmount = Number(item.amount) - (Number(item.amount) * discount);
       const billItem = {
         ...item,
+        discount,
         price: Receipt.createMoney(item.amount, this.billingData.bill.currency),
-        priceWithCharges: Receipt.createMoney(Number(item.amount) + (item.amount * this.getTotalChargeRates()),
+        priceWithCharges: Receipt.createMoney(discountedAmount +
+          (discountedAmount * this.getTotalChargeRates()),
           this.billingData.bill.currency),
       };
       const person = this.billingData.friends.find(f => f.id == curr.assignee) || defaultPerson;
@@ -82,7 +91,9 @@ export class Receipt {
   }
   private getTotal() {
     return Receipt.createMoney(this.billingData.billItems.reduce((acc, curr) => {
-      return acc + Number(curr.amount);
+      const discount = curr.discount || 0;
+      const amount = Number(curr.amount);
+      return acc + amount - (amount * discount / 100);
     }, 0), this.billingData.bill.currency);
   }
   private getTotalWithCharges() {

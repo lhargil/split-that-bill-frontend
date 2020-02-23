@@ -20,16 +20,28 @@ export class BillItemsShellComponent implements OnInit, OnDestroy {
 
   vm$ = combineLatest(
     [this.wizardService.wizardStep$,
-    this.billingStore.getStoreSlices$([BillingStoreStateKeys.BillItems, BillingStoreStateKeys.Bill])
+    this.billingStore.getStoreSlices$([BillingStoreStateKeys.BillItems, BillingStoreStateKeys.Bill, BillingStoreStateKeys.ExtraCharges])
     ]
   ).pipe(
     tap(([_, billAndBillItems]: [any, any]) => {
       this.billItemsFromStore = billAndBillItems.billItems;
     }),
     map(([wizardStep, billAndBillItems]) => {
+      const totalExtraCharges = billAndBillItems.extraCharges.reduce((acc, curr) => {
+        return acc + (Number(curr.amount) / 100);
+      }, 0);
       return {
         wizardStep,
-        billItems: billAndBillItems.billItems,
+        billItems: billAndBillItems.billItems.map(bi => {
+          const discount = Number(bi.discount) / 100 || 0;
+          const discountedAmount = bi.amount - (bi.amount * discount);
+          return {
+            ...bi,
+            discount,
+            priceWithCharges: discountedAmount + (discountedAmount * totalExtraCharges)
+          };
+        }),
+        totalExtraCharges,
         bill: billAndBillItems.bill
       };
     }),
@@ -72,7 +84,7 @@ export class BillItemsShellComponent implements OnInit, OnDestroy {
       modalMode: ModalModes.create,
       component: BillItemEditorShellComponent,
       handleSave: billItem => {
-        const updatedBillItems = [...this.billItemsFromStore, billItem];
+        const updatedBillItems = [...this.billItemsFromStore, { ...billItem, discount: Number(billItem.discount) }];
         this.billingStore.updateSlice(BillingStoreStateKeys.BillItems, updatedBillItems);
       },
     });
@@ -82,7 +94,8 @@ export class BillItemsShellComponent implements OnInit, OnDestroy {
     this.modalService.show({
       heading: 'Update bill item',
       formData: {
-        ...billItemToUpdate
+        ...billItemToUpdate,
+        discount: (billItemToUpdate.discount || 0) * 100
       },
       dialog: {
         heading: 'Removing bill item',
@@ -91,7 +104,8 @@ export class BillItemsShellComponent implements OnInit, OnDestroy {
       modalMode: ModalModes.update,
       component: BillItemEditorShellComponent,
       handleSave: billItem => {
-        const updatedBillItems = [...this.billItemsFromStore.filter(bi => bi.id != billItem.id), billItem];
+        const updatedBillItems = [...this.billItemsFromStore.filter(bi => bi.id != billItem.id),
+        { ...billItem, discount: Number(billItem.discount) }];
         this.billingStore.updateSlice(BillingStoreStateKeys.BillItems, updatedBillItems);
       },
       handleDelete: billItem => {

@@ -37,18 +37,22 @@ export class BillItemsAssignEditorShellComponent implements OnInit, OnDestroy {
     this.billingStore.store$
       .pipe(
         map(store => {
-          const priceWithCharges = store.extraCharges.reduce((acc, curr) => {
+          const totalExtraCharges = store.extraCharges.reduce((acc, curr) => {
             return acc + (Number(curr.amount) / 100);
           }, 0);
           const personBillItems = store.billItems.map(bi => {
             const assignee = store.personBillItems &&
               store.personBillItems.find(pbi => pbi.itemId == bi.id);
+            const discount = Number(bi.discount) / 100 || 0;
+            const discountedAmount = Number(bi.amount) - (Number(bi.amount) * discount);
             return {
               itemId: bi.id,
               itemDescription: bi.description,
               amount: bi.amount,
+              discount,
               currency: store.bill.currency,
-              priceWithCharges: Number(bi.amount) + (bi.amount * priceWithCharges),
+              totalExtraCharges,
+              priceWithCharges: discountedAmount + (discountedAmount * totalExtraCharges),
               assignee: (assignee && assignee.assignee || 0) || 0,
             };
           });
@@ -95,6 +99,8 @@ export class BillItemsAssignEditorShellComponent implements OnInit, OnDestroy {
           itemDescription: [pb.itemDescription],
           amount: [Number(pb.amount)],
           currency: [bill.currency],
+          totalExtraCharges: [pb.totalExtraCharges],
+          discount: [pb.discount],
           priceWithCharges: [Number(pb.priceWithCharges)],
           assignee: [pb.assignee]
         });

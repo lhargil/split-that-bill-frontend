@@ -17,9 +17,21 @@
           <h4 class="text-xl font-bold leading-none">
             {{billItem.description}}
           </h4>
-          <p class="text-gray-500">
-            {{billItem.amount | currency: vm.bill.currency}}
+          <div class="h-4"></div>
+          <p class="leading-none">
+            {{billItem.priceWithCharges | currency: vm.bill.currency }}
+            <span class="text-gray-500 text-xs italic">payable</span>
           </p>
+          <div class="h-2"></div>
+          <p class="text-xs">
+            {{billItem.amount | currency: vm.bill.currency }}
+            <span class="text-gray-500 italic">unit price</span>
+          </p>
+          <p *ngIf="vm.totalExtraCharges" class="text-green-500 text-xs italic">
+            +{{vm.totalExtraCharges | percent:'1.2-5' }} extra charges
+          </p>
+          <p *ngIf="billItem.discount" class="text-red-500 text-xs italic">-{{billItem.discount | percent:'1.2-5'}}
+            discount</p>
         </div>
         <button type="button" class="btn flex items-center justify-center text-gray-600 px-0"
           (click)="updateBillItem(billItem)">
