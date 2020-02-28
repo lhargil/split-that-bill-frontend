@@ -41,6 +41,7 @@ const routes: Routes = [
     redirectTo: '/home',
     pathMatch: 'full'
   },
+  { path: 'about', loadChildren: () => import('./about/about.module').then(m => m.AboutModule) },
   { path: '**', component: PageNotFoundComponent },
 ];
 
