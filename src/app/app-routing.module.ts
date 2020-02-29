@@ -42,6 +42,7 @@ const routes: Routes = [
     pathMatch: 'full'
   },
   { path: 'about', loadChildren: () => import('./about/about.module').then(m => m.AboutModule) },
+  { path: 'features', loadChildren: () => import('./features/features.module').then(m => m.FeaturesModule) },
   { path: '**', component: PageNotFoundComponent },
 ];
 
