@@ -9,7 +9,7 @@ pool:
   vmImage: 'macOS-latest'
 
 variables:
-- group: '$(VariableGroup)'
+- group: $(VariableGroup)
 
 steps:
 - task: NodeTool@0
