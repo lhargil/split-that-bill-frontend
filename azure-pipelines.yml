@@ -9,7 +9,7 @@ pool:
   vmImage: 'macOS-latest'
 
 variables:
-- group: On Build
+- group: DEV
 
 steps:
 - task: NodeTool@0
