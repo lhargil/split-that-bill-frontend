@@ -7,11 +7,14 @@ import {
   ViewChild,
   Renderer2,
   AfterViewInit,
-  OnDestroy
+  OnDestroy,
+  Inject,
+  PLATFORM_ID
 } from '@angular/core';
 import { fromEvent, ReplaySubject } from 'rxjs';
 import { takeUntil, map } from 'rxjs/operators';
 import { Router } from '@angular/router';
+import { isPlatformBrowser } from '@angular/common';
 
 @Component({
   selector: 'app-floatie-nav',
@@ -24,16 +27,10 @@ export class FloatieNavComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('floatieBg') floatieBg: ElementRef;
 
   private destroyed$ = new ReplaySubject(0);
-  clickOut$ = fromEvent(window, 'click')
-    .pipe(
-      map(ev => ev)
-    );
-  resize$ = fromEvent(window, 'resize')
-    .pipe(
-      map(ev => ev)
-    );
 
-  constructor(private renderer2: Renderer2, private router: Router) {
+  isBrowser: boolean;
+  constructor(private renderer2: Renderer2, private router: Router, @Inject(PLATFORM_ID) platformId: any) {
+    this.isBrowser = isPlatformBrowser(platformId);
     this.showMenu = new EventEmitter();
     this.router.events
       .pipe(
@@ -44,18 +41,21 @@ export class FloatieNavComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngOnInit() {
-    setTimeout(() => {
-      this.clickOut$
-        .pipe(
-          takeUntil(this.destroyed$),
-        )
-        .subscribe(ev => {
-          const clickedInside = this.floatieNav.nativeElement.contains(ev.target);
-          if (!clickedInside) {
-            this.hide();
-          }
-        });
-    });
+    if (this.isBrowser) {
+      setTimeout(() => {
+        fromEvent(window, 'resize')
+          .pipe(
+            map(ev => ev),
+            takeUntil(this.destroyed$),
+          )
+          .subscribe(ev => {
+            const clickedInside = this.floatieNav.nativeElement.contains(ev.target);
+            if (!clickedInside) {
+              this.hide();
+            }
+          });
+      });
+    }
   }
 
   ngOnDestroy() {
@@ -64,11 +64,14 @@ export class FloatieNavComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    this.resize$
-      .pipe(
-        takeUntil(this.destroyed$),
-      )
-      .subscribe(() => this.hide());
+    if (this.isBrowser) {
+      fromEvent(window, 'resize')
+        .pipe(
+          map(ev => ev),
+          takeUntil(this.destroyed$),
+        )
+        .subscribe(() => this.hide());
+    }
 
     this.show();
   }

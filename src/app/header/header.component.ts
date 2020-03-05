@@ -1,8 +1,9 @@
-import { Component, OnInit, ViewChild, ElementRef, Renderer2, AfterViewInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Renderer2, AfterViewInit, OnDestroy, Inject, PLATFORM_ID } from '@angular/core';
 import { merge, fromEvent, ReplaySubject } from 'rxjs';
 import { takeUntil, map, filter, tap } from 'rxjs/operators';
 import { Router, NavigationEnd, NavigationStart, Event as NavigationEvent } from '@angular/router';
 import { AppService } from '../app.service';
+import { isPlatformBrowser } from '@angular/common';
 
 @Component({
   selector: 'app-header',
@@ -13,15 +14,11 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('header') header: ElementRef;
   menuIsVisible: boolean;
   private destroyed$ = new ReplaySubject(0);
-  scrolling$ = merge(
-    fromEvent(window, 'scroll'),
-    fromEvent(window, 'resize')
-  ).pipe(
-    map(ev => ev),
-  );
-  isHome = true;
 
-  constructor(private renderer2: Renderer2, private router: Router, private appService: AppService) {
+  isHome = true;
+  isBrowser: boolean;
+  constructor(private renderer2: Renderer2, private router: Router, private appService: AppService, @Inject(PLATFORM_ID) platformId: any) {
+    this.isBrowser = isPlatformBrowser(platformId);
     this.menuIsVisible = false;
     this.router.events
       .pipe(
@@ -44,11 +41,16 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngOnInit() {
-    this.scrolling$
-      .pipe(
+    if (this.isBrowser) {
+      merge(
+        fromEvent(window, 'scroll'),
+        fromEvent(window, 'resize')
+      ).pipe(
+        map(ev => ev),
         takeUntil(this.destroyed$),
       )
-      .subscribe(() => this.onScroll());
+        .subscribe(() => this.onScroll());
+    }
   }
 
   ngAfterViewInit() { }
@@ -63,7 +65,7 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   onScroll() {
-    const scrollY = window.scrollY || window.pageYOffset;
+    const scrollY = this.isBrowser ? window.scrollY || window.pageYOffset : 0;
     if (!this.isHome) {
       this.shadowOn();
     } else if (scrollY > 0) {

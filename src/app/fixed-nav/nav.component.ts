@@ -5,12 +5,14 @@ import {
   ViewChild,
   ElementRef,
   Renderer2,
-  AfterViewInit
+  AfterViewInit,
+  Inject,
+  PLATFORM_ID
 } from '@angular/core';
 import { merge, fromEvent, BehaviorSubject, ReplaySubject } from 'rxjs';
 import { map, takeUntil, filter } from 'rxjs/operators';
 import { Router, NavigationEnd, NavigationStart } from '@angular/router';
-import { AuthService } from 'src/app/core/auth/auth.service';
+import { isPlatformBrowser } from '@angular/common';
 
 @Component({
   selector: 'app-nav',
@@ -23,21 +25,24 @@ export class NavComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('siteNavTrigger') siteNavTrigger: ElementRef;
 
   private destroy$ = new ReplaySubject(0);
-  scrolling$ = merge(
-    fromEvent(window, 'scroll'),
-    fromEvent(window, 'resize')
-  ).pipe(
-    map(ev => ev),
-    takeUntil(this.destroy$),
-  );
 
   visible = false;
   isHome = false;
-
-  constructor(public authService: AuthService, private renderer2: Renderer2, private router: Router) { }
+  isBrowser: boolean;
+  constructor(private renderer2: Renderer2, private router: Router, @Inject(PLATFORM_ID) platformId: any) {
+    this.isBrowser = isPlatformBrowser(platformId);
+  }
 
   ngOnInit() {
-    this.scrolling$.subscribe(() => this.onScroll());
+    if (this.isBrowser) {
+      merge(
+        fromEvent(window, 'scroll'),
+        fromEvent(window, 'resize')
+      ).pipe(
+        map(ev => ev),
+        takeUntil(this.destroy$),
+      ).subscribe(() => this.onScroll());
+    }
   }
 
   ngOnDestroy() {
@@ -67,7 +72,7 @@ export class NavComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   onScroll() {
-    const scrollY = window.scrollY || window.pageYOffset;
+    const scrollY = this.isBrowser ? window.scrollY || window.pageYOffset : 0;
     if (!this.isHome) {
       this.shadowOn();
     } else if (scrollY > 0) {

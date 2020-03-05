@@ -26,7 +26,7 @@ import { NotificationModule } from './notification/notification.module';
     PageNotFoundComponent
   ],
   imports: [
-    BrowserModule,
+    BrowserModule.withServerTransition({ appId: 'serverApp' }),
     CoreModule,
     SharedModule,
     AppRoutingModule,

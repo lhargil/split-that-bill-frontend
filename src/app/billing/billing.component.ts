@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, PLATFORM_ID, Inject, Renderer2 } from '@angular/core';
 import { Subject, from, of, zip, fromEvent } from 'rxjs';
 import { WizardStep } from '../wizard/models';
 import { BillEditorShellComponent } from './bill-editor-shell/bill-editor-shell.component';
@@ -18,6 +18,7 @@ import { Person } from '../people/person';
 import { ExtraChargesShellComponent } from './extra-charges-shell/extra-charges-shell.component';
 import { BillItemsShellComponent } from './bill-items-shell/bill-items-shell.component';
 import { NotificationService } from '../notification/notification.service';
+import { isPlatformBrowser } from '@angular/common';
 
 @Component({
   selector: 'app-billing',
@@ -84,8 +85,9 @@ export class BillingComponent implements OnInit {
   @ViewChild('parent', { static: true }) parent: ElementRef;
 
   leftPosition = 0;
-
-  constructor(private billingStore: BillingStoreService, private billService: BillsService, private wizardService: WizardService, private router: Router, private peopleService: PeopleService, private notificationService: NotificationService) {
+  isBrowser: boolean;
+  constructor(private billingStore: BillingStoreService, private billService: BillsService, private wizardService: WizardService, private router: Router, private peopleService: PeopleService, private notificationService: NotificationService, private renderer: Renderer2, @Inject(PLATFORM_ID) platformId: any) {
+    this.isBrowser = isPlatformBrowser(platformId);
   }
 
   ngOnInit() {
@@ -109,17 +111,19 @@ export class BillingComponent implements OnInit {
         this.store = store;
       });
 
-    fromEvent(window, 'resize')
-      .pipe(
-        debounceTime(200),
-        takeUntil(this.destroyed$),
-      ).subscribe(_ => {
-        this.getCurrentStepPosition();
-        for (let i = 1; i < this.currentStep; i++) {
-          this.leftPosition = this.leftPosition - 133.33;
-        }
-      });
-    this.getCurrentStepPosition();
+    if (this.isBrowser) {
+      fromEvent(window, 'resize')
+        .pipe(
+          debounceTime(200),
+          takeUntil(this.destroyed$),
+        ).subscribe(_ => {
+          this.getCurrentStepPosition();
+          for (let i = 1; i < this.currentStep; i++) {
+            this.leftPosition = this.leftPosition - 133.33;
+          }
+        });
+      this.getCurrentStepPosition();
+    }
   }
 
   private getCurrentStepPosition() {

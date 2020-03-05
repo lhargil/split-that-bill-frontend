@@ -1,10 +1,11 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Inject, PLATFORM_ID } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { takeUntil, switchMap, map, combineAll, tap, concatMap } from 'rxjs/operators';
 import { Subject, merge, zip, of } from 'rxjs';
 import { BillsService } from '../bills/bills.service';
 import { BillingService } from '../billing/billing.service';
 import { NotificationService } from '../notification/notification.service';
+import { isPlatformBrowser } from '@angular/common';
 
 @Component({
   selector: 'app-receipt',
@@ -13,9 +14,11 @@ import { NotificationService } from '../notification/notification.service';
 })
 export class ReceiptComponent implements OnInit, OnDestroy {
   private destroyed$ = new Subject();
-
+  isBrowser: boolean;
   constructor(private activatedRoute: ActivatedRoute,
-    private billsService: BillsService, private billingService: BillingService, private notificationService: NotificationService) { }
+    private billsService: BillsService, private billingService: BillingService, private notificationService: NotificationService, @Inject(PLATFORM_ID) platformId: any) {
+    this.isBrowser = isPlatformBrowser(platformId);
+  }
 
   receipt$ = this.activatedRoute.params
     .pipe(
@@ -75,7 +78,7 @@ export class ReceiptComponent implements OnInit, OnDestroy {
   }
 
   onShare() {
-    const copiedUrl = window.location.href;
+    const copiedUrl = this.isBrowser ? window.location.href : '';
     this.copyMessage(copiedUrl);
     this.notificationService.info({
       header: 'Url copied',
@@ -84,16 +87,18 @@ export class ReceiptComponent implements OnInit, OnDestroy {
   }
 
   private copyMessage(val: string) {
-    const selBox = document.createElement('textarea');
-    selBox.style.position = 'fixed';
-    selBox.style.left = '0';
-    selBox.style.top = '0';
-    selBox.style.opacity = '0';
-    selBox.value = val;
-    document.body.appendChild(selBox);
-    selBox.focus();
-    selBox.select();
-    document.execCommand('copy');
-    document.body.removeChild(selBox);
+    if (this.isBrowser) {
+      const selBox = document.createElement('textarea');
+      selBox.style.position = 'fixed';
+      selBox.style.left = '0';
+      selBox.style.top = '0';
+      selBox.style.opacity = '0';
+      selBox.value = val;
+      document.body.appendChild(selBox);
+      selBox.focus();
+      selBox.select();
+      document.execCommand('copy');
+      document.body.removeChild(selBox);
+    }
   }
 }

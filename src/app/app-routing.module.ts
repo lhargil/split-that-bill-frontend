@@ -10,26 +10,9 @@ const routes: Routes = [
     component: HomeComponent
   },
   {
-    path: 'bills',
-    loadChildren: () => import('./bills/bills.module').then(m => m.BillsModule),
-    // canActivate: [AuthGuard]
-  },
-  {
-    path: 'people',
-    loadChildren: () =>
-      import('./people/people.module').then(m => m.PeopleModule),
-    // canActivate: [AuthGuard]
-  },
-  {
     path: 'billing',
     loadChildren: () =>
       import('./billing/billing.module').then(m => m.BillingModule),
-    // canActivate: [AuthGuard]
-  },
-  {
-    path: 'accounts',
-    loadChildren: () =>
-      import('./accounts/accounts.module').then(m => m.AccountsModule),
     // canActivate: [AuthGuard]
   },
   {
@@ -47,7 +30,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, { scrollPositionRestoration: 'enabled' })],
+  imports: [RouterModule.forRoot(routes, { scrollPositionRestoration: 'enabled', initialNavigation: 'enabled' })],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

@@ -17,7 +17,12 @@ module.exports = (config, options) => {
         ClientId: JSON.stringify(process.env.SPLIT_THAT_BILL_AUTH_CLIENT_ID),
         Audience: JSON.stringify(process.env.SPLIT_THAT_BILL_AUTH_AUDIENCE)
       }
-    }
+    },
+    '__Yoyo__': JSON.stringify(false)
+  }));
+  config.plugins.push(new webpack.EnvironmentPlugin({
+    NODE_ENV: 'development', // use 'development' unless process.env.NODE_ENV is defined
+    DEBUG: false
   }));
   config.module.rules.push({
     test: /\.scss$/,

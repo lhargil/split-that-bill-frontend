@@ -3,11 +3,8 @@ import { Router, NavigationStart, RouteConfigLoadStart, RouteConfigLoadEnd, Navi
 import { tap, takeUntil, debounceTime } from 'rxjs/operators';
 import { LoaderService } from './shared/loader/loader.service';
 import { ReplaySubject, fromEvent } from 'rxjs';
-import { AuthService } from './core/auth/auth.service';
 import { AppService } from './app.service';
 import { ContentHostDirective } from './shared/directives/content-host/content-host.directive';
-import { ModalService } from './shared/modal/modal.service';
-import { PersonEditorShellComponent } from './billing/person-editor-shell/person-editor-shell.component';
 
 @Component({
   selector: 'app-root',
@@ -18,12 +15,13 @@ export class AppComponent implements OnInit, OnDestroy {
   private destroyed$ = new ReplaySubject(0);
   title = 'splitthatbill';
 
+  hey = __Yoyo__;
 
-
-  constructor(private router: Router, private loaderService: LoaderService, public authService: AuthService, private appService: AppService) { }
+  constructor(private router: Router, private loaderService: LoaderService, private appService: AppService) { }
   @ViewChild(ContentHostDirective, { static: true }) contentHost: ContentHostDirective;
 
   ngOnInit() {
+    console.log(this.hey);
     this.router.events
       .pipe(
         takeUntil(this.destroyed$),
