@@ -5,5 +5,4 @@ declare var NODE_ENV: string;
 interface ENV {
   Environment: string;
   BaseURL: string;
-  Auth: { [key: string]: string };
 }

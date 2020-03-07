@@ -15,13 +15,10 @@ export class AppComponent implements OnInit, OnDestroy {
   private destroyed$ = new ReplaySubject(0);
   title = 'splitthatbill';
 
-  hey = __Yoyo__;
-
   constructor(private router: Router, private loaderService: LoaderService, private appService: AppService) { }
   @ViewChild(ContentHostDirective, { static: true }) contentHost: ContentHostDirective;
 
   ngOnInit() {
-    console.log(this.hey);
     this.router.events
       .pipe(
         takeUntil(this.destroyed$),

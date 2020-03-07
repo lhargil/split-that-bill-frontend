@@ -1,6 +1,5 @@
 export interface IEnvironment {
-    production: boolean;
-    name: string;
-    baseUrl: string;
-    auth: {[key: string]: string};
+  production: boolean;
+  name: string;
+  baseUrl: string;
 }

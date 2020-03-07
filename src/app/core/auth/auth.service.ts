@@ -13,10 +13,10 @@ export class AuthService {
   // Create an observable of Auth0 instance of client
   auth0Client$ = (from(
     createAuth0Client({
-      domain: environment.auth.Domain,
-      client_id: environment.auth.ClientId,
+      domain: '',
+      client_id: '',
       redirect_uri: '',
-      audience: environment.auth.Audience
+      audience: ''
     })
   ) as Observable<Auth0Client>).pipe(
     shareReplay(1), // Every subscription receives the same shared value
@@ -119,7 +119,7 @@ export class AuthService {
     this.auth0Client$.subscribe((client: Auth0Client) => {
       // Call method to log out
       client.logout({
-        client_id: environment.auth.ClientId,
+        client_id: ``,
         returnTo: ``
       });
     });

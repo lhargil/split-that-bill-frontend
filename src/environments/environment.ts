@@ -7,7 +7,6 @@ export const environment: IEnvironment = {
   production: false,
   name: 'default',
   baseUrl: "https://localhost:5001",
-  auth: {}
 };
 
 /*

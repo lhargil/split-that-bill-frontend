@@ -4,6 +4,5 @@ export const environment: IEnvironment = {
   production: false,
   baseUrl: $ENV.BaseURL,
   name: $ENV.Environment,
-  auth: $ENV.Auth
 };
 

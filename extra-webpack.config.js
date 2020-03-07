@@ -9,20 +9,8 @@ const purgecss = require('@fullhuman/postcss-purgecss')({
 module.exports = (config, options) => {
   console.log(`Using '${config.mode}' mode`);
   config.plugins.push(new webpack.DefinePlugin({
-    $ENV: {
-      Environment: JSON.stringify(process.env.SPLIT_THAT_BILL_ENVIRONMENT),
-      BaseURL: JSON.stringify(process.env.SPLIT_THAT_BILL_BASEURL),
-      Auth: {
-        Domain: JSON.stringify(process.env.SPLIT_THAT_BILL_AUTH_DOMAIN),
-        ClientId: JSON.stringify(process.env.SPLIT_THAT_BILL_AUTH_CLIENT_ID),
-        Audience: JSON.stringify(process.env.SPLIT_THAT_BILL_AUTH_AUDIENCE)
-      }
-    },
-    '__Yoyo__': JSON.stringify(false)
-  }));
-  config.plugins.push(new webpack.EnvironmentPlugin({
-    NODE_ENV: 'development', // use 'development' unless process.env.NODE_ENV is defined
-    DEBUG: false
+    'process.env.SPLIT_THAT_BILL_ENVIRONMENT': JSON.stringify(process.env.SPLIT_THAT_BILL_ENVIRONMENT),
+    'process.env.SPLIT_THAT_BILL_BASEURL': JSON.stringify(process.env.SPLIT_THAT_BILL_BASEURL),
   }));
   config.module.rules.push({
     test: /\.scss$/,
