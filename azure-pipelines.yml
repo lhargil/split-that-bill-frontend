@@ -17,7 +17,7 @@ variables:
 steps:
 - script: |
     echo ${{variables.group}}
-    echo $(variables.group.SPLIT_THAT_BILL_BASEURL)
+    echo $(SPLIT_THAT_BILL_BASEURL)
   displayName: 'check variables'
 # - task: NodeTool@0
 #   inputs:
