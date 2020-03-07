@@ -15,32 +15,32 @@ variables:
     group: 'DEV'
 
 steps:
-- script: echo echo ${{variables.group}}
-- task: NodeTool@0
-  inputs:
-    versionSpec: '10.x'
-  displayName: 'Install Node.js'
-
-- script: |
-    npm install -g @angular/cli
-    npm install
-  displayName: 'install'
+- script: echo ${{variables.group}} ${{SPLIT_THAT_BILL_BASEURL}}
+  displayName: 'check variables'
+# - task: NodeTool@0
+#   inputs:
+#     versionSpec: '10.x'
+#   displayName: 'install Node.js'
 # - script: |
-#     npm run coverage
-#   displayName: 'run coverage'
-- script: |
-    npm run build:prod
-  displayName: 'build production'
-- task: ArchiveFiles@2
-  inputs:
-    rootFolderOrFile: '$(Build.SourcesDirectory)/dist/splitthatbill'
-    includeRootFolder: false
-    archiveType: 'zip'
-    archiveFile: '$(Build.ArtifactStagingDirectory)/published_client/$(Build.BuildId).zip'
-    replaceExistingArchive: true
-    verbose: true
-- task: PublishBuildArtifacts@1
-  inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)/published_client'
-    ArtifactName: 'drop'
-    publishLocation: 'Container'
+#     npm install -g @angular/cli
+#     npm install
+#   displayName: 'install'
+# # - script: |
+# #     npm run coverage
+# #   displayName: 'run coverage'
+# - script: |
+#     npm run build:prod
+#   displayName: 'build production'
+# - task: ArchiveFiles@2
+#   inputs:
+#     rootFolderOrFile: '$(Build.SourcesDirectory)/dist/splitthatbill'
+#     includeRootFolder: false
+#     archiveType: 'zip'
+#     archiveFile: '$(Build.ArtifactStagingDirectory)/published_client/$(Build.BuildId).zip'
+#     replaceExistingArchive: true
+#     verbose: true
+# - task: PublishBuildArtifacts@1
+#   inputs:
+#     PathtoPublish: '$(Build.ArtifactStagingDirectory)/published_client'
+#     ArtifactName: 'drop'
+#     publishLocation: 'Container'
