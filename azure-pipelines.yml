@@ -9,10 +9,10 @@ pool:
   vmImage: 'macOS-latest'
 
 variables:
-- ${{ if eq(variables['Build.SourceBranchName'], 'master')}}:
-  group: 'PROD'
-- ${{ if ne(variables['Build.SourceBranchName'], 'master')}}:
-  group: 'DEV'
+  ${{ if eq(variables['Build.SourceBranchName'], 'master') }}:
+    group: 'PROD'
+  ${{ if not(eq(variables['Build.SourceBranchName'], 'master')) }}:
+    group: 'DEV'
 
 steps:
 - task: NodeTool@0
