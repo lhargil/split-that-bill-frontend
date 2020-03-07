@@ -18,8 +18,6 @@ steps:
 - script: |
     echo ${{variables.group}}
     echo $(SPLIT_THAT_BILL_BASEURL)
-    echo $(SPLIT_THAT_BILL_AUTH_AUDIENCE)
-    echo $(SPLIT_THAT_BILL_AUTH_DOMAIN)
   displayName: 'check variables'
 - task: NodeTool@0
   inputs:
@@ -33,11 +31,11 @@ steps:
 #     npm run coverage
 #   displayName: 'run coverage'
 - script: |
-    npm run build:prod
-  displayName: 'build production'
+    npm run prerender
+  displayName: 'prerender app'
 - task: ArchiveFiles@2
   inputs:
-    rootFolderOrFile: '$(Build.SourcesDirectory)/dist/splitthatbill'
+    rootFolderOrFile: '$(Build.SourcesDirectory)/dist/splitthatbill/browser'
     includeRootFolder: false
     archiveType: 'zip'
     archiveFile: '$(Build.ArtifactStagingDirectory)/published_client/$(Build.BuildId).zip'
