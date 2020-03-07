@@ -15,6 +15,7 @@ variables:
     group: 'DEV'
 
 steps:
+- script: echo echo ${{variables.group}}
 - task: NodeTool@0
   inputs:
     versionSpec: '10.x'
