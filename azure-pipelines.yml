@@ -17,6 +17,7 @@ variables:
 steps:
 - script: |
     echo ${{variables.group}}
+    echo ${{variables['Build.SourceBranchName']}}
     echo $(SPLIT_THAT_BILL_BASEURL)
   displayName: 'check variables'
 # - task: NodeTool@0
