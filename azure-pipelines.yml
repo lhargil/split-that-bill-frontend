@@ -14,7 +14,7 @@ variables:
   # ${{ if eq(variables['Build.SourceBranchName'], 'master') }}:
   #   group: PROD
   ${{ if not(eq(variables['Build.SourceBranchName'], 'master')) }}:
-  - group: DEV
+    group: DEV
 
 steps:
 - script: |
