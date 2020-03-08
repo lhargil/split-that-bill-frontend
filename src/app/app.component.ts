@@ -21,20 +21,15 @@ export class AppComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.router.events
       .pipe(
-        takeUntil(this.destroyed$),
         tap(ev => {
           if (ev instanceof RouteConfigLoadStart || ev instanceof NavigationStart) {
             this.loaderService.show();
           } else if (ev instanceof RouteConfigLoadEnd || ev instanceof NavigationEnd || ev instanceof NavigationCancel) {
             this.loaderService.hide();
           }
-        })
+        }),
+        takeUntil(this.destroyed$),
       ).subscribe();
-    this.appService.getStarted$
-      .pipe(takeUntil(this.destroyed$))
-      .subscribe(_ => this.router.navigate(['/billing']));
-
-
   }
 
   ngOnDestroy() {

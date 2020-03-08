@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { DomSanitizer } from '@angular/platform-browser';
+import { DomSanitizer, Meta } from '@angular/platform-browser';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-home',
@@ -24,7 +25,23 @@ export class HomeComponent implements OnInit {
     image: this.domSanitizer.bypassSecurityTrustHtml('<svg class="icon h-8 block mr-0 mb-4 text-gray-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M10 15l-4 4v-4H2a2 2 0 0 1-2-2V3c0-1.1.9-2 2-2h16a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-8zM5 7v2h2V7H5zm4 0v2h2V7H9zm4 0v2h2V7h-2z" /></svg>'),
     description: 'Generate the receipt on the fly then send your friends their payables.'
   },];
-  constructor(private domSanitizer: DomSanitizer) { }
+  constructor(private domSanitizer: DomSanitizer, private meta: Meta) {
+    this.meta.addTag({ name: 'twitter:card', content: 'summary_large_image' });
+    this.meta.addTag({ name: 'twitter:site', content: '@splitthatbill' });
+    this.meta.addTag({ name: 'twitter:title', content: 'Split that bill' });
+    this.meta.addTag({ name: 'twitter:description', content: 'An easy-to-use bill splitter app powered by Angular and ASP.NET CORE.' });
+    this.meta.addTag({ name: 'twitter:image', content: `${environment.baseUrl}/images/thumbnail.png` });
+    this.meta.addTags([
+      { name: 'robots', content: 'INDEX, FOLLOW' },
+      { name: 'author', content: 'lhar santillan gil' },
+      { name: 'keywords', content: 'TypeScript, Angular, ASP.NET CORE, dotnet, Angular Universal, Prerender, csharp, bill splitter, split that bill, easy split' },
+      { name: 'date', content: '2018-06-02', scheme: 'YYYY-MM-DD' },
+      { httpEquiv: 'Content-Type', content: 'text/html' },
+      { property: 'og:title', content: 'Split that bill' },
+      { property: 'og:type', content: 'website' },
+      { charset: 'UTF-8' }
+    ]);
+  }
 
   ngOnInit() {
   }
