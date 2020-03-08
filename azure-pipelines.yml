@@ -17,6 +17,7 @@ jobs:
       echo ${{variables.group}}
       echo ${{variables['Build.SourceBranchName']}}
       echo $(SPLIT_THAT_BILL_BASEURL)
+      echo $(SPLIT_THAT_BILL_SITEURL)
   - task: NodeTool@0
     inputs:
       versionSpec: '12.x'
@@ -57,6 +58,7 @@ jobs:
       echo ${{variables.group}}
       echo ${{variables['Build.SourceBranchName']}}
       echo $(SPLIT_THAT_BILL_BASEURL)
+      echo $(SPLIT_THAT_BILL_SITEURL)
     displayName: 'check variables'
   - task: NodeTool@0
     inputs:
