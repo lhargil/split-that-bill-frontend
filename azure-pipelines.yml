@@ -7,7 +7,7 @@ jobs:
 - job: buildMaster
   pool:
     vmImage: ubuntu-18.04
-  condition: ${{ if eq(variables['Build.SourceBranchName'], 'master') }}
+  condition: eq(variables['Build.SourceBranchName'], 'master')
   variables:
     - group: PROD
   steps:
@@ -19,7 +19,7 @@ jobs:
 - job: buildFeature
   pool:
     vmImage: ubuntu-18.04
-  condition: ${{ if ne(variables['Build.SourceBranchName'], 'master') }}
+  condition: ne(variables['Build.SourceBranchName'], 'master')
   variables:
     - group: DEV
   steps:
