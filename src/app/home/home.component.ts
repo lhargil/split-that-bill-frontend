@@ -43,6 +43,9 @@ export class HomeComponent implements OnInit {
         property: 'og:url', content: `${environment.baseUrl}`
       },
       {
+        property: 'og:description', content: 'An easy-to-use bill splitter app powered by Angular and ASP.NET CORE.'
+      },
+      {
         property: 'og:site_name', content: 'splitthatbill app'
       },
       { property: 'og:image', content: `${environment.baseUrl}/assets/images/thumbnail.png` },
