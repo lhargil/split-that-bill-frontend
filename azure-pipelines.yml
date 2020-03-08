@@ -4,10 +4,10 @@
 # https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
 
 trigger: none
+pool:
+  vmImage: ubuntu-18:04
 jobs:
 - job: buildMaster
-  pool:
-    vmImage: ubuntu-18.04
   condition: eq(variables['Build.SourceBranchName'], 'master')
   variables:
     - group: PROD
@@ -48,8 +48,6 @@ jobs:
       ArtifactName: 'drop'
       publishLocation: 'Container'
 - job: buildFeature
-  pool:
-    vmImage: ubuntu-18.04
   condition: ne(variables['Build.SourceBranchName'], 'master')
   variables:
     - group: DEV
