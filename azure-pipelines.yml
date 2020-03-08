@@ -60,33 +60,33 @@ jobs:
       echo $(SPLIT_THAT_BILL_BASEURL)
       echo $(SPLIT_THAT_BILL_SITEURL)
     displayName: 'check variables'
-  # - task: NodeTool@0
-  #   inputs:
-  #     versionSpec: '12.x'
-  #   displayName: 'install Node.js'
+  - task: NodeTool@0
+    inputs:
+      versionSpec: '12.x'
+    displayName: 'install Node.js'
+  - script: |
+      npm install -g @angular/cli
+      npm install
+    displayName: 'install'
   # - script: |
-  #     npm install -g @angular/cli
-  #     npm install
-  #   displayName: 'install'
-  # # - script: |
-  # #     npm run coverage
-  # #   displayName: 'run coverage'
+  #     npm run coverage
+  #   displayName: 'run coverage'
+  - script: |
+      npm run prerender
+    displayName: 'prerender app'
   # - script: |
-  #     npm run prerender
-  #   displayName: 'prerender app'
-  # # - script: |
-  # #     npm run build:prod
-  # #   displayName: 'build production'
-  # - task: ArchiveFiles@2
-  #   inputs:
-  #     rootFolderOrFile: '$(Build.SourcesDirectory)/dist/splitthatbill/browser'
-  #     includeRootFolder: false
-  #     archiveType: 'zip'
-  #     archiveFile: '$(Build.ArtifactStagingDirectory)/published_client/$(Build.BuildId).zip'
-  #     replaceExistingArchive: true
-  #     verbose: true
-  # - task: PublishBuildArtifacts@1
-  #   inputs:
-  #     PathtoPublish: '$(Build.ArtifactStagingDirectory)/published_client'
-  #     ArtifactName: 'drop'
-  #     publishLocation: 'Container'
+  #     npm run build:prod
+  #   displayName: 'build production'
+  - task: ArchiveFiles@2
+    inputs:
+      rootFolderOrFile: '$(Build.SourcesDirectory)/dist/splitthatbill/browser'
+      includeRootFolder: false
+      archiveType: 'zip'
+      archiveFile: '$(Build.ArtifactStagingDirectory)/published_client/$(Build.BuildId).zip'
+      replaceExistingArchive: true
+      verbose: true
+  - task: PublishBuildArtifacts@1
+    inputs:
+      PathtoPublish: '$(Build.ArtifactStagingDirectory)/published_client'
+      ArtifactName: 'drop'
+      publishLocation: 'Container'
