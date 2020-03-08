@@ -39,6 +39,13 @@ export class HomeComponent implements OnInit {
       { httpEquiv: 'Content-Type', content: 'text/html' },
       { property: 'og:title', content: 'Split that bill' },
       { property: 'og:type', content: 'website' },
+      {
+        property: 'og:url', content: `${environment.baseUrl}`
+      },
+      {
+        property: 'og:site_name', content: 'splitthatbill app'
+      },
+      { property: 'og:image', content: `${environment.baseUrl}/assets/images/thumbnail.png` },
       { charset: 'UTF-8' }
     ]);
   }
