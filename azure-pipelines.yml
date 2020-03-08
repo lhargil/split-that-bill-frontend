@@ -6,13 +6,13 @@
 trigger: none
 
 pool:
-  vmImage: 'macOS-latest'
+  vmImage: ubuntu-18.04
 
 variables:
   ${{ if not(eq(variables['Build.SourceBranchName'], 'master')) }}:
-    - group: DEV
+  - group: DEV
   ${{ if eq(variables['Build.SourceBranchName'], 'master') }}:
-    - group: PROD
+  - group: PROD
 
 steps:
 - script: |
