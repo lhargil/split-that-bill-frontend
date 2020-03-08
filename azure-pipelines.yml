@@ -28,9 +28,12 @@ jobs:
   # - script: |
   #     npm run coverage
   #   displayName: 'run coverage'
+  # - script: |
+  #     npm run prerender
+  #   displayName: 'prerender app'
   - script: |
-      npm run prerender
-    displayName: 'prerender app'
+      npm run build:prod
+    displayName: 'build production'
   - task: ArchiveFiles@2
     inputs:
       rootFolderOrFile: '$(Build.SourcesDirectory)/dist/splitthatbill/browser'
@@ -68,9 +71,12 @@ jobs:
   # - script: |
   #     npm run coverage
   #   displayName: 'run coverage'
+  # - script: |
+  #     npm run prerender
+  #   displayName: 'prerender app'
   - script: |
-      npm run prerender
-    displayName: 'prerender app'
+      npm run build:prod
+    displayName: 'build production'
   - task: ArchiveFiles@2
     inputs:
       rootFolderOrFile: '$(Build.SourcesDirectory)/dist/splitthatbill/browser'
