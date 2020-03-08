@@ -5,6 +5,8 @@ import { LoaderService } from './shared/loader/loader.service';
 import { ReplaySubject, fromEvent } from 'rxjs';
 import { AppService } from './app.service';
 import { ContentHostDirective } from './shared/directives/content-host/content-host.directive';
+import { Meta } from '@angular/platform-browser';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-root',

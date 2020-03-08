@@ -30,7 +30,7 @@ export class HomeComponent implements OnInit {
     this.meta.addTag({ name: 'twitter:site', content: '@splitthatbill' });
     this.meta.addTag({ name: 'twitter:title', content: 'Split that bill' });
     this.meta.addTag({ name: 'twitter:description', content: 'An easy-to-use bill splitter app powered by Angular and ASP.NET CORE.' });
-    this.meta.addTag({ name: 'twitter:image', content: `${environment.baseUrl}/assets/images/thumbnail.png` });
+    this.meta.addTag({ name: 'twitter:image', content: `${environment.siteUrl}/assets/images/thumbnail.png` });
     this.meta.addTags([
       { name: 'robots', content: 'INDEX, FOLLOW' },
       { name: 'author', content: 'lhar santillan gil' },
@@ -40,7 +40,7 @@ export class HomeComponent implements OnInit {
       { property: 'og:title', content: 'Split that bill' },
       { property: 'og:type', content: 'website' },
       {
-        property: 'og:url', content: `${environment.baseUrl}`
+        property: 'og:url', content: `${environment.siteUrl}`
       },
       {
         property: 'og:description', content: 'An easy-to-use bill splitter app powered by Angular and ASP.NET CORE.'
@@ -48,7 +48,7 @@ export class HomeComponent implements OnInit {
       {
         property: 'og:site_name', content: 'splitthatbill app'
       },
-      { property: 'og:image', content: `${environment.baseUrl}/assets/images/thumbnail.png` },
+      { property: 'og:image', content: `${environment.siteUrl}/assets/images/thumbnail.png` },
       { charset: 'UTF-8' }
     ]);
   }

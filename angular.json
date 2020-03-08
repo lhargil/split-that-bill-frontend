@@ -73,15 +73,8 @@
                   "replace": "src/environments/environment.ts",
                   "with": "src/environments/environment.local.ts"
                 }
-              ]
-            },
-            "localdev": {
-              "fileReplacements": [
-                {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.localdev.ts"
-                }
-              ]
+              ],
+              "aot": true
             },
             "dev": {
               "fileReplacements": [
@@ -90,27 +83,7 @@
                   "with": "src/environments/environment.dev.ts"
                 }
               ],
-              "optimization": true,
-              "outputHashing": "all",
-              "sourceMap": false,
-              "extractCss": true,
-              "namedChunks": false,
-              "aot": true,
-              "extractLicenses": true,
-              "vendorChunk": false,
-              "buildOptimizer": true,
-              "budgets": [
-                {
-                  "type": "initial",
-                  "maximumWarning": "2mb",
-                  "maximumError": "5mb"
-                },
-                {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "6kb",
-                  "maximumError": "10kb"
-                }
-              ]
+              "aot": true
             }
           }
         },
@@ -128,9 +101,6 @@
             },
             "local": {
               "browserTarget": "splitthatbill:build:local"
-            },
-            "localdev": {
-              "browserTarget": "splitthatbill:build:localdev"
             },
             "dev": {
               "browserTarget": "splitthatbill:build:dev"
@@ -209,8 +179,8 @@
         "serve-ssr": {
           "builder": "@nguniversal/builders:ssr-dev-server",
           "options": {
-            "browserTarget": "splitthatbill:build",
-            "serverTarget": "splitthatbill:server"
+            "browserTarget": "splitthatbill:build:dev",
+            "serverTarget": "splitthatbill:server:dev"
           },
           "configurations": {
             "production": {

@@ -11,6 +11,7 @@ module.exports = (config, options) => {
   config.plugins.push(new webpack.DefinePlugin({
     'process.env.SPLIT_THAT_BILL_ENVIRONMENT': JSON.stringify(process.env.SPLIT_THAT_BILL_ENVIRONMENT),
     'process.env.SPLIT_THAT_BILL_BASEURL': JSON.stringify(process.env.SPLIT_THAT_BILL_BASEURL),
+    'process.env.SPLIT_THAT_BILL_SITEURL': JSON.stringify(process.env.SPLIT_THAT_BILL_SITEURL)
   }));
   config.module.rules.push({
     test: /\.scss$/,

@@ -4,4 +4,5 @@ export const environment: IEnvironment = {
   production: true,
   baseUrl: process.env.SPLIT_THAT_BILL_BASEURL,
   name: process.env.SPLIT_THAT_BILL_ENVIRONMENT,
+  siteUrl: process.env.SPLIT_THAT_BILL_SITEURL
 };

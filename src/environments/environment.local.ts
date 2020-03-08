@@ -1,5 +1,8 @@
-export const environment = {
+import { IEnvironment } from './ienvironment';
+
+export const environment: IEnvironment = {
   production: false,
-  baseUrl: process.env.SPLIT_THAT_BILL_BASEURL,
-  name: 'development'
+  baseUrl: 'https://localhost:5001',
+  name: 'development',
+  siteUrl: 'http://localhost:4200'
 };
