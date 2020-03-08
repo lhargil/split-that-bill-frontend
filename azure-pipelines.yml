@@ -4,10 +4,11 @@
 # https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
 
 jobs:
-- job: buildMaster
+- job: choosePool
   pool:
     vmImage: ubuntu-18.04
-  condition: eq(variables['Build.SourceBranchName'], 'master')
+- job: buildMaster
+  condition: ne(variables['Build.SourceBranchName'], 'master')
   variables:
     - group: PROD
   steps:
@@ -17,9 +18,7 @@ jobs:
       echo ${{variables['Build.SourceBranchName']}}
       echo $(SPLIT_THAT_BILL_BASEURL)
 - job: buildFeature
-  pool:
-    vmImage: ubuntu-18.04
-  condition: ne(variables['Build.SourceBranchName'], 'master')
+  condition: eq(variables['Build.SourceBranchName'], 'master')
   variables:
     - group: DEV
   steps:
