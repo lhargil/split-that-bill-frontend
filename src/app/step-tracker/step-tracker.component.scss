@@ -46,12 +46,9 @@ ul.toc-list li.active, ul.toc-list li.done {
   }
 }
 
-ul.toc-list li.done a {
-  color: #38b2ac;
-  &::before {
-    border-color: #38b2ac;
-    background-color: #38b2ac;
-  }
+ul.toc-list li.done a::before {
+  border-color: #38b2ac;
+  background-color: #38b2ac;
 }
 
 ul.toc-list-vertical {
@@ -86,8 +83,7 @@ ul.toc-list-vertical li svg {
   left: -8px;
   top: 50%;
   transform: translate(0, -50%);
-  transition: opacity 500ms;
-  opacity: 0;
+  opacity: 1;
   z-index: 3;
 }
 
@@ -98,13 +94,7 @@ ul.toc-list-vertical li.active, ul.toc-list-vertical li.done {
   }
 }
 
-ul.toc-list-vertical li.done a {
-  color: #38b2ac;
-  &::before {
-    border-color: #38b2ac;
-    background-color: #38b2ac;
-  }
-  & svg {
-    opacity: 1;
-  }
+ul.toc-list-vertical li.done a::before {
+  border-color: #38b2ac;
+  background-color: #38b2ac;
 }
