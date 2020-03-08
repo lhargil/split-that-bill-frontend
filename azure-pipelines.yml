@@ -4,11 +4,10 @@
 # https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
 
 jobs:
-- job: choosePool
+- job: buildMaster
   pool:
     vmImage: ubuntu-18.04
-- job: buildMaster
-  condition: and(succeeded(), eq(variables['Build.SourceBranchName'], 'master'))
+  condition: eq(variables['Build.SourceBranchName'], 'master')
   variables:
     - group: PROD
   steps:
@@ -17,8 +16,37 @@ jobs:
       echo ${{variables.group}}
       echo ${{variables['Build.SourceBranchName']}}
       echo $(SPLIT_THAT_BILL_BASEURL)
+  - task: NodeTool@0
+    inputs:
+      versionSpec: '12.x'
+    displayName: 'install Node.js'
+  - script: |
+      npm install -g @angular/cli
+      npm install
+    displayName: 'install'
+  # - script: |
+  #     npm run coverage
+  #   displayName: 'run coverage'
+  - script: |
+      npm run prerender
+    displayName: 'prerender app'
+  - task: ArchiveFiles@2
+    inputs:
+      rootFolderOrFile: '$(Build.SourcesDirectory)/dist/splitthatbill/browser'
+      includeRootFolder: false
+      archiveType: 'zip'
+      archiveFile: '$(Build.ArtifactStagingDirectory)/published_client/$(Build.BuildId).zip'
+      replaceExistingArchive: true
+      verbose: true
+  - task: PublishBuildArtifacts@1
+    inputs:
+      PathtoPublish: '$(Build.ArtifactStagingDirectory)/published_client'
+      ArtifactName: 'drop'
+      publishLocation: 'Container'
 - job: buildFeature
-  condition: and(succeeded(), ne(variables['Build.SourceBranchName'], 'master'))
+  pool:
+    vmImage: ubuntu-18.04
+  condition: ne(variables['Build.SourceBranchName'], 'master')
   variables:
     - group: DEV
   steps:
@@ -27,31 +55,31 @@ jobs:
       echo ${{variables.group}}
       echo ${{variables['Build.SourceBranchName']}}
       echo $(SPLIT_THAT_BILL_BASEURL)
-#   displayName: 'check variables'
-# - task: NodeTool@0
-#   inputs:
-#     versionSpec: '12.x'
-#   displayName: 'install Node.js'
-# - script: |
-#     npm install -g @angular/cli
-#     npm install
-#   displayName: 'install'
-# # - script: |
-# #     npm run coverage
-# #   displayName: 'run coverage'
-# - script: |
-#     npm run prerender
-#   displayName: 'prerender app'
-# - task: ArchiveFiles@2
-#   inputs:
-#     rootFolderOrFile: '$(Build.SourcesDirectory)/dist/splitthatbill/browser'
-#     includeRootFolder: false
-#     archiveType: 'zip'
-#     archiveFile: '$(Build.ArtifactStagingDirectory)/published_client/$(Build.BuildId).zip'
-#     replaceExistingArchive: true
-#     verbose: true
-# - task: PublishBuildArtifacts@1
-#   inputs:
-#     PathtoPublish: '$(Build.ArtifactStagingDirectory)/published_client'
-#     ArtifactName: 'drop'
-#     publishLocation: 'Container'
+    displayName: 'check variables'
+  - task: NodeTool@0
+    inputs:
+      versionSpec: '12.x'
+    displayName: 'install Node.js'
+  - script: |
+      npm install -g @angular/cli
+      npm install
+    displayName: 'install'
+  # - script: |
+  #     npm run coverage
+  #   displayName: 'run coverage'
+  - script: |
+      npm run prerender
+    displayName: 'prerender app'
+  - task: ArchiveFiles@2
+    inputs:
+      rootFolderOrFile: '$(Build.SourcesDirectory)/dist/splitthatbill/browser'
+      includeRootFolder: false
+      archiveType: 'zip'
+      archiveFile: '$(Build.ArtifactStagingDirectory)/published_client/$(Build.BuildId).zip'
+      replaceExistingArchive: true
+      verbose: true
+  - task: PublishBuildArtifacts@1
+    inputs:
+      PathtoPublish: '$(Build.ArtifactStagingDirectory)/published_client'
+      ArtifactName: 'drop'
+      publishLocation: 'Container'
