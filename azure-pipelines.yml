@@ -5,7 +5,7 @@
 
 trigger: none
 pool:
-  vmImage: ubuntu-18:04
+  vmImage: ubuntu-18.04
 jobs:
 - job: buildMaster
   condition: eq(variables['Build.SourceBranchName'], 'master')
