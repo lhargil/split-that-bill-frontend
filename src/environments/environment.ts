@@ -5,8 +5,8 @@ import { IEnvironment } from './ienvironment';
 
 export const environment: IEnvironment = {
   production: false,
-  name: 'default',
-  baseUrl: "https://localhost:5001",
+  baseUrl: process.env.SPLIT_THAT_BILL_BASEURL,
+  name: 'development'
 };
 
 /*

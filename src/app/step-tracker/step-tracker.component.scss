@@ -34,9 +34,9 @@ ul.toc-list li svg {
   top: -8px;
   left: 50%;
   transform: translate(-50%, 0);
-  transition: opacity 500ms;
-  opacity: 0;
+  opacity: 1;
   z-index: 3;
+  color: #fff;
 }
 
 ul.toc-list li.active, ul.toc-list li.done {
@@ -51,9 +51,6 @@ ul.toc-list li.done a {
   &::before {
     border-color: #38b2ac;
     background-color: #38b2ac;
-  }
-  & svg {
-    opacity: 1;
   }
 }
 
