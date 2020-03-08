@@ -30,12 +30,12 @@ export class HomeComponent implements OnInit {
     this.meta.addTag({ name: 'twitter:site', content: '@splitthatbill' });
     this.meta.addTag({ name: 'twitter:title', content: 'Split that bill' });
     this.meta.addTag({ name: 'twitter:description', content: 'An easy-to-use bill splitter app powered by Angular and ASP.NET CORE.' });
-    this.meta.addTag({ name: 'twitter:image', content: `${environment.baseUrl}/images/thumbnail.png` });
+    this.meta.addTag({ name: 'twitter:image', content: `${environment.baseUrl}/assets/images/thumbnail.png` });
     this.meta.addTags([
       { name: 'robots', content: 'INDEX, FOLLOW' },
       { name: 'author', content: 'lhar santillan gil' },
       { name: 'keywords', content: 'TypeScript, Angular, ASP.NET CORE, dotnet, Angular Universal, Prerender, csharp, bill splitter, split that bill, easy split' },
-      { name: 'date', content: '2018-06-02', scheme: 'YYYY-MM-DD' },
+      { name: 'date', content: '2020-03-08', scheme: 'YYYY-MM-DD' },
       { httpEquiv: 'Content-Type', content: 'text/html' },
       { property: 'og:title', content: 'Split that bill' },
       { property: 'og:type', content: 'website' },
