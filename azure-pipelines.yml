@@ -10,7 +10,7 @@ jobs:
 - job: buildMaster
   condition: ne(variables['Build.SourceBranchName'], 'master')
   variables:
-    - group: PROD
+    - group: DEV
   steps:
   - script: |
       echo 'building master'
@@ -20,7 +20,7 @@ jobs:
 - job: buildFeature
   condition: eq(variables['Build.SourceBranchName'], 'master')
   variables:
-    - group: DEV
+    - group: PROD
   steps:
   - script: |
       echo 'building feature'
