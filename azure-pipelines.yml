@@ -8,9 +8,9 @@ jobs:
   pool:
     vmImage: ubuntu-18.04
 - job: buildMaster
-  condition: ne(variables['Build.SourceBranchName'], 'master')
+  condition: eq(variables['Build.SourceBranchName'], 'master')
   variables:
-    - group: DEV
+    - group: PROD
   steps:
   - script: |
       echo 'building master'
@@ -18,9 +18,9 @@ jobs:
       echo ${{variables['Build.SourceBranchName']}}
       echo $(SPLIT_THAT_BILL_BASEURL)
 - job: buildFeature
-  condition: eq(variables['Build.SourceBranchName'], 'master')
+  condition: ne(variables['Build.SourceBranchName'], 'master')
   variables:
-    - group: PROD
+    - group: DEV
   steps:
   - script: |
       echo 'building feature'
