@@ -3,23 +3,32 @@
 # Add steps that analyze code, save build artifacts, deploy, and more:
 # https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
 
-trigger: none
-
-pool:
-  vmImage: ubuntu-18.04
-
-variables:
-  ${{ if ne(variables['Build.SourceBranchName'], 'master') }}:
-    group: 'DEV'
-  ${{ if eq(variables['Build.SourceBranchName'], 'master') }}:
-    group: 'PROD'
-
-steps:
-- script: |
-    echo ${{variables.group}}
-    echo ${{variables['Build.SourceBranchName']}}
-    echo $(SPLIT_THAT_BILL_BASEURL)
-  displayName: 'check variables'
+jobs:
+- job: buildMaster
+  pool:
+    vmImage: ubuntu-18.04
+  condition: ${{ if eq(variables['Build.SourceBranchName'], 'master') }}
+  variables:
+    - group: PROD
+  steps:
+  - script: |
+      echo 'building master'
+      echo ${{variables.group}}
+      echo ${{variables['Build.SourceBranchName']}}
+      echo $(SPLIT_THAT_BILL_BASEURL)
+- job: buildFeature
+  pool:
+    vmImage: ubuntu-18.04
+  condition: ${{ if ne(variables['Build.SourceBranchName'], 'master') }}
+  variables:
+    - group: DEV
+  steps:
+  - script: |
+      echo 'building feature'
+      echo ${{variables.group}}
+      echo ${{variables['Build.SourceBranchName']}}
+      echo $(SPLIT_THAT_BILL_BASEURL)
+#   displayName: 'check variables'
 # - task: NodeTool@0
 #   inputs:
 #     versionSpec: '12.x'
