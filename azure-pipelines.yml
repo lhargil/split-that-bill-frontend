@@ -3,10 +3,11 @@
 # Add steps that analyze code, save build artifacts, deploy, and more:
 # https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
 
+trigger: none
+pool:
+  vmImage: ubuntu-18.04
 jobs:
 - job: buildMaster
-  pool:
-    vmImage: ubuntu-18.04
   condition: eq(variables['Build.SourceBranchName'], 'master')
   variables:
     - group: PROD
@@ -27,9 +28,12 @@ jobs:
   # - script: |
   #     npm run coverage
   #   displayName: 'run coverage'
+  # - script: |
+  #     npm run prerender
+  #   displayName: 'prerender app'
   - script: |
-      npm run prerender
-    displayName: 'prerender app'
+      npm run build:prod
+    displayName: 'build production'
   - task: ArchiveFiles@2
     inputs:
       rootFolderOrFile: '$(Build.SourcesDirectory)/dist/splitthatbill/browser'
@@ -44,8 +48,6 @@ jobs:
       ArtifactName: 'drop'
       publishLocation: 'Container'
 - job: buildFeature
-  pool:
-    vmImage: ubuntu-18.04
   condition: ne(variables['Build.SourceBranchName'], 'master')
   variables:
     - group: DEV
@@ -67,9 +69,12 @@ jobs:
   # - script: |
   #     npm run coverage
   #   displayName: 'run coverage'
+  # - script: |
+  #     npm run prerender
+  #   displayName: 'prerender app'
   - script: |
-      npm run prerender
-    displayName: 'prerender app'
+      npm run build:prod
+    displayName: 'build production'
   - task: ArchiveFiles@2
     inputs:
       rootFolderOrFile: '$(Build.SourcesDirectory)/dist/splitthatbill/browser'
