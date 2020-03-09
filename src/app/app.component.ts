@@ -1,12 +1,11 @@
-import { Component, OnInit, OnDestroy, ViewChild, ComponentFactoryResolver } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, NavigationStart, RouteConfigLoadStart, RouteConfigLoadEnd, NavigationEnd, NavigationCancel } from '@angular/router';
-import { tap, takeUntil, debounceTime } from 'rxjs/operators';
+import { tap, takeUntil } from 'rxjs/operators';
 import { LoaderService } from './shared/loader/loader.service';
-import { ReplaySubject, fromEvent } from 'rxjs';
-import { AppService } from './app.service';
-import { ContentHostDirective } from './shared/directives/content-host/content-host.directive';
+import { Subject } from 'rxjs';
 import { Meta } from '@angular/platform-browser';
 import { environment } from 'src/environments/environment';
+import { DateTime } from 'luxon';
 
 @Component({
   selector: 'app-root',
@@ -14,20 +13,28 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit, OnDestroy {
-  private destroyed$ = new ReplaySubject(0);
-  title = 'splitthatbill';
+  private destroyed$ = new Subject();
 
-  constructor(private router: Router, private loaderService: LoaderService, private appService: AppService, private meta: Meta) {
-    this.meta.addTag({ name: 'twitter:card', content: 'summary_large_image' });
-    this.meta.addTag({ name: 'twitter:site', content: '@splitthatbill' });
-    this.meta.addTag({ name: 'twitter:title', content: 'Split that bill' });
-    this.meta.addTag({ name: 'twitter:description', content: 'An easy-to-use bill splitter app powered by Angular and ASP.NET CORE.' });
-    this.meta.addTag({ name: 'twitter:image', content: `${environment.siteUrl}/assets/images/thumbnail.png` });
+  constructor(private router: Router, private loaderService: LoaderService, private meta: Meta) {
+    this.setMeta();
+  }
+
+  private setMeta() {
+    const siteThumbnail = `${environment.siteUrl}/assets/images/thumbnail.png`;
+
+    const format = 'yyyy-MM-dd';
+    const utcDateInString = this.getCurrentDate(DateTime.local(), format);
+
     this.meta.addTags([
       { name: 'robots', content: 'INDEX, FOLLOW' },
       { name: 'author', content: 'lhar santillan gil' },
-      { name: 'keywords', content: 'TypeScript, Angular, ASP.NET CORE, dotnet, Angular Universal, Prerender, csharp, bill splitter, split that bill, easy split' },
-      { name: 'date', content: '2020-03-08', scheme: 'YYYY-MM-DD' },
+      { name: 'keywords', content: 'TypeScript, Angular, ASP.NET CORE, dotnet, Angular Universal, Prerender, csharp, bill splitter, split that bill, easy split, splitter app' },
+      { name: 'date', content: utcDateInString, scheme: format.toUpperCase() },
+      { name: 'twitter:card', content: 'summary_large_image' },
+      { name: 'twitter:site', content: '@splitthatbill' },
+      { name: 'twitter:title', content: 'Split that bill' },
+      { name: 'twitter:description', content: 'An easy-to-use bill splitter app for people who love convenience and transparency.' },
+      { name: 'twitter:image', content: siteThumbnail },
       { httpEquiv: 'Content-Type', content: 'text/html' },
       { property: 'og:title', content: 'Split that bill' },
       { property: 'og:type', content: 'website' },
@@ -40,11 +47,10 @@ export class AppComponent implements OnInit, OnDestroy {
       {
         property: 'og:site_name', content: 'splitthatbill app'
       },
-      { property: 'og:image', content: `${environment.siteUrl}/assets/images/thumbnail.png` },
-      { charset: 'UTF-8' }
+      { property: 'og:image', content: siteThumbnail },
+      { charset: 'UTF-8' },
     ]);
   }
-  @ViewChild(ContentHostDirective, { static: true }) contentHost: ContentHostDirective;
 
   ngOnInit() {
     this.router.events
@@ -61,9 +67,11 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.destroyed$.next(true);
+    this.destroyed$.next();
     this.destroyed$.complete();
   }
 
-
+  private getCurrentDate(currentDate: DateTime, format: string) {
+    return currentDate.toFormat(format);
+  }
 }
