@@ -4,7 +4,8 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['Raleway', 'Roboto', ...defaultTheme.fontFamily.sans]
+        display: ['Raleway', ...defaultTheme.fontFamily.sans],
+        body: ['Roboto', ...defaultTheme.fontFamily.sans],
       },
       inset: {
         '1/2': '50%',
@@ -12,7 +13,21 @@ module.exports = {
       screens: {
         'xxs': '325px',
         'xs': '375px'
-      }
+      },
+      customForms: theme => ({
+        invalid: {
+          'input, textarea, select, multiselect, checkbox, radio': {
+            borderColor: theme('colors.red.300'),
+            '&::placeholder': {
+              color: theme('colors.red.300')
+            },
+            '&:focus': {
+              boxShadow: theme('boxShadow.outline-red'),
+              borderColor: theme('colors.red.300')
+            }
+          },
+        }
+      })
     },
   },
   variants: {
