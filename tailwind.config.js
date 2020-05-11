@@ -1,21 +1,11 @@
+const defaultTheme = require('tailwindcss/defaultTheme');
+
 module.exports = {
   theme: {
-    container: {
-      center: true,
-      padding: '2rem'
-    },
-    fontFamily: {
-      display: ['Raleway', 'Roboto', 'sans-serif'],
-      body: ['Roboto', 'sans-serif'],
-    },
-    minWidth: {
-      '0': '0',
-      '1/4': '25%',
-      '1/2': '50%',
-      '3/4': '75%',
-      'full': '100%',
-    },
     extend: {
+      fontFamily: {
+        sans: ['Raleway', 'Roboto', ...defaultTheme.fontFamily.sans]
+      },
       inset: {
         '1/2': '50%',
       },
@@ -31,5 +21,7 @@ module.exports = {
     translate: ['responsive', 'hover', 'focus'],
     padding: ['responsive', 'hover', 'focus', 'last'],
   },
-  plugins: []
+  plugins: [
+    require('@tailwindcss/ui'),
+  ]
 }
