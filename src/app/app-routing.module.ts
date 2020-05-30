@@ -16,6 +16,11 @@ const routes: Routes = [
     // canActivate: [AuthGuard]
   },
   {
+    path: 'bills',
+    loadChildren: () =>
+      import('./bills/bills.module').then(m => m.BillsModule),
+  },
+  {
     path: 'receipt',
     loadChildren: () => import('./receipt/receipt.module').then(m => m.ReceiptModule)
   },
